@@ -7,5 +7,5 @@
 
 **Danh sách thành viên nhóm:**
 - Nhóm trưởng: Châu Gia Anh - 3122411002
-- Thành viên: Đào Thị Thanh Tâm - 312241182
+- Thành viên: Đào Thị Thanh Tâm - 3122411182
 - Thành viên: Dương Lê Khánh - 3122411093
