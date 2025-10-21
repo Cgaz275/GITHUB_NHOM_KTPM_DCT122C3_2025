@@ -12,3 +12,11 @@
 + Nhóm trưởng nộp: Lab4_TestPlan_HoTen_MaSV.zip
 
 Link Classroom: https://classroom.google.com/c/ODAxNjgxMTkyNzAz/a/ODA4OTg5MDc4NjI4/details
+
+## Phân công giữa các thành viên
+
+| STT | Họ Tên                | MSSV        | Phần đảm nhận                     |
+|-----|-----------------------|-------------|-----------------------------------|
+| 1   | Châu Gia Anh          | 3122411002  |  |
+| 2   | Dương Lê Khánh        | 3122411093  |  |
+| 3   | Đào Thị Thanh Tâm     | 3122411182  |   |
