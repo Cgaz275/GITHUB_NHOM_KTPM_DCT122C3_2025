@@ -26,6 +26,7 @@ jobs:
           
       # 2. Tạo CHANGELOG
       - name: Generate CHANGELOG
+        id: generate
         uses: tj-actions/github-changelog-generator@v1.15
         with:
           # Bắt buộc: Sử dụng GITHUB_TOKEN để xác thực và tăng giới hạn rate
