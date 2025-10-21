@@ -5,6 +5,8 @@ on:
   push:
     tags:
       - 'v*' # Chạy cho các tag bắt đầu bằng 'v', ví dụ: v1.0.0
+  release:
+    types: [published]
       
 permissions:
   contents: write 
