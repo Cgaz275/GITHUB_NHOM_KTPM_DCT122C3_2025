@@ -5,7 +5,12 @@ on:
   push:
     tags:
       - 'v*' # Chạy cho các tag bắt đầu bằng 'v', ví dụ: v1.0.0
-
+      
+permissions:
+  contents: write 
+  pull-requests: read 
+  issues: read 
+  
 jobs:
   build:
     runs-on: ubuntu-latest
