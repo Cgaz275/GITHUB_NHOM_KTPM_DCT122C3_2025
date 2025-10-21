@@ -4,6 +4,7 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -19,7 +20,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.CHANGELOG_TOKEN }}   
+          token: ${{ secrets.CHANGELOG_TOKEN }}
+
+      - name: Switch to main branch
+        run: |
+          git fetch origin main
+          git checkout main
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -34,7 +40,7 @@ jobs:
           github_changelog_generator \
             --user Cgaz275 \
             --project GITHUB_NHOM_KTPM_DCT122C3_2025 \
-            --token ${{ secrets.CHANGELOG_TOKEN }}   
+            --token ${{ secrets.CHANGELOG_TOKEN }}
 
       - name: Commit and push changelog
         run: |
