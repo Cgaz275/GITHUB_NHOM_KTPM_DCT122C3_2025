@@ -1,51 +1,45 @@
-name: Auto Generate Daily Changelog
+name: Auto Generate Changelog
 
 on:
   push:
-    branches:
-      - main
-  workflow_dispatch:
+    tags:
+      - 'v*'
 
 permissions:
   contents: write
+  issues: read
+  pull-requests: read
 
 jobs:
   changelog:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.CHANGELOG_TOKEN }}
+          token: ${{ secrets.CHANGELOG_TOKEN }}  
 
-      - name: Generate daily changelog
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+
+      - name: Install github-changelog-generator
+        run: gem install github_changelog_generator
+
+      - name: Generate changelog
         run: |
-          DATE=$(date +'%Y-%m-%d')
-          echo "## $DATE" > temp_changelog.md
-          echo "" >> temp_changelog.md
-          git log --since="$DATE 00:00" --until="$DATE 23:59" --pretty=format:"- %s (%h)" >> temp_changelog.md
-          echo "" >> temp_changelog.md
-
-          if [ -f CHANGELOG.md ]; then
-            if grep -q "## $DATE" CHANGELOG.md; then
-              echo "Updating existing changelog entry for $DATE"
-              awk -v date="## $DATE" '
-                $0 ~ date {print; system("cat temp_changelog.md"); next} 1
-              ' CHANGELOG.md > CHANGELOG.tmp && mv CHANGELOG.tmp CHANGELOG.md
-            else
-              echo "Adding new changelog entry for $DATE"
-              cat temp_changelog.md >> CHANGELOG.md
-            fi
-          else
-            echo "No CHANGELOG.md found, creating new one"
-            mv temp_changelog.md CHANGELOG.md
-          fi
+          github_changelog_generator \
+            --user Cgaz275 \
+            --project GITHUB_NHOM_KTPM_DCT122C3_2025 \
+            --token ${{ secrets.CHANGELOG_TOKEN }}
 
       - name: Commit and push changelog
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add CHANGELOG.md
-          git commit -m "Update changelog for $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git commit -m "Auto-update CHANGELOG.md [skip ci]" || echo "No changes to commit"
           git push origin main
