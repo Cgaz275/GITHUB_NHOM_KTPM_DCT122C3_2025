@@ -1,0 +1,43 @@
+name: Auto Generate Changelog
+
+# Kích hoạt workflow khi có tag mới được tạo
+on:
+  push:
+    tags:
+      - 'v*' # Chạy cho các tag bắt đầu bằng 'v', ví dụ: v1.0.0
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # 1. Checkout mã nguồn
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          # Cần fetch-depth: 0 để lấy toàn bộ lịch sử git (cần cho changelog)
+          fetch-depth: 0 
+          
+      # 2. Tạo CHANGELOG
+      - name: Generate CHANGELOG
+        uses: tj-actions/github-changelog-generator@v1.15
+        with:
+          # Bắt buộc: Sử dụng GITHUB_TOKEN để xác thực và tăng giới hạn rate
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Chỉ định file output
+          output: 'CHANGELOG.md'
+          
+      # 3. Commit và Push thay đổi (nếu có)
+      - name: Commit and Push Changes
+        # Chỉ chạy nếu file CHANGELOG.md có thay đổi
+        if: steps.generate.outputs.changes == 'true'
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+          if [[ -n "$(git diff --exit-code CHANGELOG.md)" ]]; then
+            git add CHANGELOG.md
+            git commit -m "docs: Update CHANGELOG for ${{ github.ref_name }}"
+            git push
+          else
+            echo "No changes detected in CHANGELOG.md."
+          fi
