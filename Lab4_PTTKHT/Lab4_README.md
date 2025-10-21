@@ -17,6 +17,6 @@ Link Classroom: https://classroom.google.com/c/ODAxNjgxMTkyNzAz/a/ODA4OTg5MDc4Nj
 
 | STT | Họ Tên                | MSSV        | Phần đảm nhận                     |
 |-----|-----------------------|-------------|-----------------------------------|
-| 1   | Châu Gia Anh          | 3122411002  |  |
-| 2   | Dương Lê Khánh        | 3122411093  |  |
-| 3   | Đào Thị Thanh Tâm     | 3122411182  |   |
+| 1   | Châu Gia Anh          | 3122411002  | Introduction, Resources, Milestone, Deliverables, Chỉnh word |
+| 2   | Dương Lê Khánh        | 3122411093  | Requirement for test, Function testing, UI testing, Test enviroment|
+| 3   | Đào Thị Thanh Tâm     | 3122411182  | DB testing, Performance, Security testing, Regresstion testing, Test stage |
