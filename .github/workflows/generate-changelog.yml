@@ -34,8 +34,8 @@ jobs:
       - name: Generate changelog
         run: |
           github_changelog_generator \
-            --user <USERNAME> \
-            --project <REPO_NAME> \
+            --user Cgaz275 \
+            --project GITHUB_NHOM_KTPM_DCT122C3_2025 \
             --token ${{ secrets.CHANGELOG_TOKEN }}   
 
       - name: Commit and push changelog
