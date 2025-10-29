@@ -1,5 +1,19 @@
 # Changelog
 
+## [v1.1.0](https://github.com/Cgaz275/GITHUB_NHOM_KTPM_DCT122C3_2025/tree/v1.1.0) (2025-10-29)
+
+[Full Changelog](https://github.com/Cgaz275/GITHUB_NHOM_KTPM_DCT122C3_2025/compare/v1.0.0...v1.1.0)
+
+**Closed issues:**
+
+- Bài tập 6 \(Lab6\) [\#25](https://github.com/Cgaz275/GITHUB_NHOM_KTPM_DCT122C3_2025/issues/25)
+- Bài tập 5 \(Lab5\) [\#11](https://github.com/Cgaz275/GITHUB_NHOM_KTPM_DCT122C3_2025/issues/11)
+
+**Merged pull requests:**
+
+- Update Lab6 [\#24](https://github.com/Cgaz275/GITHUB_NHOM_KTPM_DCT122C3_2025/pull/24) ([Cgaz275](https://github.com/Cgaz275))
+- Update Lab5 [\#23](https://github.com/Cgaz275/GITHUB_NHOM_KTPM_DCT122C3_2025/pull/23) ([Cgaz275](https://github.com/Cgaz275))
+
 ## [v1.0.0](https://github.com/Cgaz275/GITHUB_NHOM_KTPM_DCT122C3_2025/tree/v1.0.0) (2025-10-21)
 
 [Full Changelog](https://github.com/Cgaz275/GITHUB_NHOM_KTPM_DCT122C3_2025/compare/9375ef1f32595929b7e165e9451b2bedaca935d6...v1.0.0)
