@@ -1,0 +1,118 @@
+{
+  "name": "@evershop/evershop-setup",
+  "version": "2.1.0",
+  "type": "module",
+  "description": "EverShop Shared Modules - Setup and utilities for building e-commerce platforms",
+  "files": [
+    "dist",
+    "src",
+    ".swcrc"
+  ],
+  "bin": {
+    "evershop-setup": "./dist/bin/evershop.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/types/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./types/*": {
+      "types": "./dist/types/*.d.ts"
+    },
+    "./lib/helpers": {
+      "import": "./dist/lib/helpers.js",
+      "types": "./dist/lib/helpers.d.ts"
+    },
+    "./lib/util/*": {
+      "import": "./dist/lib/util/*.js",
+      "types": "./dist/lib/util/*.d.ts"
+    },
+    "./lib/event": {
+      "import": "./dist/lib/event/emitter.js",
+      "types": "./dist/lib/event/emitter.d.ts"
+    },
+    "./lib/event/subscriber": {
+      "import": "./dist/lib/event/subscriber.js",
+      "types": "./dist/lib/event/subscriber.d.ts"
+    },
+    "./lib/postgres": {
+      "import": "./dist/lib/postgres/connection.js",
+      "types": "./dist/lib/postgres/connection.d.ts"
+    },
+    "./lib/locale/*": {
+      "import": "./dist/lib/locale/*.js",
+      "types": "./dist/lib/locale/*.d.ts"
+    },
+    "./lib/log": {
+      "import": "./dist/lib/log/logger.js",
+      "types": "./dist/lib/log/logger.d.ts"
+    },
+    "./lib/router": {
+      "import": "./dist/lib/router/index.js",
+      "types": "./dist/lib/router/index.d.ts"
+    },
+    "./lib/widget": {
+      "import": "./dist/lib/widget/widgetManager.js",
+      "types": "./dist/lib/widget/widgetManager.d.ts"
+    },
+    "./lib/cronjob": {
+      "import": "./dist/lib/cronjob/jobManager.js",
+      "types": "./dist/lib/cronjob/jobManager.d.ts"
+    },
+    "./lib/middleware/delegate": {
+      "import": "./dist/lib/middleware/delegate.js",
+      "types": "./dist/lib/middleware/delegate.d.ts"
+    },
+    "./graphql/services": {
+      "import": "./dist/modules/graphql/services/index.js",
+      "types": "./dist/modules/graphql/services/index.d.ts"
+    },
+    "./setting/services": {
+      "import": "./dist/modules/setting/services/index.js",
+      "types": "./dist/modules/setting/services/index.d.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "prepack": "rimraf dist && tsc && copyfiles -u 1 \"src/**/*.{graphql,scss,json}\" dist",
+    "setup": "node ./dist/bin/install/index.js",
+    "test": "jest"
+  },
+  "author": "The Nguyen (https://evershop.io)",
+  "license": "GNU GENERAL PUBLIC LICENSE 3.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evershopcommerce/evershop.git"
+  },
+  "keywords": [
+    "ecommerce",
+    "shopping cart",
+    "cart"
+  ],
+  "bugs": {
+    "url": "https://github.com/evershopcommerce/evershop/issues"
+  },
+  "homepage": "http://evershop.io/",
+  "dependencies": {
+    "@evershop/postgres-query-builder": "^2.0.1",
+    "bcryptjs": "^2.4.3",
+    "boxen": "^5.1.2",
+    "config": "^3.3.6",
+    "debug": "^4.3.2",
+    "dotenv": "^16.3.1",
+    "enquirer": "^2.3.6",
+    "kleur": "3.0.3",
+    "ora": "^5.4.1",
+    "pg": "^8.16.3",
+    "semver": "^7.6.3",
+    "winston": "^3.3.3",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/config": "^3.3.5",
+    "@types/node": "^22.14.1",
+    "@types/pg": "^8.15.2",
+    "copyfiles": "^2.4.1",
+    "typescript": "^5.8.3"
+  }
+}
