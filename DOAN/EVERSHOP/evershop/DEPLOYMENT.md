@@ -81,7 +81,7 @@ In Vercel Dashboard → Settings → Environment Variables, add:
 **Production**:
 ```
 DB_HOST=<production-db-host>
-DB_PORT=5432
+DB_PORT=5433
 DB_USER=<production-db-user>
 DB_PASSWORD=<production-db-password>
 DB_NAME=<production-db-name>
@@ -92,7 +92,7 @@ APP_URL=https://your-domain.com
 **Preview**:
 ```
 DB_HOST=<staging-db-host>
-DB_PORT=5432
+DB_PORT=5433
 DB_USER=<staging-db-user>
 DB_PASSWORD=<staging-db-password>
 DB_NAME=<staging-db-name>

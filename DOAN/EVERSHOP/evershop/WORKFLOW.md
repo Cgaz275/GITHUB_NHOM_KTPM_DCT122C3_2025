@@ -332,7 +332,7 @@ Run Tests & Lint & Build (final check)
 **Environment Variables Needed in Vercel**:
 ```
 DB_HOST=<database-host>
-DB_PORT=5432
+DB_PORT=5433
 DB_USER=<database-user>
 DB_PASSWORD=<database-password>
 DB_NAME=<database-name>
