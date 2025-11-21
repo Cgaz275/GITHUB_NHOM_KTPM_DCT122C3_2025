@@ -84,7 +84,7 @@ DOAN/EVERSHOP/
 │       ├── README.md                   # Hướng dẫn FullBase
 │       └── package.json                # Phụ thuộc dự án
 │
-└── evershop/                           # 🚀 Dự Án Triển Khai (Deployment Root)
+└── evershop/                           # ��� Dự Án Triển Khai (Deployment Root)
     ├── README.md                       # Hướng d��n chi tiết dự án
     ├── SETUP.md                        # Hướng dẫn thiết lập môi trường
     ├── WORKFLOW.md                     # Quy trình làm việc
@@ -104,7 +104,7 @@ DOAN/EVERSHOP/
     │   └── create-evershop-app/
     │
     ├── extensions/                     # Phần mở rộng (tùy chỉnh)
-    ├── themes/                         # Chủ đề giao diện (tùy chỉnh)
+    ├── themes/                         # Chủ đề giao diện (t��y chỉnh)
     ├── public/                         # Tài nguyên tĩnh
     ├── .github/workflows/              # Quy trình CI/CD
     │
@@ -203,7 +203,7 @@ Hướng dẫn chi tiết về dự án này, bao gồm:
 - Lệnh phổ biến
 - Troubleshooting
 
-👉 **[Đọc README.md của evershop](./evershop/README.md)**
+👉 **[Đọc README.md của evershop](./DOAN/EVERSHOP/evershop/README.md)**
 
 #### 🔧 `SETUP.md`
 Hướng dẫn cài đặt từng bước:
@@ -212,7 +212,7 @@ Hướng dẫn cài đặt từng bước:
 - Cấu hình biến môi trường
 - Xác minh cài đặt
 
-👉 **[Đọc SETUP.md](./evershop/SETUP.md)**
+👉 **[Đọc SETUP.md](./DOAN/EVERSHOP/evershop/SETUP.md)**
 
 #### 🔄 `WORKFLOW.md`
 Quy trình làm việc hàng ngày:
@@ -221,7 +221,7 @@ Quy trình làm việc hàng ngày:
 - Cách tạo Pull Request
 - Kiểm tra mã
 
-👉 **[Đọc WORKFLOW.md](./evershop/WORKFLOW.md)**
+👉 **[Đọc WORKFLOW.md](./DOAN/EVERSHOP/evershop/WORKFLOW.md)**
 
 #### 🚀 `DEPLOYMENT.md`
 Triển khai lên Vercel:
@@ -230,7 +230,7 @@ Triển khai lên Vercel:
 - Quy trình CI/CD
 - Xử lý sự cố triển khai
 
-👉 **[Đọc DEPLOYMENT.md](./evershop/DEPLOYMENT.md)**
+👉 **[Đọc DEPLOYMENT.md](./DOAN/EVERSHOP/evershop/DEPLOYMENT.md)**
 
 #### 🔄 `SYNC_FROM_FULLBASE.md`
 Hướng dẫn đồng bộ từ FullBase:
@@ -239,7 +239,7 @@ Hướng dẫn đồng bộ từ FullBase:
 - Kiểm tra phụ thuộc
 - Cập nhật phiên bản
 
-👉 **[Đọc SYNC_FROM_FULLBASE.md](./evershop/SYNC_FROM_FULLBASE.md)**
+👉 **[Đọc SYNC_FROM_FULLBASE.md](./DOAN/EVERSHOP/evershop/SYNC_FROM_FULLBASE.md)**
 
 #### 📋 `CONTRIBUTING.md`
 Tiêu chuẩn đóng góp mã:
@@ -247,7 +247,7 @@ Tiêu chuẩn đóng góp mã:
 - Quy trình kiểm tra
 - Yêu cầu test coverage
 
-👉 **[Đọc CONTRIBUTING.md](./evershop/CONTRIBUTING.md)**
+👉 **[Đọc CONTRIBUTING.md](./DOAN/EVERSHOP/evershop/CONTRIBUTING.md)**
 
 #### 📊 `CI_CD_SUMMARY.md`
 Tóm tắt quy trình CI/CD:
@@ -255,7 +255,7 @@ Tóm tắt quy trình CI/CD:
 - Tự động kiểm tra & triển khai
 - Trạng thái kiểm tra
 
-👉 **[Đọc CI_CD_SUMMARY.md](./evershop/CI_CD_SUMMARY.md)**
+👉 **[Đọc CI_CD_SUMMARY.md](./DOAN/EVERSHOP/evershop/CI_CD_SUMMARY.md)**
 
 #### ⚙️ `vercel.json`
 Cấu hình triển khai Vercel:
@@ -508,9 +508,9 @@ docker-compose up -d
 ### Tài Liệu Xử Lý Sự Cố
 
 👉 **Chi tiết hơn**: Xem tương ứng trong:
-- [SETUP.md - Troubleshooting](./evershop/SETUP.md#troubleshooting)
-- [DEPLOYMENT.md - Troubleshooting](./evershop/DEPLOYMENT.md#troubleshooting)
-- [WORKFLOW.md - Troubleshooting](./evershop/WORKFLOW.md#troubleshooting)
+- [SETUP.md - Troubleshooting](./DOAN/EVERSHOP/evershop/SETUP.md#troubleshooting)
+- [DEPLOYMENT.md - Troubleshooting](./DOAN/EVERSHOP/evershop/DEPLOYMENT.md#troubleshooting)
+- [WORKFLOW.md - Troubleshooting](./DOAN/EVERSHOP/evershop/WORKFLOW.md#troubleshooting)
 
 ---
 
@@ -520,13 +520,13 @@ docker-compose up -d
 
 | File | Nội Dung |
 |------|---------|
-| [README.md](./evershop/README.md) | Hướng dẫn chi tiết dự án |
-| [SETUP.md](./evershop/SETUP.md) | Cài đặt môi trường |
-| [WORKFLOW.md](./evershop/WORKFLOW.md) | Quy trình làm việc |
-| [DEPLOYMENT.md](./evershop/DEPLOYMENT.md) | Triển khai Vercel |
-| [SYNC_FROM_FULLBASE.md](./evershop/SYNC_FROM_FULLBASE.md) | Đồng bộ từ FullBase |
-| [CONTRIBUTING.md](./evershop/CONTRIBUTING.md) | Tiêu chuẩn đóng góp |
-| [CI_CD_SUMMARY.md](./evershop/CI_CD_SUMMARY.md) | Tóm tắt CI/CD |
+| [README.md](./DOAN/EVERSHOP/evershop/README.md) | Hướng dẫn chi tiết dự án |
+| [SETUP.md](./DOAN/EVERSHOP/evershop/SETUP.md) | Cài đặt môi trường |
+| [WORKFLOW.md](./DOAN/EVERSHOP/evershop/WORKFLOW.md) | Quy trình làm việc |
+| [DEPLOYMENT.md](./DOAN/EVERSHOP/evershop/DEPLOYMENT.md) | Triển khai Vercel |
+| [SYNC_FROM_FULLBASE.md](./DOAN/EVERSHOP/evershop/SYNC_FROM_FULLBASE.md) | Đồng bộ từ FullBase |
+| [CONTRIBUTING.md](./DOAN/EVERSHOP/evershop/CONTRIBUTING.md) | Tiêu chuẩn đóng góp |
+| [CI_CD_SUMMARY.md](./DOAN/EVERSHOP/evershop/CI_CD_SUMMARY.md) | Tóm tắt CI/CD |
 
 ### Tài Liệu Bên Ngoài
 
@@ -559,7 +559,7 @@ docker-compose up -d
 
 Licensed under **GNU GENERAL PUBLIC LICENSE 3.0**
 
-Xem file [LICENSE](./LICENSE) để chi tiết.
+Xem file [LICENSE](./DOAN/EVERSHOP/evershop/LICENSE) để chi tiết.
 
 ---
 
@@ -569,9 +569,9 @@ Xem file [LICENSE](./LICENSE) để chi tiết.
 
 - [ ] Đọc file README này
 - [ ] Chuyển đến thư mục `DOAN/EVERSHOP/evershop`
-- [ ] Đọc [SETUP.md](./evershop/SETUP.md) để cài đặt cục bộ
+- [ ] Đọc [SETUP.md](./DOAN/EVERSHOP/evershop/SETUP.md) để cài đặt cục bộ
 - [ ] Chạy `npm install` và `npm run dev`
-- [ ] Đọc [WORKFLOW.md](./evershop/WORKFLOW.md) để hiểu quy trình
+- [ ] Đọc [WORKFLOW.md](./DOAN/EVERSHOP/evershop/WORKFLOW.md) để hiểu quy trình
 - [ ] Tạo nhánh tính năng `modules/my-feature`
 - [ ] Viết mã, test, commit, và push
 - [ ] Tạo Pull Request trên GitHub
@@ -610,13 +610,13 @@ Xem file [LICENSE](./LICENSE) để chi tiết.
 > A: Luôn phát triển ở `DOAN/EVERSHOP/evershop`. Chỉ tham khảo `FullBase/evershop-dev`.
 
 **Q: Làm cách nào để cập nhật module từ FullBase?**
-> A: Xem hướng dẫn chi tiết ở [SYNC_FROM_FULLBASE.md](./evershop/SYNC_FROM_FULLBASE.md).
+> A: Xem hướng dẫn chi tiết ở [SYNC_FROM_FULLBASE.md](./DOAN/EVERSHOP/evershop/SYNC_FROM_FULLBASE.md).
 
 **Q: Cơ sở dữ liệu của tôi không kết nối được?**
-> A: Xem hướng dẫn xử lý sự cố ở [SETUP.md](./evershop/SETUP.md#troubleshooting).
+> A: Xem hướng dẫn xử lý sự cố ở [SETUP.md](./DOAN/EVERSHOP/evershop/SETUP.md#troubleshooting).
 
 **Q: Làm cách nào để triển khai lên production?**
-> A: Merge vào `main`, Vercel sẽ tự động triển khai. Chi tiết ở [DEPLOYMENT.md](./evershop/DEPLOYMENT.md).
+> A: Merge vào `main`, Vercel sẽ tự động triển khai. Chi tiết ở [DEPLOYMENT.md](./DOAN/EVERSHOP/evershop/DEPLOYMENT.md).
 
 ### Liên Hệ & Hỗ Trợ
 
