@@ -631,8 +631,6 @@ Xem file [LICENSE](./LICENSE) để chi tiết.
 ```
 DOAN/EVERSHOP/
 │
-├─── README.md ⬅️ Bạn đang đọc file này
-│
 ├─── FullBase/evershop-dev/          (Tham Chiếu - Không Triển Khai)
 │    └─ source code hoàn chỉnh từ EverShop
 │
