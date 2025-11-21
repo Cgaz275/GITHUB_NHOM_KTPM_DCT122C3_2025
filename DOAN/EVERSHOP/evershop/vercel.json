@@ -1,0 +1,16 @@
+{
+  "version": 2,
+  "buildCommand": "npm run build",
+  "outputDirectory": "packages/evershop/dist",
+  "installCommand": "npm install",
+  "framework": "other",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "modules/**": false
+    }
+  }
+}

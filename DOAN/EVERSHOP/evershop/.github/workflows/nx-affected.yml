@@ -1,0 +1,52 @@
+name: NX Affected Packages
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  affected:
+    runs-on: ubuntu-latest
+    name: Detect and Build Affected Packages
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install npm v9
+        run: npm install -g npm@9
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Compile affected packages
+        run: npm run compile
+
+      - name: Run tests on affected packages
+        run: npx nx affected:test --coverage
+
+      - name: Lint affected packages
+        run: npx nx affected:lint
+
+      - name: Build affected packages
+        run: npx nx affected:build
+
+      - name: Generate NX graph
+        run: npx nx graph --file=nx-graph.html
+        continue-on-error: true
+
+      - name: Upload NX graph artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: nx-graph
+          path: nx-graph.html
+        if: always()
