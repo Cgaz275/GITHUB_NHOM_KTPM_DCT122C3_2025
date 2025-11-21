@@ -11,3 +11,10 @@
 - Thành viên: Dương Lê Khánh - 3122411093
 
 **Link classroom:** https://classroom.google.com/c/ODAxNjgxMTkyNzAz
+
+# ĐÔ ÁN MÔN HỌC
+
+- Repository **GITHUB_NHOM_KTPM_DCT122C3_2025** là repo chứa toàn bộ tài liệu liên quan đến môn học
+- DOAN\EVERSHOP\FullBase là nơi chứa source gốc của dự án được tái sử dụng 
+- DOAN\EVERSHOP\evershop là root project để deploy án chính lên Vercel
+  
