@@ -15,8 +15,8 @@
 # ĐÔ ÁN MÔN HỌC
 
 - Repository **GITHUB_NHOM_KTPM_DCT122C3_2025** là repo chứa toàn bộ tài liệu liên quan đến môn học
-- DOAN\EVERSHOP\FullBase là nơi chứa source gốc của dự án được tái sử dụng 
-- DOAN\EVERSHOP\evershop là root project để deploy án chính lên Vercel
+- DOAN\EVERSHOP\FullBase là nơi chứa source gốc của dự án được tái sử dụng
+- DOAN\EVERSHOP\ShoesStore_Evershop là root project để deploy án chính lên Vercel
   
 
 # 📦 DOAN/EVERSHOP - Hướng Dẫn Dự Án
@@ -84,7 +84,7 @@ DOAN/EVERSHOP/
 │       ├── README.md                   # Hướng dẫn FullBase
 │       └── package.json                # Phụ thuộc dự án
 │
-└── evershop/                           # Dự Án Triển Khai (Deployment Root)
+└── ShoesStore_Evershop/                # Dự Án Triển Khai (Deployment Root)
     ├── README.md                       # Hướng dẫn chi tiết dự án
     ├── SETUP.md                        # Hướng dẫn thiết lập môi trường
     ├── WORKFLOW.md                     # Quy trình làm việc
@@ -124,7 +124,7 @@ DOAN/EVERSHOP/
 ```bash
 # 1️⃣ Sao chép repository
 git clone https://github.com/Cgaz275/NHOM_KTPM_DCT122C3_2025.git
-cd DOAN/EVERSHOP/evershop
+cd DOAN/EVERSHOP/ShoesStore_Evershop
 
 # 2️⃣ Cài đặt phụ thuộc
 npm install
@@ -184,7 +184,7 @@ FullBase/evershop-dev/packages/evershop/src/modules/
 
 ---
 
-### evershop - Dự Án Triển Khai (Chính)
+### ShoesStore_Evershop - Dự Án Triển Khai (Chính)
 
 **Mục Đích**: Dự án được chuẩn hóa, sẵn sàng triển khai lên Vercel
 
@@ -203,7 +203,7 @@ Hướng dẫn chi tiết về dự án này, bao gồm:
 - Lệnh phổ biến
 - Troubleshooting
 
-👉 **[Đọc README.md của evershop](./DOAN/EVERSHOP/evershop/README.md)**
+👉 **[Đọc README.md của ShoesStore_Evershop](./DOAN/EVERSHOP/ShoesStore_Evershop/README.md)**
 
 #### 🔧 `SETUP.md`
 Hướng dẫn cài đặt từng bước:
@@ -212,7 +212,7 @@ Hướng dẫn cài đặt từng bước:
 - Cấu hình biến môi trường
 - Xác minh cài đặt
 
-👉 **[Đọc SETUP.md](./DOAN/EVERSHOP/evershop/SETUP.md)**
+👉 **[Đọc SETUP.md](./DOAN/EVERSHOP/ShoesStore_Evershop/SETUP.md)**
 
 #### 🔄 `WORKFLOW.md`
 Quy trình làm việc hàng ngày:
@@ -221,7 +221,7 @@ Quy trình làm việc hàng ngày:
 - Cách tạo Pull Request
 - Kiểm tra mã
 
-👉 **[Đọc WORKFLOW.md](./DOAN/EVERSHOP/evershop/WORKFLOW.md)**
+👉 **[Đọc WORKFLOW.md](./DOAN/EVERSHOP/ShoesStore_Evershop/WORKFLOW.md)**
 
 #### 🚀 `DEPLOYMENT.md`
 Triển khai lên Vercel:
@@ -230,7 +230,7 @@ Triển khai lên Vercel:
 - Quy trình CI/CD
 - Xử lý sự cố triển khai
 
-👉 **[Đọc DEPLOYMENT.md](./DOAN/EVERSHOP/evershop/DEPLOYMENT.md)**
+👉 **[Đọc DEPLOYMENT.md](./DOAN/EVERSHOP/ShoesStore_Evershop/DEPLOYMENT.md)**
 
 #### 🔄 `SYNC_FROM_FULLBASE.md`
 Hướng dẫn đồng bộ từ FullBase:
@@ -239,7 +239,7 @@ Hướng dẫn đồng bộ từ FullBase:
 - Kiểm tra phụ thuộc
 - Cập nhật phiên bản
 
-👉 **[Đọc SYNC_FROM_FULLBASE.md](./DOAN/EVERSHOP/evershop/SYNC_FROM_FULLBASE.md)**
+👉 **[Đọc SYNC_FROM_FULLBASE.md](./DOAN/EVERSHOP/ShoesStore_Evershop/SYNC_FROM_FULLBASE.md)**
 
 #### 📋 `CONTRIBUTING.md`
 Tiêu chuẩn đóng góp mã:
@@ -247,7 +247,7 @@ Tiêu chuẩn đóng góp mã:
 - Quy trình kiểm tra
 - Yêu cầu test coverage
 
-👉 **[Đọc CONTRIBUTING.md](./DOAN/EVERSHOP/evershop/CONTRIBUTING.md)**
+👉 **[Đọc CONTRIBUTING.md](./DOAN/EVERSHOP/ShoesStore_Evershop/CONTRIBUTING.md)**
 
 #### 📊 `CI_CD_SUMMARY.md`
 Tóm tắt quy trình CI/CD:
@@ -255,7 +255,7 @@ Tóm tắt quy trình CI/CD:
 - Tự động kiểm tra & triển khai
 - Trạng thái kiểm tra
 
-👉 **[Đọc CI_CD_SUMMARY.md](./DOAN/EVERSHOP/evershop/CI_CD_SUMMARY.md)**
+👉 **[Đọc CI_CD_SUMMARY.md](./DOAN/EVERSHOP/ShoesStore_Evershop/CI_CD_SUMMARY.md)**
 
 #### ⚙️ `vercel.json`
 Cấu hình triển khai Vercel:
@@ -263,6 +263,8 @@ Cấu hình triển khai Vercel:
 - Output directory
 - Environment variables
 - Quy tắc triển khai
+
+---
 
 ---
 
@@ -280,10 +282,10 @@ Cấu hình triển khai Vercel:
                     │ Đồng bộ module cần thiết
                     ↓
 ┌─────────────────────────────────────────────┐
-│     evershop (Dự Án Chính)                  │
+│  ShoesStore_Evershop (Dự Án Chính)          │
 │  - Mã được chuẩn hóa                       │
 │  - Sẵn sàng triển khai                     │
-└─────────────────────────────────────────────┘
+└──���──────────────────────────────────────────┘
                     │
         ┌───────────┴──────────┐
         │                      │
@@ -303,7 +305,7 @@ Cấu hình triển khai Vercel:
 #### 1️⃣ **Tạo Nhánh Tính Năng**
 
 ```bash
-cd DOAN/EVERSHOP/evershop
+cd DOAN/EVERSHOP/ShoesStore_Evershop
 
 # Tạo nhánh mới (modules/* hoặc feature/*)
 git checkout -b modules/my-feature
@@ -316,7 +318,7 @@ git checkout -b modules/my-feature
 
 ```bash
 # Cài đặt dependencies (nếu chưa)
-npm install
+npm install --workspaces --include-workspace-root
 
 # Khởi động máy chủ phát triển
 npm run dev
@@ -380,7 +382,7 @@ git push origin modules/my-feature
 
 #### Bước 2: Cấu Hình Build
 
-1. **Root Directory**: `DOAN/EVERSHOP/evershop`
+1. **Root Directory**: `DOAN/EVERSHOP/ShoesStore_Evershop`
 2. **Build Command**: `npm run build`
 3. **Output Directory**: `packages/evershop/dist`
 4. **Install Command**: `npm install`
@@ -437,7 +439,7 @@ VERCEL_PROJECT_ID=<project-id>
 ### Kiểm Tra CI/CD Status
 
 ```bash
-cd DOAN/EVERSHOP/evershop
+cd DOAN/EVERSHOP/ShoesStore_Evershop
 
 # Xem lịch sử commit
 git log --oneline -10
@@ -455,7 +457,7 @@ git log --oneline -10
 ### Xem Sơ Đồ Phụ Thuộc Module
 
 ```bash
-cd DOAN/EVERSHOP/evershop
+cd DOAN/EVERSHOP/ShoesStore_Evershop
 
 npm run nx -- graph
 # Mở http://localhost:4211
@@ -472,7 +474,7 @@ npm run nx -- graph
 ```bash
 # Xóa cache và cài đặt lại
 rm -rf node_modules
-npm install
+npm install --workspaces --include-workspace-root
 
 # Biên dịch lại
 npm run compile
@@ -520,13 +522,13 @@ docker-compose up -d
 
 | File | Nội Dung |
 |------|---------|
-| [README.md](./DOAN/EVERSHOP/evershop/README.md) | Hướng dẫn chi tiết dự án |
-| [SETUP.md](./DOAN/EVERSHOP/evershop/SETUP.md) | Cài đặt môi trường |
-| [WORKFLOW.md](./DOAN/EVERSHOP/evershop/WORKFLOW.md) | Quy trình làm việc |
-| [DEPLOYMENT.md](./DOAN/EVERSHOP/evershop/DEPLOYMENT.md) | Triển khai Vercel |
-| [SYNC_FROM_FULLBASE.md](./DOAN/EVERSHOP/evershop/SYNC_FROM_FULLBASE.md) | Đồng bộ từ FullBase |
-| [CONTRIBUTING.md](./DOAN/EVERSHOP/evershop/CONTRIBUTING.md) | Tiêu chuẩn đóng góp |
-| [CI_CD_SUMMARY.md](./DOAN/EVERSHOP/evershop/CI_CD_SUMMARY.md) | Tóm tắt CI/CD |
+| [README.md](./DOAN/EVERSHOP/ShoesStore_Evershop/README.md) | Hướng dẫn chi tiết dự án |
+| [SETUP.md](./DOAN/EVERSHOP/ShoesStore_Evershop/SETUP.md) | Cài đặt môi trường |
+| [WORKFLOW.md](./DOAN/EVERSHOP/ShoesStore_Evershop/WORKFLOW.md) | Quy trình làm việc |
+| [DEPLOYMENT.md](./DOAN/EVERSHOP/ShoesStore_Evershop/DEPLOYMENT.md) | Triển khai Vercel |
+| [SYNC_FROM_FULLBASE.md](./DOAN/EVERSHOP/ShoesStore_Evershop/SYNC_FROM_FULLBASE.md) | Đồng bộ từ FullBase |
+| [CONTRIBUTING.md](./DOAN/EVERSHOP/ShoesStore_Evershop/CONTRIBUTING.md) | Tiêu chuẩn đóng góp |
+| [CI_CD_SUMMARY.md](./DOAN/EVERSHOP/ShoesStore_Evershop/CI_CD_SUMMARY.md) | Tóm tắt CI/CD |
 
 ### Tài Liệu Bên Ngoài
 
@@ -568,10 +570,10 @@ Xem file [LICENSE](./DOAN/EVERSHOP/evershop/LICENSE) để chi tiết.
 ### 📋 Checklist Bắt Đầu
 
 - [ ] Đọc file README này
-- [ ] Chuyển đến thư mục `DOAN/EVERSHOP/evershop`
-- [ ] Đọc [SETUP.md](./DOAN/EVERSHOP/evershop/SETUP.md) để cài đặt cục bộ
-- [ ] Chạy `npm install` và `npm run dev`
-- [ ] Đọc [WORKFLOW.md](./DOAN/EVERSHOP/evershop/WORKFLOW.md) để hiểu quy trình
+- [ ] Chuyển đến thư mục `DOAN/EVERSHOP/ShoesStore_Evershop`
+- [ ] Đọc [SETUP.md](./DOAN/EVERSHOP/ShoesStore_Evershop/SETUP.md) để cài đặt cục bộ
+- [ ] Chạy `npm install --workspaces --include-workspace-root` và `npm run dev`
+- [ ] Đọc [WORKFLOW.md](./DOAN/EVERSHOP/ShoesStore_Evershop/WORKFLOW.md) để hiểu quy trình
 - [ ] Tạo nhánh tính năng `modules/my-feature`
 - [ ] Viết mã, test, commit, và push
 - [ ] Tạo Pull Request trên GitHub
@@ -582,8 +584,8 @@ Xem file [LICENSE](./DOAN/EVERSHOP/evershop/LICENSE) để chi tiết.
 
 1. **Phát Triển Cục Bộ**:
    ```bash
-   cd DOAN/EVERSHOP/evershop
-   npm install && npm run dev
+   cd DOAN/EVERSHOP/ShoesStore_Evershop
+   npm install --workspaces --include-workspace-root && npm run dev
    ```
 
 2. **Tạo Tính Năng**:
@@ -607,16 +609,16 @@ Xem file [LICENSE](./DOAN/EVERSHOP/evershop/LICENSE) để chi tiết.
 ### Câu Hỏi Phổ Biến
 
 **Q: Tôi nên phát triển ở thư mục nào?**
-> A: Luôn phát triển ở `DOAN/EVERSHOP/evershop`. Chỉ tham khảo `FullBase/evershop-dev`.
+> A: Luôn phát triển ở `DOAN/EVERSHOP/ShoesStore_Evershop`. Chỉ tham khảo `FullBase/evershop-dev`.
 
 **Q: Làm cách nào để cập nhật module từ FullBase?**
-> A: Xem hướng dẫn chi tiết ở [SYNC_FROM_FULLBASE.md](./DOAN/EVERSHOP/evershop/SYNC_FROM_FULLBASE.md).
+> A: Xem hướng dẫn chi tiết ở [SYNC_FROM_FULLBASE.md](./DOAN/EVERSHOP/ShoesStore_Evershop/SYNC_FROM_FULLBASE.md).
 
 **Q: Cơ sở dữ liệu của tôi không kết nối được?**
-> A: Xem hướng dẫn xử lý sự cố ở [SETUP.md](./DOAN/EVERSHOP/evershop/SETUP.md#troubleshooting).
+> A: Xem hướng dẫn xử lý sự cố ở [SETUP.md](./DOAN/EVERSHOP/ShoesStore_Evershop/SETUP.md#troubleshooting).
 
 **Q: Làm cách nào để triển khai lên production?**
-> A: Merge vào `main`, Vercel sẽ tự động triển khai. Chi tiết ở [DEPLOYMENT.md](./DOAN/EVERSHOP/evershop/DEPLOYMENT.md).
+> A: Merge vào `main`, Vercel sẽ tự động triển khai. Chi tiết ở [DEPLOYMENT.md](./DOAN/EVERSHOP/ShoesStore_Evershop/DEPLOYMENT.md).
 
 ### Liên Hệ & Hỗ Trợ
 
@@ -634,7 +636,7 @@ DOAN/EVERSHOP/
 ├─── FullBase/evershop-dev/          (Tham Chiếu - Không Triển Khai)
 │    └─ source code hoàn chỉnh từ EverShop
 │
-└─── evershop/ ⭐              (Dự Án Chính - Triển Khai Ở Đây)
+└─── ShoesStore_Evershop/ ⭐         (Dự Án Chính - Triển Khai Ở Đây)
      ├─ README.md            (Chi tiết dự án)
      ├─ SETUP.md             (Cài đặt)
      ├─ WORKFLOW.md          (Quy trình làm việc)
