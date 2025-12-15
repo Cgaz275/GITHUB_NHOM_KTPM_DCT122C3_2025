@@ -1,0 +1,62 @@
+# Git
+.git
+.gitignore
+.gitattributes
+.github
+
+# Node
+node_modules
+npm-debug.log
+yarn-error.log
+.npm
+.yarn
+
+# Build outputs
+dist
+build
+*.tsbuildinfo
+
+# Testing
+.jest
+coverage
+*.test.js
+*.spec.js
+
+# IDE & Editor
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+*.sublime-project
+*.sublime-workspace
+
+# Documentation
+docs
+README.md
+CHANGELOG.md
+LICENSE
+.github
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# CI/CD
+.circleci
+.gitlab-ci.yml
+.travis.yml
+
+# Misc
+.cache
+.next
+out
+dist
+.turbo
