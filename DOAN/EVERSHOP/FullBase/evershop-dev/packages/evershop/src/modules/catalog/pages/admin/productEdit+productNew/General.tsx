@@ -13,21 +13,18 @@ import { useQuery } from 'urql';
 import './General.scss';
 import { useFormContext } from 'react-hook-form';
 
-const SKUPriceWeight: React.FC<{
+const SKUAndPrice: React.FC<{
   sku: string;
   price: {
-    value: number | undefined;
-  };
-  weight: {
     value: number | undefined;
   };
   setting: {
     storeCurrency: string;
     weightUnit: string;
   };
-}> = ({ sku, price, weight, setting }) => {
+}> = ({ sku, price, setting }) => {
   return (
-    <div className="grid grid-cols-3 gap-2 mt-4">
+    <div className="grid grid-cols-2 gap-2 mt-4">
       <InputField
         name="sku"
         label="SKU"
@@ -44,16 +41,6 @@ const SKUPriceWeight: React.FC<{
         unit={setting.storeCurrency}
         min={0}
         required
-      />
-      <NumberField
-        name="weight"
-        placeholder="Enter weight"
-        label={`Weight`}
-        defaultValue={weight?.value}
-        unit={setting.weightUnit}
-        required
-        validation={{ min: 1 }}
-        helperText={_('Weight must be a positive number')}
       />
     </div>
   );
@@ -262,20 +249,19 @@ export default function General({
             {
               component: {
                 default: (
-                  <SKUPriceWeight
+                  <SKUAndPrice
                     sku={product?.sku || ''}
                     price={
                       product?.price.regular || {
                         value: undefined
                       }
                     }
-                    weight={product?.weight || { value: undefined }}
                     setting={setting}
                   />
                 )
               },
               sortOrder: 20,
-              id: 'SKUPriceWeight'
+              id: 'SKUAndPrice'
             },
             {
               component: {

@@ -43,6 +43,13 @@ function ZoneForm({
     query: CountriesQuery
   });
 
+  // Reset provinces when country changes
+  React.useEffect(() => {
+    if (countryWatch !== zone?.country?.code) {
+      form.setValue('provinces', []);
+    }
+  }, [countryWatch, zone?.country?.code, form]);
+
   if (fetching) return <Spinner />;
   if (error) {
     return <p className="text-critical">Error loading countries</p>;
@@ -66,7 +73,7 @@ function ZoneForm({
             placeholder="Enter zone name"
             required
             validation={{ required: 'Zone name is required' }}
-            value={zone?.name}
+            defaultValue={zone?.name}
           />
         </Card.Session>
         <Card.Session title="Country">

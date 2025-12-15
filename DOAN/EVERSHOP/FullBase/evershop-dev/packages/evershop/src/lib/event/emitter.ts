@@ -1,6 +1,6 @@
 import { insert } from '@evershop/postgres-query-builder';
-import { pool } from '../postgres/connection.js';
 import { EventDataRegistry, EventName } from '../../types/event.js';
+import { pool } from '../postgres/connection.js';
 
 /**
  * Emit a typed event. The event data type is inferred from the event name.

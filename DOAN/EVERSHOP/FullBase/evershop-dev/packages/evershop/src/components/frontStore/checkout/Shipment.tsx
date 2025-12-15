@@ -17,11 +17,18 @@ export function Shipment() {
   const {
     data: {
       shippingAddress,
+      noShippingRequired,
       availableShippingMethods,
       shippingMethod: selectedShippingMethod
     },
     loadingStates: { fetchingShippingMethods }
   } = useCartState();
+
+  // Early return if no shipping is required
+  if (noShippingRequired) {
+    return null;
+  }
+
   const {
     addShippingAddress,
     addShippingMethod,
@@ -132,13 +139,15 @@ export function Shipment() {
   };
 
   return (
-    <div className="checkout-shipment">
+    <div className="checkout__shipment space-y-6">
       <h2>{_('Delivery')}</h2>
-      <CustomerAddressForm
-        areaId="checkoutShippingAddressForm"
-        fieldNamePrefix="shippingAddress"
-        address={shippingAddress}
-      />
+      <div className="border rounded-lg transition-all overflow-hidden duration-200 p-3">
+        <CustomerAddressForm
+          areaId="checkoutShippingAddressForm"
+          fieldNamePrefix="shippingAddress"
+          address={shippingAddress}
+        />
+      </div>
       <ShippingMethods
         methods={availableShippingMethods?.map((method) => ({
           ...method,

@@ -3,18 +3,30 @@ import './Summary.scss';
 import { OrderSummaryItems } from '@components/frontStore/checkout/OrderSummaryItems.js';
 import { OrderTotalSummary } from '@components/frontStore/checkout/OrderTotalSummary.js';
 import { Order } from '@components/frontStore/customer/CustomerContext.jsx';
+import { useAppState } from '@components/common/context/app.js';
 
 interface SummaryProps {
   order: Order;
 }
 
 export default function Summary({ order }: SummaryProps) {
+  const {
+    config: {
+      tax: { priceIncludingTax }
+    }
+  } = useAppState();
   return (
     <div className="checkout__summary h-full hidden md:block">
       <OrderSummaryItems items={order.items} />
       <OrderTotalSummary
-        shippingCost={order.shippingFeeInclTax.text}
-        subTotal={order.subTotal.text}
+        shippingCost={
+          priceIncludingTax
+            ? order.shippingFeeInclTax.text
+            : order.shippingFeeExclTax.text
+        }
+        subTotal={
+          priceIncludingTax ? order.subTotalInclTax.text : order.subTotal.text
+        }
         total={order.grandTotal.text}
         shippingMethod={order.shippingMethodName}
         coupon={order.coupon || ''}
@@ -40,6 +52,9 @@ export const query = `
       coupon
       shippingMethodName
       shippingFeeInclTax {
+        text
+      }
+      shippingFeeExclTax {
         text
       }
       totalTaxAmount {

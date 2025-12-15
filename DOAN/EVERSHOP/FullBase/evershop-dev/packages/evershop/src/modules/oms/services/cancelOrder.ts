@@ -2,7 +2,6 @@ import {
   commit,
   execute,
   getConnection,
-  insert,
   PoolClient,
   rollback,
   select,
@@ -13,6 +12,7 @@ import { pool } from '../../../lib/postgres/connection.js';
 import { getConfig } from '../../../lib/util/getConfig.js';
 import { hookable } from '../../../lib/util/hookable.js';
 import { PaymentStatus, ShipmentStatus } from '../../../types/order.js';
+import addOrderActivityLog from './addOrderActivityLog.js';
 import { updatePaymentStatus } from './updatePaymentStatus.js';
 import { updateShipmentStatus } from './updateShipmentStatus.js';
 
@@ -68,20 +68,6 @@ async function reStockAfterCancel(orderID: number, connection: PoolClient) {
   );
 }
 
-async function addCancellationActivity(
-  orderID: number,
-  reason: string | undefined,
-  connection: PoolClient
-): Promise<void> {
-  await insert('order_activity')
-    .given({
-      order_activity_order_id: orderID,
-      comment: `Order canceled ${reason ? `(${reason})` : ''}`,
-      customer_notified: 0 // TODO: check config of SendGrid
-    })
-    .execute(connection, false);
-}
-
 async function cancelOrder(uuid: string, reason: string | undefined) {
   const connection = await getConnection(pool);
   try {
@@ -111,9 +97,10 @@ async function cancelOrder(uuid: string, reason: string | undefined) {
       order.order_id,
       connection
     );
-    await hookable(addCancellationActivity, { order })(
+    await addOrderActivityLog(
       order.order_id,
-      reason,
+      `Order canceled ${reason ? `(${reason})` : ''}`,
+      false,
       connection
     );
     await hookable(reStockAfterCancel, { order })(order.order_id, connection);

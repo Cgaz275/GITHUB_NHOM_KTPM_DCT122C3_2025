@@ -9,6 +9,7 @@ interface CustomerInfoProps {
     customerFullName: string;
     customerEmail: string;
     paymentMethodName: string;
+    noShippingRequired: boolean;
     shippingAddress: {
       fullName: string;
       postcode: string;
@@ -50,6 +51,7 @@ export default function CustomerInfo({
     customerFullName,
     customerEmail,
     paymentMethodName,
+    noShippingRequired,
     shippingAddress,
     billingAddress
   }
@@ -102,7 +104,11 @@ export default function CustomerInfo({
               <h3>{_('Shipping Address')}</h3>
             </div>
             <div className="text-textSubdued">
-              <AddressSummary address={shippingAddress} />
+              {noShippingRequired ? (
+                _('No shipping required')
+              ) : (
+                <AddressSummary address={shippingAddress} />
+              )}
             </div>
           </div>
           <div>
@@ -138,6 +144,7 @@ export const query = `
       customerFullName
       customerEmail
       paymentMethodName
+      noShippingRequired
       shippingNote
       shippingAddress {
         fullName

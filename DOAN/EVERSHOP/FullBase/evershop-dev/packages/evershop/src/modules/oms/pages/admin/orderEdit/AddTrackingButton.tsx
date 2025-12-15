@@ -9,6 +9,7 @@ import { useForm } from 'react-hook-form';
 
 interface AddTrackingButtonProps {
   order: {
+    noShippingRequired: boolean;
     shipment: {
       carrier: string;
       trackingNumber: string;
@@ -22,12 +23,12 @@ interface AddTrackingButtonProps {
   }[];
 }
 export default function AddTrackingButton({
-  order: { shipment },
+  order: { noShippingRequired, shipment },
   carriers
 }: AddTrackingButtonProps) {
   const modal = useModal();
   const form = useForm();
-  if (!shipment) {
+  if (noShippingRequired || !shipment) {
     return null;
   } else {
     return (
@@ -119,6 +120,7 @@ export const layout = {
 export const query = `
   query Query {
     order(uuid: getContextValue("orderId")) {
+      noShippingRequired
       shipment {
         shipmentId
         carrier

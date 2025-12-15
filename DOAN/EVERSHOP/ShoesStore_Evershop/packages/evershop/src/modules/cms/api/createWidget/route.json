@@ -1,5 +1,0 @@
-{
-  "methods": ["POST"],
-  "path": "/widgets",
-  "access": "private"
-}

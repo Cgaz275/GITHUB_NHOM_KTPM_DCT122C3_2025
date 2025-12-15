@@ -205,9 +205,11 @@ async function insertProductImages(images: string[], productId: number, connecti
 
 
 async function insertProductData(data: ProductData, connection: PoolClient) {
-  const product = await insert('product').given(data).execute(connection);
+  // If no_shipping_required is true, set weight to 0
+  const productData = { ...data, weight: data.no_shipping_required ? 0 : data.weight };
+  const product = await insert('product').given(productData).execute(connection);
   const description = await insert('product_description')
-    .given(data)
+    .given(productData)
     .prime('product_description_product_id', product.product_id)
     .execute(connection);
 

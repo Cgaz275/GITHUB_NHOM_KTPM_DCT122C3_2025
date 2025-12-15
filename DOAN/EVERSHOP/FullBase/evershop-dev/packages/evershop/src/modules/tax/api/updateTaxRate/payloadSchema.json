@@ -2,30 +2,79 @@
   "type": "object",
   "properties": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "errorMessage": {
+        "type": "Tax rate name must be a string",
+        "minLength": "Tax rate name cannot be empty",
+        "maxLength": "Tax rate name cannot exceed 255 characters"
+      }
     },
     "country": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(\\*|[A-Z]{2})$",
+      "errorMessage": {
+        "type": "Country must be a string",
+        "minLength": "Country cannot be empty",
+        "pattern": "Country must be either '*' (all countries) or a valid 2-letter ISO code (e.g., US, CA, GB)"
+      }
     },
-    "provnice": {
-      "type": "string"
+    "province": {
+      "type": "string",
+      "maxLength": 255,
+      "errorMessage": {
+        "type": "Province/state must be a string",
+        "maxLength": "Province/state cannot exceed 255 characters. Use '*' for all provinces"
+      }
     },
     "postcode": {
-      "type": "string"
+      "type": "string",
+      "maxLength": 20,
+      "errorMessage": {
+        "type": "Postcode must be a string",
+        "maxLength": "Postcode cannot exceed 20 characters. Use '*' for all postcodes"
+      }
     },
     "rate": {
       "type": ["string", "number"],
-      "pattern": "^\\d+(\\.\\d{1,2})?$"
+      "pattern": "^\\d+(\\.\\d{1,2})?$",
+      "minimum": 0,
+      "maximum": 100,
+      "errorMessage": {
+        "type": "Tax rate must be a number or numeric string",
+        "pattern": "Tax rate must be a valid number with up to 2 decimal places (e.g., 10, 15.5, 20.75)",
+        "minimum": "Tax rate cannot be negative",
+        "maximum": "Tax rate cannot exceed 100%"
+      }
     },
     "is_compound": {
-      "type": ["string", "number"],
-      "enum": [0, 1, "0", "1"]
+      "type": ["string", "number", "boolean"],
+      "enum": [0, 1, "0", "1", true, false],
+      "errorMessage": {
+        "type": "Compound tax flag must be a number, string, or boolean",
+        "enum": "Compound tax flag must be 0, 1, true, or false"
+      }
     },
     "priority": {
       "type": ["string", "number"],
-      "pattern": "^[0-9]+$"
+      "pattern": "^[0-9]+$",
+      "minimum": 0,
+      "errorMessage": {
+        "type": "Priority must be a number or numeric string",
+        "pattern": "Priority must be a non-negative integer",
+        "minimum": "Priority cannot be negative"
+      }
     }
   },
   "additionalProperties": true,
-  "required": ["name", "rate"]
+  "required": ["name", "rate"],
+  "errorMessage": {
+    "type": "Request body must be an object",
+    "required": {
+      "name": "Tax rate name is required",
+      "rate": "Tax rate is required"
+    }
+  }
 }

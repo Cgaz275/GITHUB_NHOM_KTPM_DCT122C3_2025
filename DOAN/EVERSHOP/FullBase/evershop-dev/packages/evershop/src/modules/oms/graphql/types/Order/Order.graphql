@@ -25,6 +25,7 @@ type OrderItem implements ShoppingCartItem {
   productSku: String!
   productName: String
   thumbnail: String
+  noShippingRequired: Boolean!
   productWeight: Weight!
   productPrice: Price!
   productPriceInclTax: Price!
@@ -56,6 +57,7 @@ type Order implements ShoppingCart {
   orderNumber: String!
   status: Status
   items: [OrderItem]
+  noShippingRequired: Boolean!
   shippingAddress: OrderAddress
   billingAddress: OrderAddress
   currency: String!

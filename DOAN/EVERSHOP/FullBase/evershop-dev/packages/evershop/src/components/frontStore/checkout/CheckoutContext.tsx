@@ -305,6 +305,7 @@ export function CheckoutProvider({
 
     if (!response.ok) {
       enableForm();
+      dispatch({ type: 'SET_PLACING_ORDER', payload: false });
       throw new Error(json.error?.message || _('Failed to checkout'));
     }
 

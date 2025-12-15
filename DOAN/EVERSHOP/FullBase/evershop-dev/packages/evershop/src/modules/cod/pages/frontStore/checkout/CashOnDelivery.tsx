@@ -4,6 +4,7 @@ import {
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React, { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 interface CashOnDeliveryMethodProps {
   setting: {
@@ -64,7 +65,11 @@ export default function CashOnDeliveryMethod({
         const { loadingStates, orderPlaced } = useCheckout();
         const handleClick = async (e: React.MouseEvent) => {
           e.preventDefault();
-          await checkout();
+          try {
+            await checkout();
+          } catch (error) {
+            toast.error(_('Failed to place order. Please try again.'));
+          }
         };
 
         const isDisabled = loadingStates.placingOrder || orderPlaced;

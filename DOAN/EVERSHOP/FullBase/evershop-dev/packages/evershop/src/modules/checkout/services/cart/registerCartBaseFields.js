@@ -176,9 +176,23 @@ export function registerCartBaseFields(fields) {
       dependencies: ['items']
     },
     {
+      key: 'no_shipping_required',
+      resolvers: [
+        async function resolver() {
+          const total = 0;
+          const items = this.getItems();
+          return items.every((i) => i.getData('no_shipping_required') === true);
+        }
+      ],
+      dependencies: ['items']
+    },
+    {
       key: 'shipping_zone_id',
       resolvers: [
         async function resolver() {
+          if (this.getData('no_shipping_required')) {
+            return null;
+          }
           const addressData = this.getData('shipping_address');
           if (!addressData?.country) {
             return null;
@@ -211,21 +225,27 @@ export function registerCartBaseFields(fields) {
           }
         }
       ],
-      dependencies: ['shipping_address']
+      dependencies: ['shipping_address', 'no_shipping_required']
     },
     {
       key: 'shipping_address_id',
       resolvers: [
         async function resolver(shippingAddressId) {
+          if (this.getData('no_shipping_required')) {
+            return null;
+          }
           return shippingAddressId;
         }
       ],
-      dependencies: ['cart_id']
+      dependencies: ['cart_id', 'no_shipping_required']
     },
     {
       key: 'shipping_address',
       resolvers: [
         async function resolver(address) {
+          if (this.getData('no_shipping_required')) {
+            return null;
+          }
           if (!this.getData('shipping_address_id')) {
             if (validateAddress(address)) {
               return address;
@@ -244,12 +264,15 @@ export function registerCartBaseFields(fields) {
           }
         }
       ],
-      dependencies: ['shipping_address_id']
+      dependencies: ['shipping_address_id', 'no_shipping_required']
     },
     {
       key: 'shipping_method',
       resolvers: [
         async function resolver(shippingMethod) {
+          if (this.getData('no_shipping_required')) {
+            return null;
+          }
           if (!shippingMethod) {
             return null;
           }
@@ -317,13 +340,17 @@ export function registerCartBaseFields(fields) {
         'shipping_address',
         'sub_total',
         'total_weight',
-        'total_qty'
+        'total_qty',
+        'no_shipping_required'
       ]
     },
     {
       key: 'shipping_method_name',
       resolvers: [
         async function resolver() {
+          if (this.getData('no_shipping_required')) {
+            return null;
+          }
           if (!this.getData('shipping_method')) {
             return null;
           } else {
@@ -335,12 +362,15 @@ export function registerCartBaseFields(fields) {
           }
         }
       ],
-      dependencies: ['shipping_method']
+      dependencies: ['shipping_method', 'no_shipping_required']
     },
     {
       key: 'shipping_fee_draft',
       resolvers: [
         async function resolver() {
+          if (this.getData('no_shipping_required')) {
+            return null;
+          }
           if (!this.getData('shipping_method')) {
             return 0;
           } else {
@@ -435,12 +465,15 @@ export function registerCartBaseFields(fields) {
           }
         }
       ],
-      dependencies: ['shipping_method']
+      dependencies: ['shipping_method', 'no_shipping_required']
     },
     {
       key: 'shipping_fee_tax_percent',
       resolvers: [
         async function resolver() {
+          if (this.getData('no_shipping_required')) {
+            return null;
+          }
           if (!this.getData('shipping_method')) {
             return null;
           }
@@ -500,12 +533,15 @@ export function registerCartBaseFields(fields) {
           }
         }
       ],
-      dependencies: ['sub_total', 'shipping_method']
+      dependencies: ['sub_total', 'shipping_method', 'no_shipping_required']
     },
     {
       key: 'shipping_tax_amount',
       resolvers: [
         async function resolver() {
+          if (this.getData('no_shipping_required')) {
+            return 0;
+          }
           const priceIncludingTax = getConfig(
             'pricing.tax.price_including_tax',
             false
@@ -522,12 +558,19 @@ export function registerCartBaseFields(fields) {
           return toPrice(shippingFeeTax);
         }
       ],
-      dependencies: ['shipping_fee_draft', 'shipping_fee_tax_percent']
+      dependencies: [
+        'shipping_fee_draft',
+        'shipping_fee_tax_percent',
+        'no_shipping_required'
+      ]
     },
     {
       key: 'shipping_fee_excl_tax',
       resolvers: [
         async function resolver() {
+          if (this.getData('no_shipping_required')) {
+            return 0;
+          }
           const priceIncludingTax = getConfig(
             'pricing.tax.price_including_tax',
             false
@@ -548,12 +591,19 @@ export function registerCartBaseFields(fields) {
           }
         }
       ],
-      dependencies: ['shipping_fee_tax_percent', 'shipping_fee_draft']
+      dependencies: [
+        'shipping_fee_tax_percent',
+        'shipping_fee_draft',
+        'no_shipping_required'
+      ]
     },
     {
       key: 'shipping_fee_incl_tax',
       resolvers: [
         async function resolver() {
+          if (this.getData('no_shipping_required')) {
+            return 0;
+          }
           const priceIncludingTax = getConfig(
             'pricing.tax.price_including_tax',
             false
@@ -574,7 +624,8 @@ export function registerCartBaseFields(fields) {
       dependencies: [
         'shipping_fee_excl_tax',
         'shipping_tax_amount',
-        'shipping_fee_draft'
+        'shipping_fee_draft',
+        'no_shipping_required'
       ]
     },
     {

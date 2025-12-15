@@ -12,6 +12,7 @@ import { emit } from '../../../../lib/event/emitter.js';
 import { debug, error } from '../../../../lib/log/logger.js';
 import { getConnection } from '../../../../lib/postgres/connection.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
+import addOrderActivityLog from '../../../oms/services/addOrderActivityLog.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { getSetting } from '../../../setting/services/setting.js';
 
@@ -80,12 +81,12 @@ export default async (request, response, next) => {
           await updatePaymentStatus(order.order_id, 'paid', connection);
 
           // Add an activity log
-          await insert('order_activity')
-            .given({
-              order_activity_order_id: order.order_id,
-              comment: `Customer paid by using Stripe. Transaction ID: ${paymentIntent.id}`
-            })
-            .execute(connection);
+          await addOrderActivityLog(
+            order.order_id,
+            `Customer paid by using Stripe. Transaction ID: ${paymentIntent.id}`,
+            false,
+            connection
+          );
 
           // Emit event to add order placed event
           await emit('order_placed', { ...order });
@@ -116,13 +117,12 @@ export default async (request, response, next) => {
         if (!transaction) {
           await updatePaymentStatus(order.order_id, 'authorized', connection);
           // Add an activity log
-          await insert('order_activity')
-            .given({
-              order_activity_order_id: order.order_id,
-              comment: `Customer authorized by using Stripe. Transaction ID: ${paymentIntent.id}`
-            })
-            .execute(connection);
-
+          await addOrderActivityLog(
+            order.order_id,
+            `Customer authorized by using Stripe. Transaction ID: ${paymentIntent.id}`,
+            false,
+            connection
+          );
           // Emit event to add order placed event
           await emit('order_placed', { ...order });
         }

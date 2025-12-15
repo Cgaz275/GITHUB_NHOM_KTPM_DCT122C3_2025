@@ -114,11 +114,20 @@ const Discount: React.FC<{
 const Shipping: React.FC<{
   method: string | undefined;
   cost: string | undefined;
+  noShippingRequired: boolean;
   loading?: boolean;
-}> = ({ method, cost, loading = false }) => {
+}> = ({ method, cost, noShippingRequired, loading = false }) => {
   return (
     <div className="summary-row flex justify-between gap-7 py-2">
-      {method && (
+      {noShippingRequired && (
+        <>
+          <span>{_('Shipping')}</span>
+          <span className="text-gray-500 italic font-normal">
+            {_('No shipping required')}
+          </span>
+        </>
+      )}
+      {method && !noShippingRequired && (
         <>
           <span>{_('Shipping (${method})', { method })}</span>
           <div>
@@ -126,7 +135,7 @@ const Shipping: React.FC<{
           </div>
         </>
       )}
-      {!method && (
+      {!method && !noShippingRequired && (
         <>
           <span>{_('Shipping')}</span>
           <span className="text-gray-500 italic font-normal">
@@ -141,6 +150,7 @@ const Shipping: React.FC<{
 const DefaultCartSummary: React.FC<{
   loading: boolean;
   showPriceIncludingTax: boolean;
+  noShippingRequired: boolean;
   subTotal: string;
   discountAmount: string;
   coupon: string | undefined;
@@ -151,6 +161,7 @@ const DefaultCartSummary: React.FC<{
 }> = ({
   loading,
   showPriceIncludingTax,
+  noShippingRequired,
   subTotal,
   discountAmount,
   coupon,
@@ -171,7 +182,12 @@ const DefaultCartSummary: React.FC<{
     />
     <Area id="cartSummaryAfterDiscount" noOuter />
     <Area id="cartSummaryBeforeShipping" noOuter />
-    <Shipping method={shippingMethod} cost={shippingCost} loading={loading} />
+    <Shipping
+      method={shippingMethod}
+      cost={shippingCost}
+      loading={loading}
+      noShippingRequired={noShippingRequired}
+    />
     <Area id="cartSummaryAfterShipping" noOuter />
     <Area id="cartSummaryBeforeTax" noOuter />
     <Tax
@@ -195,6 +211,7 @@ interface CartTotalSummaryProps {
   children?: (props: {
     loading: boolean;
     showPriceIncludingTax: boolean;
+    noShippingRequired: boolean;
     subTotal: string;
     discountAmount: string;
     coupon: string | undefined;
@@ -237,6 +254,7 @@ function CartTotalSummary({ children }: CartTotalSummaryProps) {
               state === true || (typeof state === 'string' && state !== null)
           ),
           showPriceIncludingTax: priceIncludingTax,
+          noShippingRequired: cart?.noShippingRequired || false,
           subTotal,
           discountAmount,
           coupon,
@@ -252,6 +270,7 @@ function CartTotalSummary({ children }: CartTotalSummaryProps) {
               state === true || (typeof state === 'string' && state !== null)
           )}
           showPriceIncludingTax={priceIncludingTax}
+          noShippingRequired={cart?.noShippingRequired || false}
           subTotal={subTotal}
           discountAmount={discountAmount}
           coupon={coupon}

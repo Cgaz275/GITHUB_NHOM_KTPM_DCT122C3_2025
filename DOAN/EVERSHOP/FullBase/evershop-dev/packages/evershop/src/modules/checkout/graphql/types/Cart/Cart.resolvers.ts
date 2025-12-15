@@ -1,9 +1,7 @@
 import { select } from '@evershop/postgres-query-builder';
-import { normalizePort } from '../../../../../bin/lib/normalizePort.js';
 import { debug } from '../../../../../lib/log/logger.js';
 import { buildUrl } from '../../../../../lib/router/buildUrl.js';
 import { camelCase } from '../../../../../lib/util/camelCase.js';
-import { getConfig } from '../../../../../lib/util/getConfig.js';
 import { getFrontStoreSessionCookieName } from '../../../../auth/services/getFrontStoreSessionCookieName.js';
 import { getMyCart } from '../../../../checkout/services/getMyCart.js';
 import { getCartByUUID } from '../../../services/getCartByUUID.js';

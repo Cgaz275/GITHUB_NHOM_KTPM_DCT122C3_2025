@@ -44,6 +44,9 @@ const initialValidators: Validator<Cart>[] = [
      * @returns {boolean}
      */
     func: (cart: Cart) => {
+      if (cart.getData('no_shipping_required')) {
+        return true;
+      }
       if (!cart.getData('shipping_address_id')) {
         return false;
       } else {
@@ -60,6 +63,9 @@ const initialValidators: Validator<Cart>[] = [
      * @returns {boolean}
      */
     func: (cart: Cart) => {
+      if (cart.getData('no_shipping_required')) {
+        return true;
+      }
       if (!cart.getData('shipping_method')) {
         return false;
       } else {

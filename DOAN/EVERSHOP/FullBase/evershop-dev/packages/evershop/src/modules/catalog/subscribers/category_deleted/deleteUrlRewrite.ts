@@ -1,7 +1,7 @@
 import { execute, select } from '@evershop/postgres-query-builder';
+import { EventSubscriber } from '../../../../lib/event/subscriber.js';
 import { error } from '../../../../lib/log/logger.js';
 import { pool } from '../../../../lib/postgres/connection.js';
-import { EventSubscriber } from '../../../../lib/event/subscriber.js';
 
 const deleteUrlReWrite: EventSubscriber<'category_deleted'> = async (data) => {
   try {

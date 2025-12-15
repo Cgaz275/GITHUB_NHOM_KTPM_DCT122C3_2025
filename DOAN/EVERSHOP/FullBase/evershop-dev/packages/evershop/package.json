@@ -157,7 +157,7 @@
     "ajv-errors": "^3.0.0",
     "ajv-formats": "^2.1.1",
     "autoprefixer": "^10.4.13",
-    "axios": "^1.7.7",
+    "axios": "^1.13.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "boxen": "^5.1.2",

@@ -169,6 +169,7 @@ export const fragments = `
     customerEmail
     customerFullName
     coupon
+    noShippingRequired
     shippingMethod
     shippingMethodName
     paymentMethod

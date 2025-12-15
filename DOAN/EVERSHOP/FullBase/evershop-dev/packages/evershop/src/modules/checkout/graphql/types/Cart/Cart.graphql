@@ -11,6 +11,7 @@ interface ShoppingCart {
   userIp: String
   userId: String
   coupon: String
+  noShippingRequired: Boolean!
   shippingFeeExclTax: Price!
   shippingFeeInclTax: Price!
   shippingTaxAmount: Price!
@@ -45,6 +46,7 @@ interface ShoppingCartItem {
   productSku: String!
   productName: String
   thumbnail: String
+  noShippingRequired: Boolean!
   productWeight: Weight!
   productPrice: Price!
   productPriceInclTax: Price!
@@ -117,6 +119,7 @@ type CartItem implements ShoppingCartItem {
   productSku: String!
   productName: String
   thumbnail: String
+  noShippingRequired: Boolean!
   productWeight: Weight!
   productPrice: Price!
   productPriceInclTax: Price!
@@ -147,6 +150,7 @@ type Cart implements ShoppingCart {
   cartId: ID!
   uuid: String!
   items: [CartItem]
+  noShippingRequired: Boolean!
   shippingAddress: CartAddress
   billingAddress: CartAddress
   currency: String!

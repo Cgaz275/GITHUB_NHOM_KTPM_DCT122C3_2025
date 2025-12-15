@@ -51,6 +51,7 @@ export interface CartItem {
   productName: string;
   productUrl: string;
   thumbnail?: string;
+  noShippingRequired: boolean;
   productWeight: {
     value: number;
     unit: string;
@@ -160,6 +161,7 @@ export interface CartData {
   customerEmail?: string; // Optional customer email
   customerFullName?: string; // Optional customer full name
   coupon?: string; // Coupon code applied to cart
+  noShippingRequired: boolean;
   shippingMethod?: string; // Selected shipping method code
   shippingMethodName?: string; // Selected shipping method name
   paymentMethod?: string; // Selected payment method code
@@ -413,6 +415,7 @@ const initialEmptyState: CartState = {
     addItemApi: '', // initial addItemApi
     items: [],
     totalQty: 0,
+    noShippingRequired: false,
     totalWeight: { value: 0, unit: 'kg' },
     billingAddress: undefined,
     shippingAddress: undefined,

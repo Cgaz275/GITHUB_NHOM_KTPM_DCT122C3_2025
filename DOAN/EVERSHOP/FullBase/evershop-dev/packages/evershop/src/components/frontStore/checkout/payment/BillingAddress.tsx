@@ -1,17 +1,27 @@
+import Button from '@components/common/Button.js';
 import {
   useCheckout,
   useCheckoutDispatch
 } from '@components/frontStore/checkout/CheckoutContext.js';
 import CustomerAddressForm from '@components/frontStore/customer/address/addressForm/Index.js';
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
-import { CustomerAddressGraphql } from '@evershop/evershop/types/customerAddress';
+import {
+  Address,
+  CustomerAddressGraphql
+} from '@evershop/evershop/types/customerAddress';
 import React, { useEffect, useState } from 'react';
 import { useWatch } from 'react-hook-form';
 
 export function BillingAddress({
-  billingAddress
+  billingAddress,
+  addBillingAddress,
+  addingBillingAddress,
+  noShippingRequired
 }: {
   billingAddress?: CustomerAddressGraphql;
+  addBillingAddress?: (address: Address) => Promise<void>;
+  addingBillingAddress?: boolean;
+  noShippingRequired: boolean;
 }) {
   const { form, checkoutData } = useCheckout();
   const { updateCheckoutData } = useCheckoutDispatch();
@@ -19,6 +29,7 @@ export function BillingAddress({
     register,
     setValue,
     getValues,
+    trigger,
     formState: { disabled }
   } = form;
 
@@ -34,7 +45,7 @@ export function BillingAddress({
   });
 
   // State for radio selection
-  const [useSameAddress, setUseSameAddress] = useState(true);
+  const [useSameAddress, setUseSameAddress] = useState(!noShippingRequired);
 
   // Effect to sync billing address with shipping when "same address" is selected
   useEffect(() => {
@@ -67,45 +78,56 @@ export function BillingAddress({
     }
   };
 
+  const handleGoToPayment = async () => {
+    // Trigger validation only for fields with "billingAddress" prefix
+    const isValid = await trigger('billingAddress');
+
+    if (isValid && addBillingAddress) {
+      const billingAddressData = getValues('billingAddress');
+      await addBillingAddress(billingAddressData);
+    }
+  };
+
   return (
     <div className="billing-address-section">
       <h3 className="text-lg font-medium mb-4">{_('Billing Address')}</h3>
 
       {/* Radio options */}
       <div className="mb-6 space-y-3">
-        <div
-          className={`border rounded-lg transition-all duration-200 cursor-pointer ${
-            useSameAddress
-              ? 'border-blue-500 bg-blue-50'
-              : 'border-gray-200 hover:border-gray-300'
-          }`}
-        >
-          <div className="p-3">
-            <div className="flex items-center space-x-3">
-              <input
-                type="radio"
-                id="same-address"
-                value="same"
-                checked={useSameAddress}
-                onChange={(e) => handleAddressOptionChange(e.target.value)}
-                className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-              />
-              <div>
-                <a
-                  href="#"
-                  className="font-normal cursor-pointer text-gray-900"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleAddressOptionChange('same');
-                  }}
-                >
-                  {_('Same as shipping address')}
-                </a>
+        {!noShippingRequired && (
+          <div
+            className={`border rounded-lg transition-all duration-200 cursor-pointer ${
+              useSameAddress
+                ? 'border-blue-500 bg-blue-50'
+                : 'border-gray-200 hover:border-gray-300'
+            }`}
+          >
+            <div className="p-3">
+              <div className="flex items-center space-x-3">
+                <input
+                  type="radio"
+                  id="same-address"
+                  value="same"
+                  checked={useSameAddress}
+                  onChange={(e) => handleAddressOptionChange(e.target.value)}
+                  className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                />
+                <div>
+                  <a
+                    href="#"
+                    className="font-normal cursor-pointer text-gray-900"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddressOptionChange('same');
+                    }}
+                  >
+                    {_('Same as shipping address')}
+                  </a>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-
+        )}
         <div
           className={`border rounded-lg transition-all overflow-hidden duration-200  ${
             !useSameAddress
@@ -113,31 +135,33 @@ export function BillingAddress({
               : 'border-gray-200 hover:border-gray-300'
           }`}
         >
-          <div className="p-3">
-            <div className="flex items-center space-x-3">
-              <input
-                type="radio"
-                {...register('useSameAddres')}
-                id="different-address"
-                value="different"
-                checked={!useSameAddress}
-                onChange={(e) => handleAddressOptionChange(e.target.value)}
-                className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
-              />
-              <div>
-                <a
-                  href="#"
-                  className="font-normal cursor-pointer text-gray-900"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleAddressOptionChange('different');
-                  }}
-                >
-                  {_('Use a different billing address')}
-                </a>
+          {!noShippingRequired && (
+            <div className="p-3">
+              <div className="flex items-center space-x-3">
+                <input
+                  type="radio"
+                  {...register('useSameAddres')}
+                  id="different-address"
+                  value="different"
+                  checked={!useSameAddress}
+                  onChange={(e) => handleAddressOptionChange(e.target.value)}
+                  className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                />
+                <div>
+                  <a
+                    href="#"
+                    className="font-normal cursor-pointer text-gray-900"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAddressOptionChange('different');
+                    }}
+                  >
+                    {_('Use a different billing address')}
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Billing address form inside the card */}
           {!useSameAddress && (
@@ -147,6 +171,14 @@ export function BillingAddress({
                 fieldNamePrefix="billingAddress"
                 address={undefined} // Always start empty for different address
               />
+              {noShippingRequired && (
+                <Button
+                  title={_('Continue to payment')}
+                  onAction={() => handleGoToPayment()}
+                  variant="primary"
+                  isLoading={addingBillingAddress}
+                />
+              )}
             </div>
           )}
         </div>

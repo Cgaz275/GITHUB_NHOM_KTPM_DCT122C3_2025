@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 
 interface ShipButtonProps {
   order: {
+    noShippingRequired: boolean;
     shipment?: {
       trackingNumber?: string;
       carrier?: string;
@@ -24,10 +25,13 @@ interface ShipButtonProps {
   }[];
 }
 export default function ShipButton({
-  order: { shipment, createShipmentApi, shipmentStatus },
+  order: { noShippingRequired, shipment, createShipmentApi, shipmentStatus },
   carriers
 }: ShipButtonProps) {
   const { openAlert, closeAlert, dispatchAlert } = useAlertContext();
+  if (noShippingRequired) {
+    return <Button title="No Shipping Required" variant="secondary" />;
+  }
   if (shipment) {
     return null;
   } else {
@@ -122,6 +126,7 @@ export const layout = {
 export const query = `
   query Query {
     order(uuid: getContextValue("orderId")) {
+      noShippingRequired
       shipment {
         shipmentId
         carrier

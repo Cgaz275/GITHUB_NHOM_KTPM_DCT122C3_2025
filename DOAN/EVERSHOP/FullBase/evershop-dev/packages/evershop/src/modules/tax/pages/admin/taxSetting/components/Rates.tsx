@@ -17,6 +17,7 @@ export function Rates({ getTaxClasses, rates, addRateApi }: RatesProps) {
         <thead>
           <tr>
             <th className="border-none">Name</th>
+            <th className="border-none">Country</th>
             <th className="border-none">Rate</th>
             <th className="border-none">Compound</th>
             <th className="border-none">Priority</th>

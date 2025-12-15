@@ -282,6 +282,8 @@ async function updateProductImages(images, productId, connection) {
 }
 
 async function updateProductData(uuid: string, data: ProductData, connection: PoolClient) {
+  // If no_shipping_required is true, set weight to 0
+  const productData = { ...data, weight: data.no_shipping_required ? 0 : data.weight };
   const query = select().from('product');
   query
     .leftJoin('product_description')
@@ -298,7 +300,7 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
   let newProduct;
   try {
     newProduct = await update('product')
-      .given(data)
+      .given(productData)
       .where('uuid', '=', uuid)
       .execute(connection);
   } catch (e) {
@@ -321,19 +323,25 @@ async function updateProductData(uuid: string, data: ProductData, connection: Po
 
   // Update product category and tax class to all products in same variant group
   if (product.variant_group_id) {
-    const sharedData: {
-      tax_class?: string;
-      category_id?: string;
-    } = {};
+    const sharedData: Record<string, any> = {};
     if (newProduct.tax_class !== product.tax_class) {
       sharedData.tax_class = newProduct.tax_class;
     }
     if (newProduct.category_id !== product.category_id) {
       sharedData.category_id = newProduct.category_id;
     }
-    if (Object.keys(sharedData).length > 0) {
+    if (newProduct.no_shipping_required !== product.no_shipping_required) {
+      sharedData.no_shipping_required = newProduct.no_shipping_required;
+      sharedData.weight = newProduct.weight;
+    }
+    const sharedVariantData = getValueSync<Record<string, any>>(
+      'sharedVariantProductDataOnUpdate',
+      sharedData,
+      {newProduct, product}
+    );
+    if (Object.keys(sharedVariantData).length > 0) {
       await update('product')
-        .given(sharedData)
+        .given(sharedVariantData)
         .where('variant_group_id', '=', product.variant_group_id)
         .and('product_id', '<>', product.product_id)
         .execute(connection);

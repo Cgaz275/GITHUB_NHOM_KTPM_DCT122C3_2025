@@ -93,6 +93,7 @@ function RateForm({
                 name="country"
                 label="Country"
                 placeholder="Country"
+                required
                 validation={{ required: 'Country is required' }}
                 defaultValue={rate?.country}
                 helperText='Country code (e.g., "US"). Use "*" for all countries.'
@@ -103,6 +104,7 @@ function RateForm({
                 name="province"
                 label="Provinces"
                 placeholder="Provinces"
+                required
                 validation={{ required: 'Provinces is required' }}
                 defaultValue={rate?.province}
                 helperText='Province code (e.g., "CA"). Use "*" for all provinces.'
@@ -113,6 +115,7 @@ function RateForm({
                 name="postcode"
                 label="Postcode"
                 placeholder="Postcode"
+                required
                 validation={{ required: 'Postcode is required' }}
                 defaultValue={rate?.postcode}
                 helperText='Postcode (e.g., "90210"). Empty for all postcodes.'

@@ -2,8 +2,12 @@ import { useCheckout } from '@components/frontStore/checkout/CheckoutContext.js'
 import { _ } from '@evershop/evershop/lib/locale/translate/_';
 import React from 'react';
 import { useWatch } from 'react-hook-form';
+import { useCartState } from '../cart/CartContext.js';
 
 export function CheckoutButton() {
+  const {
+    data: { noShippingRequired, billingAddress }
+  } = useCartState();
   const { form, registeredPaymentComponents } = useCheckout();
 
   // Watch the selected payment method
@@ -30,6 +34,19 @@ export function CheckoutButton() {
     ? getPaymentComponent(selectedPaymentMethod)
     : null;
 
+  if (noShippingRequired && !billingAddress) {
+    return (
+      <div className="checkout-button-section">
+        <button
+          type="button"
+          className="w-full bg-gray-400 text-white py-3 px-4 rounded-lg font-medium cursor-not-allowed"
+          disabled
+        >
+          {_('Please provide billing address to proceed')}
+        </button>
+      </div>
+    );
+  }
   return (
     <div className="checkout-button-section">
       {selectedPaymentMethod && selectedComponent?.checkoutButtonRenderer ? (

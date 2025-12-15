@@ -25,7 +25,8 @@ function Rate({ rate, getTaxClasses }: RateProps) {
   return (
     <>
       <>
-        <td className="border-none py-2">{rate.name}</td>
+        <td className="border-none py-2 w-1/5">{rate.name}</td>
+        <td className="border-none py-2">{rate.country}</td>
         <td className="border-none py-2">{rate.rate}%</td>
         <td className="border-none py-2">{rate.isCompound ? 'Yes' : 'No'}</td>
         <td className="border-none py-2">{rate.priority}</td>

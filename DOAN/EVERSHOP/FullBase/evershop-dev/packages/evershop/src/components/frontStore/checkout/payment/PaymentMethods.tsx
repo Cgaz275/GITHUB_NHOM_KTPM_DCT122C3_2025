@@ -69,6 +69,7 @@ export function PaymentMethods({
 
   return (
     <div className="checkout-payment-methods">
+      <h3 className="text-lg font-medium mb-4">{_('Pick a payment method')}</h3>
       {isLoading ? (
         <PaymentMethodSkeleton />
       ) : (

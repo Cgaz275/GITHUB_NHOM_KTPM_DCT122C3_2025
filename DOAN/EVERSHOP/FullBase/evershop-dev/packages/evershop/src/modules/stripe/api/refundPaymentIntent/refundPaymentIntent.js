@@ -16,6 +16,7 @@ import {
   INVALID_PAYLOAD,
   INTERNAL_SERVER_ERROR
 } from '../../../../lib/util/httpStatus.js';
+import addOrderActivityLog from '../../../oms/services/addOrderActivityLog.js';
 import { updatePaymentStatus } from '../../../oms/services/updatePaymentStatus.js';
 import { getSetting } from '../../../setting/services/setting.js';
 
@@ -75,12 +76,14 @@ export default async (request, response, next) => {
     // Update the order status
     const status = charge.refunded === true ? 'refunded' : 'partial_refunded';
     await updatePaymentStatus(order.order_id, status, connection);
-    await insert('order_activity')
-      .given({
-        order_activity_order_id: order.order_id,
-        comment: `Refunded ${amount} ${charge.currency}`
-      })
-      .execute(connection);
+
+    // Add order activity log
+    await addOrderActivityLog(
+      order.order_id,
+      `Refunded ${amount} ${charge.currency}`,
+      false,
+      connection
+    );
     await commit(connection);
     response.status(OK);
     response.json({

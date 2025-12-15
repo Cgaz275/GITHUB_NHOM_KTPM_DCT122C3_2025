@@ -1,4 +1,7 @@
-import { useCartState } from '@components/frontStore/cart/CartContext.js';
+import {
+  useCartDispatch,
+  useCartState
+} from '@components/frontStore/cart/CartContext.js';
 import {
   useCheckout,
   useCheckoutDispatch
@@ -12,9 +15,10 @@ import { toast } from 'react-toastify';
 
 export function Payment() {
   const {
-    data: { billingAddress, availablePaymentMethods },
+    data: { noShippingRequired, billingAddress, availablePaymentMethods },
     loadingStates: { addingBillingAddress }
   } = useCartState();
+  const { addBillingAddress } = useCartDispatch();
   const { updateCheckoutData } = useCheckoutDispatch();
   const { form } = useCheckout();
   const paymentMethod = useWatch({
@@ -47,15 +51,22 @@ export function Payment() {
   }, [paymentMethod]);
 
   return (
-    <div className="checkout-shipment">
+    <div className="checkout__payment space-y-6">
       <h3>{_('Payment')}</h3>
-      <PaymentMethods
-        methods={availablePaymentMethods?.map((method) => ({
-          ...method
-        }))}
-        isLoading={addingBillingAddress}
+      <BillingAddress
+        billingAddress={billingAddress}
+        addBillingAddress={addBillingAddress}
+        addingBillingAddress={addingBillingAddress}
+        noShippingRequired={noShippingRequired}
       />
-      <BillingAddress billingAddress={billingAddress} />
+      {(billingAddress || noShippingRequired === false) && (
+        <PaymentMethods
+          methods={availablePaymentMethods?.map((method) => ({
+            ...method
+          }))}
+          isLoading={addingBillingAddress}
+        />
+      )}
     </div>
   );
 }

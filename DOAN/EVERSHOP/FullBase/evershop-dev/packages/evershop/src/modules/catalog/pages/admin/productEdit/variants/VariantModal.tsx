@@ -252,7 +252,7 @@ export const VariantModal: React.FC<
                     required: 'Qty is required'
                   }}
                   allowDecimals={false}
-                  defaultValue={variant?.product?.qty || 0}
+                  defaultValue={variant?.product?.inventory?.qty || 0}
                 />
               </div>
             </div>

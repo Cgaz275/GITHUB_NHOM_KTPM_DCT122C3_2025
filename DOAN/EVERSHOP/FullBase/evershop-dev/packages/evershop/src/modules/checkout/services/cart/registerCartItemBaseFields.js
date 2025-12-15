@@ -117,6 +117,16 @@ export function registerCartItemBaseFields(fields) {
       dependencies: ['product_id']
     },
     {
+      key: 'no_shipping_required',
+      resolvers: [
+        async function resolver() {
+          const product = await this.getProduct();
+          return product.no_shipping_required ?? false;
+        }
+      ],
+      dependencies: ['product_id']
+    },
+    {
       key: 'tax_class_id',
       resolvers: [
         async function resolver() {
