@@ -87,11 +87,7 @@ DOAN/EVERSHOP/
 │
 └── ShoesStore_Evershop/                # Dự Án Triển Khai (Deployment Root)
     ├── README.md                       # Hướng dẫn chi tiết dự án
-    ├── SETUP.md                        # Hướng dẫn thiết lập môi trường
-    ├── WORKFLOW.md                     # Quy trình làm việc
-    ├── CONTRIBUTING.md                 # Tiêu chuẩn đóng góp
     ├── CI_CD_SUMMARY.md               # Tóm tắt quy trình CI/CD
-    ├── SYNC_FROM_FULLBASE.md          # Hướng dẫn đồng bộ từ FullBase
     │
     ├── packages/                       # Các gói NX
     │   ├── evershop/                  # Ứng dụng chính
