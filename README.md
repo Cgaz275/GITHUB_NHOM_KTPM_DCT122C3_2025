@@ -563,21 +563,6 @@ cat .env | grep DB_
 # Hoặc dùng Docker
 docker-compose up -d
 ```
----
-
-## 👥 Thông Tin Nhóm
-
-### Team Phát Triển
-- **Trưởng Nhóm**: Châu Gia Anh (3122411002)
-- **Thành Viên**: Đào Thị Thanh Tâm (3122411182)
-- **Thành Viên**: Dương Lê Khánh (3122411093)
-
-### Môn Học
-- **Tên Môn**: Kiểm Thử Phần Mềm (Software Testing)
-- **Lớp**: DCT122C3
-- **Trường**: Trường Đại Học Sài Gòn
-- **GVHD**: TS. Đỗ Như Tài
----
 
 ---
 
