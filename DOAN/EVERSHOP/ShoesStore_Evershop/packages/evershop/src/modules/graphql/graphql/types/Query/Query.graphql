@@ -1,0 +1,82 @@
+"""
+The root query type, represents all of the entry points into our object graph.
+"""
+type Query {
+  hello: String!
+  myCart: ShoppingCart
+  currentCustomer: Customer
+  themeConfig: ThemeConfig
+}
+
+type ShoppingCart {
+  uuid: String
+  items: [ShoppingCartItem]
+  totals: CartTotals
+  addItemApi: String
+  removeApi: String
+  updateQtyApi: String
+  checkoutApi: String
+  applyCouponApi: String
+  removeCouponApi: String
+  addPaymentMethodApi: String
+  addShippingMethodApi: String
+  addContactInfoApi: String
+  addAddressApi: String
+  addNoteApi: String
+  availableShippingMethods: [ShippingMethod]
+  availablePaymentMethods: [PaymentMethod]
+}
+
+type ShoppingCartItem {
+  id: String
+  sku: String
+  name: String
+}
+
+type CartTotals {
+  subTotal: MoneyValue
+  tax: MoneyValue
+  discount: MoneyValue
+  total: MoneyValue
+}
+
+type MoneyValue {
+  value: Float
+  text: String
+}
+
+type ShippingMethod {
+  code: String
+  name: String
+  cost: MoneyValue
+}
+
+type PaymentMethod {
+  code: String
+  name: String
+}
+
+type Customer {
+  customerId: String
+  uuid: String
+  email: String
+  fullName: String
+  groupId: String
+  addresses: [CustomerAddress]
+  orders: [Order]
+}
+
+type CustomerAddress {
+  id: String
+  fullName: String
+  email: String
+}
+
+type Order {
+  id: String
+  number: String
+}
+
+type ThemeConfig {
+  copyRight: String
+}
