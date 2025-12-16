@@ -17,16 +17,6 @@ const coreModules = [
     path: path.resolve(__dirname, '../../modules/auth')
   },
   {
-    name: 'cart_stub',
-    resolve: path.resolve(__dirname, '../../modules/cart_stub'),
-    path: path.resolve(__dirname, '../../modules/cart_stub')
-  },
-  {
-    name: 'cms',
-    resolve: path.resolve(__dirname, '../../modules/cms'),
-    path: path.resolve(__dirname, '../../modules/cms')
-  },
-  {
     name: 'graphql',
     resolve: path.resolve(__dirname, '../../modules/graphql'),
     path: path.resolve(__dirname, '../../modules/graphql')

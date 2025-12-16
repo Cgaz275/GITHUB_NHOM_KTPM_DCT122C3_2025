@@ -61,6 +61,19 @@ body {
 .header {
   padding-top: 1rem;
   padding-bottom: 1rem;
+  background-color: #fff;
+  border-bottom: 1px solid var(--divider);
+
+  &__middle {
+    gap: 1rem;
+    min-height: 60px;
+    align-items: center;
+  }
+
+  &__top,
+  &__bottom {
+    min-height: auto;
+  }
 }
 
 @media (max-width: 640px) {

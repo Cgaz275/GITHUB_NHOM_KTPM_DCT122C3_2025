@@ -1,10 +1,12 @@
 import { pool } from '../../../../lib/postgres/connection.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
-import { setPageMetaInfo } from '../../../cms/services/pageMetaInfo.js';
 import {
   hasContextValue,
   setContextValue
 } from '../../../graphql/services/contextHelper.js';
+
+// No-op function to replace cms pageMetaInfo dependency
+const setPageMetaInfo = () => {};
 
 export default (request, response) => {
   response.context = {}; // TODO: Fix this

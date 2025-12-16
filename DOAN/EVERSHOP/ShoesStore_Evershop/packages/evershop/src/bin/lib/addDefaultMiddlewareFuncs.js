@@ -24,7 +24,8 @@ import { getTailwindConfig } from '../../lib/webpack/util/getTailwindConfig.js';
 import { getAdminSessionCookieName } from '../../modules/auth/services/getAdminSessionCookieName.js';
 import { getCookieSecret } from '../../modules/auth/services/getCookieSecret.js';
 import { getFrontStoreSessionCookieName } from '../../modules/auth/services/getFrontStoreSessionCookieName.js';
-import { setPageMetaInfo } from '../../modules/cms/services/pageMetaInfo.js';
+// No-op function to replace cms pageMetaInfo dependency
+const setPageMetaInfo = () => {};
 import { getEnabledExtensions } from '../extension/index.js';
 import { findRoute } from './findRoute.js';
 
