@@ -207,14 +207,14 @@ jobs:
           nohup npm run start > app.log 2>&1 &
           APP_PID=$!
           echo "App started with PID: $APP_PID"
-          sleep 5
+          sleep 10
           if ! kill -0 $APP_PID 2>/dev/null; then
-            echo "❌ Application failed to start!"
+            echo "❌ Application process crashed!"
             echo "=== App logs ==="
             cat app.log
             exit 1
           fi
-          echo "✅ Application process is running"
+          echo "✅ Application process is running (PID: $APP_PID)"
         env:
           DB_HOST: localhost
           DB_PORT: 5432
@@ -228,13 +228,20 @@ jobs:
       - name: Wait for app
         run: |
           echo "Waiting for app to be ready on http://localhost:3000..."
-          npx wait-on http://localhost:3000 -t 120000 --interval 2000 || {
-            echo "❌ App failed to respond!"
-            echo "=== App logs ==="
-            tail -100 app.log
-            exit 1
-          }
-          echo "✅ App is ready!"
+          for i in {1..60}; do
+            if curl -f http://localhost:3000 > /dev/null 2>&1; then
+              echo "✅ App is ready! (attempt $i)"
+              exit 0
+            fi
+            echo "Attempt $i/60: App not responding yet..."
+            sleep 2
+          done
+          echo "❌ App failed to respond after 120 seconds!"
+          echo "=== App logs (last 150 lines) ==="
+          tail -150 app.log
+          echo "=== Process info ==="
+          ps aux | grep node || echo "No node process found"
+          exit 1
 
       - name: Run Cypress
         run: npm run test:e2e:headless -- --record
