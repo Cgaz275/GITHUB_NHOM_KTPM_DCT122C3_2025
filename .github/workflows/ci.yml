@@ -143,7 +143,7 @@ jobs:
     name: Run E2E Tests (Cypress)
     runs-on: ubuntu-latest
     needs: [build]
-    if: github.ref_name != 'modules/auth2'   # Skip Cypress trên branch này
+    if: github.ref_name != 'modules/auth2' && github.head_ref != 'modules/auth2'
     defaults:
       run:
         working-directory: ${{ env.PROJECT_DIR }}
