@@ -257,7 +257,7 @@ npm run test -- path/to/file.test.js
 ```
 
 **Coverage Threshold**: Tối thiểu **70%** cho branches, functions, lines, statements
-
+s
 ### E2E Tests (Cypress)
 
 #### Chạy Tests
