@@ -40,6 +40,7 @@ Our pipeline automates:
 - ✅ **Production Ready**: Same image used everywhere (local → staging → production)
 
 ---
+s
 
 ## Workflow Architecture
 
