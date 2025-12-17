@@ -3,13 +3,11 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Install dependencies
-COPY package*.json ./
-COPY .npmrc* ./
-RUN npm ci --workspaces --include-workspace-root && npm cache clean --force
-
-# Copy source code
+# Copy source code (including all package.json files for workspace resolution)
 COPY . .
+
+# Install dependencies
+RUN npm ci --workspaces --include-workspace-root && npm cache clean --force
 
 # Compile TypeScript and build
 RUN npm run compile
