@@ -6,8 +6,6 @@ RUN npm install -g npm@9
 
 COPY package*.json .
 COPY packages ./packages
-COPY themes ./themes
-COPY extensions ./extensions
 COPY public ./public
 COPY media ./media
 COPY config ./config
@@ -21,4 +19,4 @@ RUN npm run build
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start"]
+CMD ["sh", "-c", "for i in {1..30}; do echo \"Waiting for database... (attempt $i/30)\"; sleep 1; done && printf '%s\\n' \"${DB_HOST}\" \"${DB_PORT}\" \"${DB_USER}\" \"${DB_PASSWORD}\" \"${DB_NAME}\" \"\" | npm run setup && npm run start"]

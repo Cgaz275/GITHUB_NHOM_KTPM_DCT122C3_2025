@@ -84,11 +84,17 @@ Docker Compose version 2.20.0, build ...
 
 ```bash
 # Từ thư mục DOAN/EVERSHOP/ShoesStore_Evershop
-docker-compose up -d
+docker-compose up -d --build
 
-# Chờ khởi động (thường 10-15 giây)
+# Chờ khởi động (lần đầu 40-90 giây để setup database)
 docker-compose logs -f app
 ```
+
+**Lưu ý**:
+- Lần đầu chạy, container sẽ tự động chạy `npm run setup` để khởi tạo schema database
+- Database sẽ phải sẵn sàng (healthcheck pass) mới bắt đầu setup
+- Setup sử dụng biến môi trường (DB_HOST, DB_PORT, DB_USER, DB_PASSWORD, DB_NAME)
+- Lần sau sẽ nhanh hơn vì database đã được khởi tạo
 
 ### 2. Xác Minh Dịch Vụ Chạy
 
@@ -125,9 +131,7 @@ docker-compose down -v
 service: app
 image: Được tạo từ Dockerfile
 port: 3000:3000
-command: npm run start
-volumes: 
-  - Thư mục hiện tại để cập nhật nhanh
+command: npm run setup && npm run start
 environment:
   DB_HOST: database
   DB_USER: postgres
@@ -137,10 +141,10 @@ environment:
 ```
 
 **Tính Năng**:
-- ✅ Cập nhật nhanh (thay đổi file được phản ánh ngay lập tức)
-- ✅ Node modules được lưu với volume
-- ✅ Kiểm tra sức khỏe được bật
+- ✅ Khởi tạo schema database tự động (npm run setup)
+- ✅ Tạo tables và migrations nếu chưa tồn tại
 - ✅ Phụ thuộc vào PostgreSQL khởi động
+- ✅ Khởi động ứng dụng sau khi setup xong
 
 ### Dịch Vụ: database (PostgreSQL)
 
@@ -500,6 +504,28 @@ docker system prune -a --volumes
 df -h
 ```
 
+### Lỗi Bảng Không Tồn Tại ("relation does not exist")
+
+**Vấn Đề**: `error: relation "url_rewrite" does not exist` hoặc tương tự
+
+**Nguyên Nhân**: Database schema chưa được khởi tạo (migrations chưa chạy)
+
+**Giải Pháp**:
+
+```bash
+# Rebuild container để chạy setup
+docker-compose down -v
+docker-compose up -d --build
+
+# Hoặc chạy setup thủ công
+docker-compose exec app npm run setup
+
+# Xem logs setup
+docker-compose logs -f app
+```
+
+**Lưu ý**: Lần đầu chạy container, `npm run setup` sẽ tự động chạy để tạo tất cả tables.
+
 ### Cập Nhật Nhanh Không Hoạt Động
 
 **Vấn Đề**: Thay đổi tệp không được phản ánh trong container
@@ -528,13 +554,13 @@ ls -la packages/
 
 ```bash
 # Xây dựng image trên máy cục bộ
-docker build -t evershop:latest .
+docker build -t evershop:latest -f Dockerfile .
 
 # Xây dựng với tag
-docker build -t evershop:1.0.0 .
+docker build -t evershop:1.0.0 -f Dockerfile .
 
 # Xây dựng với tag registry
-docker build -t ghcr.io/username/evershop:latest .
+docker build -t ghcr.io/username/evershop:latest -f Dockerfile .
 ```
 
 ### Đẩy tới Registry
@@ -630,3 +656,56 @@ docker stats evershop
 ```
 
 ---
+
+## Thực Hành Tốt Nhất
+
+### Bảo Mật
+
+- ✅ Không hardcode secret trong Dockerfile
+- ✅ Dùng biến môi trường cho secret
+- ✅ Cập nhật base image thường xuyên
+- ✅ Quét image để tìm lỗ hổng: `docker scan evershop`
+
+### Hiệu Năng
+
+- ✅ Dùng Alpine images (nhỏ hơn, nhanh hơn)
+- ✅ Tối ưu hóa cache layer
+- ✅ Giới hạn tài nguyên trong production
+- ✅ Health checks để giám sát
+
+### Phát Triển
+
+- ✅ Dùng volume mounts cho cập nhật nhanh
+- ✅ Giữ node_modules trong volume để tránh xung đột
+- ✅ Dùng `.dockerignore` để loại trừ file không cần thiết
+
+---
+
+## Tài Nguyên Hữu Ích
+
+- **Tài Liệu Docker**: https://docs.docker.com/
+- **Docker Compose**: https://docs.docker.com/compose/
+- **Node.js Docker**: https://github.com/nodejs/docker-node
+- **PostgreSQL Docker**: https://hub.docker.com/_/postgres
+
+---
+
+## Nhận Trợ Giúp
+
+### Vấn Đề Thường Gặp
+
+- **Vấn Đề Cổng**: Xem [Cổng Đã Được Sử Dụng](#cổng-đã-được-sử-dụng)
+- **Kết Nối Cơ Sở Dữ Liệu**: Xem [Lỗi Kết Nối Cơ Sở Dữ Liệu](#lỗi-kết-nối-cơ-sở-dữ-liệu)
+- **Quyền Tệp**: Xem [Lỗi Quyền Hạn Volume](#lỗi-quyền-hạn-volume)
+- **Không Gian Ổ Cứng**: Xem [Vấn Đề Không Gian Ổ Cứng](#vấn-đề-không-gian-ổ-cứng)
+
+### Tài Nguyên Cộng Đồng
+
+- GitHub Issues: Đăng câu hỏi trong issues repository
+- Docker Community: https://community.docker.com/
+- Stack Overflow: Đặt thẻ câu hỏi với `docker` và `docker-compose`
+
+---
+
+**Cập Nhật Lần Cuối**: 2025
+**Phiên Bản**: 1.0
