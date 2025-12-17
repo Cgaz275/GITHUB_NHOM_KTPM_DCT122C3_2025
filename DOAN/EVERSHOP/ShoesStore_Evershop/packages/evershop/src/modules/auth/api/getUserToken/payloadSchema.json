@@ -12,5 +12,6 @@
       "type": "string"
     }
   },
+  "required": ["email", "password"],
   "additionalProperties": true
 }

@@ -11,17 +11,31 @@ export default defineConfig({
     responseTimeout: process.env.CYPRESS_RESPONSE_TIMEOUT || 10000,
     specPattern: 'cypress/e2e/**/*.cy.{js,jsx,ts,tsx}',
     supportFile: 'cypress/support/e2e.js',
-    video: true,
-    videoOnFailOnly: true,
-    screenshotOnRunFailure: true,
+    video: false,
+    screenshotOnRunFailure: false,
     chromeWebSecurity: false,
-    setupNodeEvents(on, config) {
+    reporter: 'json',
+    reporterOptions: {
+      reportDir: 'cypress/results',
+      overwrite: true
+    },
+    async setupNodeEvents(on, config) {
+      const { seedTestAdmin, cleanupTestAdmin, closePool } = await import('./cypress/plugins/seedTestAdmin.js');
+
+      on('task', {
+        seedTestAdmin,
+        cleanupTestAdmin,
+        closePool
+      });
+
       on('before:browser:launch', (browser = {}, launchFn) => {
         if (browser.name === 'chrome' && browser.isHeadless) {
           launchFn.args.push('--disable-blink-features=AutomationControlled');
         }
         return launchFn;
       });
+
+      return config;
     }
   },
   component: {
