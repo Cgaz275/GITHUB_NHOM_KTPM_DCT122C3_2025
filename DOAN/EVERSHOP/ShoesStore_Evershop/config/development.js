@@ -1,0 +1,8 @@
+export default {
+  shop: {
+    homeUrl: 'http://localhost:3000',
+    currency: 'USD',
+    language: 'en',
+    timezone: 'UTC'
+  }
+};
