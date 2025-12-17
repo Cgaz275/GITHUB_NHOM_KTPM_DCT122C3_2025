@@ -6,8 +6,8 @@ WORKDIR /app
 # Copy source code (including all package.json files for workspace resolution)
 COPY . .
 
-# Create missing optional directories if they don't exist
-RUN mkdir -p themes extensions
+# Create optional directories if they don't exist
+RUN mkdir -p themes extensions config translations
 
 # Install dependencies
 RUN npm ci --workspaces --include-workspace-root && npm cache clean --force
