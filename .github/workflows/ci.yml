@@ -19,6 +19,7 @@ env:
 permissions:
   contents: read
   packages: write
+  pull-requests: write
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -183,6 +184,19 @@ jobs:
           npm run compile:db
           npm run build
 
+      - name: Wait for PostgreSQL
+        run: |
+          for i in {1..30}; do
+            if pg_isready -h localhost -p 5432 -U postgres; then
+              echo "PostgreSQL is ready"
+              exit 0
+            fi
+            echo "Waiting for PostgreSQL... ($i/30)"
+            sleep 2
+          done
+          echo "PostgreSQL failed to start"
+          exit 1
+
       - name: Start application
         run: npm run start &
         env:
@@ -195,7 +209,7 @@ jobs:
           PORT: 3000
 
       - name: Wait for app
-        run: npx wait-on http://localhost:3000 -t 60000
+        run: npx wait-on http://localhost:3000 -t 120000 --interval 2000
 
       - name: Run Cypress
         run: npm run test:e2e:headless -- --record

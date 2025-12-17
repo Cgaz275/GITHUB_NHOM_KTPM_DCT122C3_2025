@@ -27,13 +27,11 @@ RUN addgroup -g 1001 -S nodejs && adduser -S nodejs -u 1001
 
 # Copy built application from builder
 COPY --from=builder --chown=nodejs:nodejs /app/packages ./packages
-COPY --from=builder --chown=nodejs:nodejs /app/themes ./themes
-COPY --from=builder --chown=nodejs:nodejs /app/extensions ./extensions
-COPY --from=builder --chown=nodejs:nodejs /app/public ./public
-COPY --from=builder --chown=nodejs:nodejs /app/config ./config
-COPY --from=builder --chown=nodejs:nodejs /app/translations ./translations
 COPY --from=builder --chown=nodejs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nodejs:nodejs /app/package*.json ./
+
+# Create placeholder directories for optional components
+RUN mkdir -p themes extensions public config translations
 
 # Set environment variables
 ENV NODE_ENV=production
