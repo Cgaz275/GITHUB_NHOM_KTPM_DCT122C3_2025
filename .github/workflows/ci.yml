@@ -202,19 +202,15 @@ jobs:
           echo "PostgreSQL failed to start"
           exit 1
 
-      - name: Start application
-        run: |
-          nohup npm run start > app.log 2>&1 &
-          APP_PID=$!
-          echo "App started with PID: $APP_PID"
-          sleep 10
-          if ! kill -0 $APP_PID 2>/dev/null; then
-            echo "❌ Application process crashed!"
-            echo "=== App logs ==="
-            cat app.log
-            exit 1
-          fi
-          echo "✅ Application process is running (PID: $APP_PID)"
+      - name: Run Cypress E2E tests
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: ${{ env.PROJECT_DIR }}
+          start: npm run start
+          wait-on: 'http://127.0.0.1:3000'
+          wait-on-timeout: 180
+          browser: chrome
+          record: true
         env:
           DB_HOST: localhost
           DB_PORT: 5432
@@ -222,31 +218,6 @@ jobs:
           DB_PASSWORD: postgres
           DB_NAME: evershop
           NODE_ENV: development
-          PORT: 3000
-          HOST: 0.0.0.0
-
-      - name: Wait for app
-        run: |
-          echo "Waiting for app to be ready on http://localhost:3000..."
-          for i in {1..60}; do
-            if curl -f http://localhost:3000 > /dev/null 2>&1; then
-              echo "✅ App is ready! (attempt $i)"
-              exit 0
-            fi
-            echo "Attempt $i/60: App not responding yet..."
-            sleep 2
-          done
-          echo "❌ App failed to respond after 120 seconds!"
-          echo "=== App logs (last 150 lines) ==="
-          tail -150 app.log
-          echo "=== Process info ==="
-          ps aux | grep node || echo "No node process found"
-          exit 1
-
-      - name: Run Cypress
-        run: npm run test:e2e:headless -- --record
-        env:
-          CYPRESS_BASE_URL: http://localhost:3000
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
       - name: Upload Cypress artifacts (on failure)
