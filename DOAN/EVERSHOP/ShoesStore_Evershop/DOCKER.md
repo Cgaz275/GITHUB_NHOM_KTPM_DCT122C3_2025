@@ -321,7 +321,7 @@ FROM node:20-alpine
 # Set health check
 # Result: ~150MB final image
 ```
-
+s
 ### Key Features
 
 1. **Non-Root User**: Runs as `nodejs` user (not `root`) for security
