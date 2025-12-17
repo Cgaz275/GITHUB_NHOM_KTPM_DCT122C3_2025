@@ -5,68 +5,36 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: always
     container_name: evershop-app
     environment:
       DB_HOST: database
       DB_PORT: 5432
-      DB_USER: ${DB_USER:-postgres}
-      DB_PASSWORD: ${DB_PASSWORD:-postgres}
-      DB_NAME: ${DB_NAME:-evershop}
-      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      NODE_ENV: ${NODE_ENV:-development}
-      DEBUG: ${DEBUG:-evershop:*}
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_NAME: postgres
+      NODE_ENV: production
       PORT: 3000
     ports:
       - "3000:3000"
     depends_on:
       database:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    volumes:
-      - .:/app
-      - /app/node_modules
+        condition: service_started
     networks:
       - evershop-network
-    command: npm run dev
 
   database:
-    image: postgres:16-alpine
+    image: postgres:16
     restart: unless-stopped
     container_name: evershop-db
     environment:
-      POSTGRES_USER: ${DB_USER:-postgres}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
-      POSTGRES_DB: ${DB_NAME:-evershop}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
     volumes:
       - postgres-data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    networks:
-      - evershop-network
-
-  redis:
-    image: redis:7-alpine
-    restart: unless-stopped
-    container_name: evershop-redis
-    command: redis-server --appendonly yes
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis-data:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
     networks:
       - evershop-network
 
@@ -78,5 +46,3 @@ networks:
 volumes:
   postgres-data:
     name: evershop-postgres-data
-  redis-data:
-    name: evershop-redis-data
