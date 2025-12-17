@@ -1,0 +1,16 @@
+"""
+Return a collection products Widget
+"""
+type CollectionProductsWidget {
+  collection: String
+  count: Int
+  countPerRow: Int
+}
+
+extend type Query {
+  collectionProductsWidget(
+    collection: String
+    count: Int
+    countPerRow: Int
+  ): CollectionProductsWidget
+}
