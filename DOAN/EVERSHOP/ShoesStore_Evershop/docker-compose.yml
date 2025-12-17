@@ -13,6 +13,9 @@ services:
       DB_USER: ${DB_USER:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
       DB_NAME: ${DB_NAME:-evershop}
+      REDIS_URL: ${REDIS_URL:-redis://redis:6379}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
       NODE_ENV: ${NODE_ENV:-development}
       DEBUG: ${DEBUG:-evershop:*}
       PORT: 3000
@@ -20,6 +23,8 @@ services:
       - "3000:3000"
     depends_on:
       database:
+        condition: service_healthy
+      redis:
         condition: service_healthy
     volumes:
       - .:/app
@@ -52,8 +57,11 @@ services:
     image: redis:7-alpine
     restart: unless-stopped
     container_name: evershop-redis
+    command: redis-server --appendonly yes
     ports:
       - "6379:6379"
+    volumes:
+      - redis-data:/data
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
       interval: 10s
@@ -70,3 +78,5 @@ networks:
 volumes:
   postgres-data:
     name: evershop-postgres-data
+  redis-data:
+    name: evershop-redis-data

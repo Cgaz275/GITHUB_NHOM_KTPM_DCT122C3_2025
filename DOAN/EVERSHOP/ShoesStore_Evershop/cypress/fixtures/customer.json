@@ -1,0 +1,41 @@
+{
+  "validCustomer": {
+    "email": "customer@example.com",
+    "password": "CustomerPassword123!",
+    "name": "Test Customer",
+    "id": 1,
+    "status": "active"
+  },
+  "adminUser": {
+    "email": "admin@evershop.io",
+    "password": "admin",
+    "name": "Admin User",
+    "id": 1,
+    "status": "active"
+  },
+  "testUser": {
+    "email": "test@example.com",
+    "password": "TestPassword123!",
+    "name": "Test User",
+    "id": 2,
+    "status": "active"
+  },
+  "inactiveUser": {
+    "email": "inactive@example.com",
+    "password": "password123",
+    "name": "Inactive User",
+    "id": 3,
+    "status": "inactive"
+  },
+  "invalidCredentials": {
+    "email": "invalid@test.com",
+    "password": "wrongpassword"
+  },
+  "lockedCustomer": {
+    "email": "locked@example.com",
+    "password": "password123",
+    "name": "Locked Customer",
+    "id": 4,
+    "status": "locked"
+  }
+}

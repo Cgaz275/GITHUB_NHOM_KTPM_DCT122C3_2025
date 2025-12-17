@@ -1,0 +1,54 @@
+{
+  "validAdmin": {
+    "email": "alanewiston2@gmail.com",
+    "password": "a12345678",
+    "name": "Admin User",
+    "id": 1
+  },
+  "testAdmin": {
+    "email": "test.admin@evershop.io",
+    "password": "TestPassword123!",
+    "name": "Test Admin",
+    "id": 2
+  },
+  "invalidCredentials": {
+    "email": "invalid@test.com",
+    "password": "wrongpassword"
+  },
+  "sqlInjectionAttempts": [
+    "admin' OR '1'='1",
+    "admin'; DROP TABLE users; --",
+    "' OR 1=1 --",
+    "admin'--",
+    "' OR 'x'='x"
+  ],
+  "xssAttempts": [
+    "<script>alert('xss')</script>",
+    "<img src=x onerror='alert(1)'>",
+    "javascript:alert('xss')"
+  ],
+  "invalidEmails": [
+    "notanemail",
+    "test@",
+    "@test.com",
+    "test space@test.com",
+    ""
+  ],
+  "validEmails": [
+    "admin@evershop.io",
+    "test.user@example.com",
+    "user+tag@domain.co.uk",
+    "test123@test-domain.org"
+  ],
+  "weakPasswords": [
+    "",
+    "123",
+    "pass",
+    "password"
+  ],
+  "strongPasswords": [
+    "SecurePass123!",
+    "MyP@ssw0rd!",
+    "Test123!@#$"
+  ]
+}

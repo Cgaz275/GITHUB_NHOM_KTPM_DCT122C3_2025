@@ -1,0 +1,63 @@
+"""
+Scalar type for JSON data.
+"""
+scalar JSON
+
+"""
+The `FilterOperation` enum represents supported filter operations.
+Operations: eq (equals), neq (not equals), gt (greater than), gteq (greater than or equal),
+lt (less than), lteq (less than or equal), like (contains), nlike (not contains),
+in (in list), nin (not in list).
+"""
+enum FilterOperation {
+  eq
+  neq
+  gt
+  gteq
+  lt
+  lteq
+  like
+  nlike
+  in
+  nin
+}
+
+"""
+The `FilterInput` type represents a filter input object.
+Used in queries to filter results by key, operation, and value.
+"""
+input FilterInput {
+  key: String!
+  operation: FilterOperation!
+  value: ID
+}
+
+"""
+The `Filter` type represents a filter object.
+Returned in collection responses to show applied filters.
+"""
+type Filter {
+  key: String!
+  operation: String!
+  value: String!
+}
+
+"""
+The `FilterOption` type represents a filter option object.
+Used to display available filter values for an attribute.
+"""
+type FilterOption {
+  optionId: Int!
+  optionText: String!
+}
+
+"""
+The `FilterAttribute` type represents a filterable attribute object.
+Contains attribute metadata and available filter options.
+"""
+type FilterAttribute {
+  attributeName: String!
+  attributeCode: String!
+  attributeId: Int!
+  options: [FilterOption]
+}

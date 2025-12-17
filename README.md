@@ -34,9 +34,10 @@ phương án kiểm thử.
 2. [Cấu Trúc Thư Mục](#cấu-trúc-thư-mục)
 3. [Hướng Dẫn Nhanh](#hướng-dẫn-nhanh)
 4. [Docker Setup](#docker-setup)
-5. [Chi Tiết Các Thư Mục](#chi-tiết-các-thư-mục)
-6. [Quy Trình Phát Triển](#quy-trình-phát-triển)
-7. [Triển Khai với Docker & GitHub Container](#triển-khai-với-docker--github-container)
+5. [Testing](#-testing)
+6. [Chi Tiết Các Thư Mục](#chi-tiết-các-thư-mục)
+7. [Quy Trình Phát Triển](#quy-trình-phát-triển)
+8. [Triển Khai với Docker & GitHub Container](#triển-khai-với-docker--github-container)
 
 ---
 
@@ -54,8 +55,9 @@ phương án kiểm thử.
 - **E-Commerce Đầy Đủ**: Catalog, Checkout, Order Management
 - **Kiến Trúc Module**: Dễ mở rộng và bảo trì
 - **Công Nghệ Hiện Đại**: TypeScript, Express, React, GraphQL
-- **CI/CD Tự Động**: GitHub Actions + Docker + GitHub Container Registry
-- **NX Workspace**: Quản lý monorepo hiệu quả
+- **CI/CD Tự Động**: GitHub Actions + Docker + GitHub Container Registry + Cypress E2E Tests
+- **Testing Toàn Diện**: Unit tests (Jest) + E2E tests (Cypress)
+- **Caching & Sessions**: Redis cho caching dữ liệu và quản lý sessions
 
 ---
 
@@ -80,7 +82,7 @@ DOAN/EVERSHOP/
     ├── README.md                       # Hướng dẫn chi tiết dự án
     ├── CI_CD_SUMMARY.md               # Tóm tắt quy trình CI/CD
     │
-    ├── packages/                       # Các gói NX
+    ├── packages/                       # Các gói ứng dụng
     │   ├── evershop/                  # Ứng dụng chính
     │   │   ├── src/
     │   │   │   ├── modules/           # Các module tính năng
@@ -90,6 +92,11 @@ DOAN/EVERSHOP/
     │   ├── postgres-query-builder/
     │   └── create-evershop-app/
     │
+    ├── cypress/                        # E2E tests (Cypress)
+    │   ├── e2e/                        # Test cases
+    │   ├── support/                    # Test helpers
+    │   └── fixtures/                   # Test data
+    │
     ├── extensions/                     # Phần mở rộng (tùy chỉnh)
     ├── themes/                         # Chủ đề giao diện (tùy chỉnh)
     ├── public/                         # Tài nguyên tĩnh
@@ -98,7 +105,8 @@ DOAN/EVERSHOP/
     ├── .env.example                    # Mẫu biến môi trường
     ├── Dockerfile                      # Docker image configuration
     ├── docker-compose.yml              # Docker local development
-    ├── nx.json                         # Cấu hình NX workspace
+    ├── cypress.config.js               # Cấu hình Cypress
+    ├── jest.config.js                  # Cấu hình Jest
     ├── package.json                    # Phụ thuộc dự án
     └── ...
 ```
@@ -139,10 +147,12 @@ npm run dev
 |------|---------|
 | `npm run dev` | Khởi động máy chủ phát triển |
 | `npm run build` | Biên dịch cho sản xuất |
-| `npm run test` | Chạy các bài kiểm tra |
+| `npm run test` | Chạy unit tests (Jest) |
+| `npm run test:e2e` | Chạy E2E tests (Cypress) headless |
+| `npm run test:e2e:ui` | Mở Cypress Test Runner UI |
 | `npm run lint` | Kiểm tra chuẩn mã |
 | `npm run setup` | Thiết lập cơ sở dữ liệu |
-| `npm run nx -- graph` | Xem sơ đồ phụ thuộc |
+| `npm run compile` | Biên dịch TypeScript |
 
 ---
 
@@ -150,12 +160,12 @@ npm run dev
 
 ### Docker Development (Recommended)
 
-Docker cung cấp môi trường phát triển chuẩn, tách biệt với hệ thống. Tất cả services (App, PostgreSQL, Redis) chạy trong container.
+Docker cung cấp môi trường phát triển chuẩn, tách biệt với hệ thống. Tất cả services (App, PostgreSQL) chạy trong container.
 
 #### Bắt Đầu Nhanh
 
 ```bash
-# 1. Khởi động tất cả services (App + Database + Redis)
+# 1. Khởi động tất cả services (App + Database)
 docker-compose up -d
 
 # 2. Kiểm tra services chạy
@@ -164,8 +174,21 @@ docker-compose ps
 # 3. Xem logs
 docker-compose logs -f app
 
-# 4. Truy cập ứng dụng
+# 4. Xác minh tất cả services đang chạy
+docker-compose ps
+# Kết quả: app, database, redis - tất cả đều UP
+
+# 5. Truy cập ứng dụng
 http://localhost:3000
+
+# Hoặc chạy tests sau khi app start:
+# npm run test - chạy unit tests
+# npm run test:e2e:ui - mở Cypress UI
+
+# 6. Kiểm tra Redis connection (optional)
+redis-cli -h localhost
+# Hoặc: docker-compose exec redis redis-cli ping
+# Output: PONG
 ```
 
 #### Dừng Services
@@ -200,15 +223,181 @@ docker-compose down -v
   - Node 20 Alpine
   - Hot reload enabled
   - Health check enabled
+  - Redis client connection
 
 - **PostgreSQL** (Port 5432): Database
   - Version 16 Alpine
   - Persistent volume
   - Auto-health check
 
-- **Redis** (Port 6379): Cache & Session
+- **Redis** (Port 6379): Cache & Session Store
   - Version 7 Alpine
-  - Optional but recommended
+  - AOF (Append-Only File) persistence
+  - Health check enabled
+  - Persistent volume for data
+
+---
+
+## 🧪 Testing
+
+### Unit Tests (Jest)
+
+```bash
+# Chạy tất cả unit tests
+npm run test
+
+# Chạy tests với coverage (ngưỡng pass: 70%)
+npm run test -- --coverage
+
+# Chạy tests và clear Jest cache
+npm run test -- --clearCache
+
+# Chạy tests cho 1 file cụ thể
+npm run test -- path/to/file.test.js
+```
+
+**Coverage Threshold**: Tối thiểu **70%** cho branches, functions, lines, statements
+
+### E2E Tests (Cypress)
+
+#### Chạy Tests
+
+```bash
+# Chạy tất cả E2E tests (headless)
+npm run test:e2e
+
+# Mở Cypress Test Runner UI (interactive)
+npm run test:e2e:ui
+
+# Chạy headless (tương tự npm run test:e2e)
+npm run test:e2e:headless
+```
+
+#### Cấu Hình Cypress
+
+- **Base URL**: http://localhost:3000
+- **Viewport**: 1280x720
+- **Timeout**: 10 giây (commands, requests, responses)
+- **Video**: Chỉ ghi khi tests fail
+- **Screenshots**: Tự động chụp khi fail
+
+#### Test Structure
+
+```
+cypress/
+├── e2e/                    # Test cases
+│   ├── auth/              # Authentication tests
+│   ├── storefront/        # Customer-facing tests
+│   └── ...
+├── support/               # Test helpers & commands
+│   ├── e2e.js            # E2E setup
+│   └── commands.js       # Custom commands
+├── fixtures/              # Test data
+│   ├── admin.json        # Admin credentials
+│   ├── customer.json     # Customer data
+│   └── products.json     # Product data
+└── ...
+```
+
+#### Test Coverage Chính
+
+- ✅ Authentication (admin login/logout)
+- ✅ Token management & JWT lifecycle
+- ✅ Protected pages & access control
+- ✅ Product browsing & catalog
+- ✅ Shopping cart operations
+- ✅ Checkout flow
+
+👉 **Chi tiết**: Xem [cypress/README.md](./DOAN/EVERSHOP/ShoesStore_Evershop/cypress/README.md)
+
+### Coverage Requirements
+
+| Metric | Minimum |
+|--------|---------|
+| Unit Tests | 70% |
+| E2E Tests | All critical flows |
+| Code Quality | ESLint pass |
+
+CI/CD sẽ **FAIL** nếu:
+- Unit test coverage < 70%
+- Linting có lỗi
+- E2E tests fail
+
+### Redis & Caching
+
+#### Giới Thiệu Redis
+
+**Redis** được dùng cho:
+- **Session Storage**: Lưu trữ session người dùng (thay vì in-memory)
+- **Data Caching**: Cache dữ liệu tĩnh (products, categories, etc.)
+- **Rate Limiting**: Giới hạn số request
+- **Real-time Features**: Queues, pub/sub, real-time updates
+
+#### Cấu Hình Redis
+
+**Environment Variables** (tự động trong Docker):
+```env
+REDIS_URL=redis://localhost:6379
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_DB=0
+REDIS_PASSWORD=                    # Optional
+
+# Cache settings
+CACHE_ENABLED=true
+CACHE_TTL=3600                     # TTL 1 giờ
+CACHE_MAX_SIZE=1000                # Max items trong cache
+SESSION_STORE=redis                # Dùng Redis cho sessions
+```
+
+#### Kiểm Tra Redis Connection
+
+```bash
+# Kết nối trực tiếp (nếu redis-cli cài đặt)
+redis-cli -h localhost ping
+# Output: PONG
+
+# Hoặc dùng Docker
+docker-compose exec redis redis-cli ping
+# Output: PONG
+
+# Kiểm tra Redis info
+docker-compose exec redis redis-cli info
+docker-compose exec redis redis-cli dbsize      # Số keys
+docker-compose exec redis redis-cli FLUSHDB     # Xóa toàn bộ cache (dev only)
+```
+
+#### Sử Dụng Cache trong Code
+
+```javascript
+// Giả sử có redis client được tạo
+import { redisClient } from './lib/redis';
+
+// Lấy từ cache
+const cachedData = await redisClient.get('product:123');
+if (cachedData) {
+  return JSON.parse(cachedData);
+}
+
+// Nếu không có, fetch từ DB
+const product = await db.query('SELECT * FROM products WHERE id = ?', [123]);
+
+// Lưu vào cache (1 giờ = 3600 giây)
+await redisClient.setex('product:123', 3600, JSON.stringify(product));
+
+return product;
+```
+
+#### Xóa Cache khi Data thay đổi
+
+```javascript
+// Khi update product
+await db.updateProduct(id, newData);
+
+// Xóa cache để client có dữ liệu mới
+await redisClient.del('product:' + id);
+await redisClient.del('products:all');  // Nếu có list cache
+```
 
 ---
 
@@ -269,7 +458,7 @@ Tóm tắt quy trình CI/CD với Docker:
 
 #### 🐳 `DOCKER.md`
 Hướng dẫn Docker setup & quản lý:
-- Docker Compose services (App, PostgreSQL, Redis)
+- Docker Compose services (App, PostgreSQL)
 - Lệnh Docker thường dùng
 - Cấu hình environment
 - Triển khai Docker trên production
@@ -280,11 +469,9 @@ Hướng dẫn Docker setup & quản lý:
 #### ⚙️ `Dockerfile` & `docker-compose.yml`
 Cấu hình Docker cho cục bộ và production:
 - Multi-stage build optimization
-- PostgreSQL & Redis services
+- PostgreSQL service
 - Environment configuration
 - Health checks & monitoring
-
----
 
 ---
 
@@ -313,9 +500,11 @@ Cấu hình Docker cho cục bộ và production:
         │                       │
         ↓                       ↓
    Local Development      GitHub Actions (CI)
-   npm run dev           - Tests
-                          - Build Docker image
-                          - Push GHCR
+   npm run dev           - Lint Code
+                          - Unit Tests
+                          - Build App
+                          - E2E Tests
+                          - Build Docker
                                    │
                                    ↓
                       GitHub Container Registry
@@ -342,7 +531,7 @@ git checkout -b modules/my-feature
 
 ```bash
 # Cài đặt dependencies (nếu chưa)
-npm install --workspaces --include-workspace-root
+npm install
 
 # Khởi động máy chủ phát triển
 npm run dev
@@ -354,7 +543,7 @@ npm run dev
 
 ```bash
 # Chạy linting
-npm run lint -- --fix
+npm run lint
 
 # Chạy unit tests
 npm run test
@@ -402,16 +591,17 @@ GitHub Actions tự động chạy trên mỗi push hoặc pull request:
 ```
 Push to main / PR to main
          ↓
-┌─────────────────────────────┐
-│ 1️⃣  Lint Code (parallel)    │
-│ 2️⃣  Run Tests (parallel)    │
-│ 3️⃣  Build Application       │
-│ 4️⃣  Build & Push Docker     │
-│ 5️⃣  Notify Status           │
-└─────────────────────────────┘
+┌──────────────────────────────────────────────────────┐
+│ 1️⃣  Lint Code (parallel)                             │
+│ 2️⃣  Run Unit Tests (parallel)                        │
+│ 3️⃣  Build Application                                │
+│ 4️⃣  Run E2E Tests (Cypress)                          │
+│ 5️⃣  Build & Push Docker (main only)                  │
+│ 6️⃣  Notify Status                                    │
+└──────────────────────────────────────────────────────┘
          ↓
-✅ Tests Pass → Docker Image Pushed to ghcr.io
-❌ Tests Fail → Build Stopped, Fix Required
+✅ All Tests Pass → Docker Image Pushed to ghcr.io
+❌ Any Test Fails → Build Stopped, Fix Required
 ```
 
 #### 🐳 GitHub Container Registry (ghcr.io)
@@ -436,6 +626,8 @@ ghcr.io/cgaz275/nhom_ktpm_dct122c3_2025:modules-xyz    # Feature branch
 - Node 20 Alpine
 - Health checks enabled
 - Non-root user (security)
+- Redis client library included
+- Redis connection support
 
 **Chạy Docker image locally:**
 
@@ -463,7 +655,6 @@ docker-compose up -d
 # Services sẽ chạy:
 # - App (http://localhost:3000)
 # - PostgreSQL (localhost:5432)
-# - Redis (localhost:6379)
 ```
 
 ### Cấu Hình Biến Môi Trường
@@ -478,13 +669,20 @@ DB_USER=postgres
 DB_PASSWORD=postgres
 DB_NAME=evershop
 
+# Redis & Cache
+REDIS_URL=redis://localhost:6379
+REDIS_HOST=localhost
+REDIS_PORT=6379
+REDIS_DB=0
+CACHE_ENABLED=true
+CACHE_TTL=3600
+SESSION_STORE=redis
+
 # App
 NODE_ENV=development
 DEBUG=evershop:*
 PORT=3000
-
-# Redis (optional)
-REDIS_URL=redis://localhost:6379
+SESSION_SECRET=your-secret-key
 ```
 
 Xem [.env.example](./DOAN/EVERSHOP/ShoesStore_Evershop/.env.example) cho danh sách đầy đủ.
@@ -511,13 +709,16 @@ git log --oneline -10
 2. **GitHub Actions**: Repository → Actions tab → CI Pipeline
 3. **Application**: http://localhost:3000 (cục bộ với Docker Compose)
 
-### Xem Sơ Đồ Phụ Thuộc Module
+### Xem Logs & Debug
 
 ```bash
 cd DOAN/EVERSHOP/ShoesStore_Evershop
 
-npm run nx -- graph
-# Mở http://localhost:4211
+# Xem logs Docker
+docker-compose logs -f app
+
+# Debug tests
+DEBUG=evershop:* npm run dev
 ```
 
 ---
@@ -531,7 +732,7 @@ npm run nx -- graph
 ```bash
 # Xóa cache và cài đặt lại
 rm -rf node_modules
-npm install --workspaces --include-workspace-root
+npm install
 
 # Biên dịch lại
 npm run compile
@@ -541,7 +742,7 @@ npm run compile:db
 npm run build
 ```
 
-#### ❌ Tests không thành công
+#### ❌ Unit Tests không thành công
 
 ```bash
 # Xóa Jest cache
@@ -549,6 +750,26 @@ npm run test -- --clearCache
 
 # Chạy lại tests
 npm run test
+
+# Chạy với verbose output
+npm run test -- --verbose
+```
+
+#### ❌ Cypress E2E Tests fail
+
+```bash
+# Kiểm tra app đang chạy
+curl http://localhost:3000
+
+# Mở Cypress UI để debug
+npm run test:e2e:ui
+
+# Chạy 1 spec file
+npx cypress run --spec "cypress/e2e/auth/admin-login.cy.js"
+
+# Xem screenshots/videos
+ls cypress/screenshots/
+ls cypress/videos/
 ```
 
 #### ❌ Kết nối cơ sở dữ liệu bị lỗi
@@ -564,6 +785,45 @@ cat .env | grep DB_
 docker-compose up -d
 ```
 
+#### ❌ Redis connection failed
+
+```bash
+# Kiểm tra Redis service
+docker-compose ps redis
+
+# Kiểm tra Redis logs
+docker-compose logs redis
+
+# Restart Redis
+docker-compose restart redis
+
+# Kiểm tra connection
+redis-cli -h localhost ping
+# Expected: PONG
+
+# Nếu redis-cli không cài, dùng Docker
+docker-compose exec redis redis-cli ping
+
+# Clear Redis cache (nếu cần)
+docker-compose exec redis redis-cli FLUSHDB
+```
+
+#### ❌ Cache không hoạt động
+
+```bash
+# Kiểm tra REDIS_URL trong .env
+cat .env | grep REDIS
+
+# Kiểm tra app logs
+docker-compose logs -f app | grep -i redis
+
+# Restart app để reconnect Redis
+docker-compose restart app
+
+# Xác nhận Redis available
+curl http://localhost:3000/health  # Nếu có health check endpoint
+```
+
 ---
 
 ## 🎯 Bắt Đầu Triển Khai
@@ -571,7 +831,7 @@ docker-compose up -d
 ### 📋 Checklist Bắt Đầu
 
 - [ ] Chuyển đến thư mục `DOAN/EVERSHOP/ShoesStore_Evershop`
-- [ ] Chạy `npm install --workspaces --include-workspace-root` và `npm run dev`
+- [ ] Chạy `npm install` và `npm run dev`
 - [ ] Tạo nhánh tính năng `modules/my-feature`
 - [ ] Viết mã, test, commit, và push
 - [ ] Tạo Pull Request trên GitHub
@@ -580,23 +840,21 @@ docker-compose up -d
 
 ### 🚀 Bước Tiếp Theo
 
-1. **Phát Triển Cục Bộ**:> A:
+1. **Phát Triển Cục Bộ**:
 
-Local development: chạy bằng npm run dev trong ShoesStore_Evershop
-
-CI: GitHub Actions tự động chạy test khi push code
-
-Local chỉ phục vụ phát triển, không build image tại máy cá nhân.
    ```bash
    cd DOAN/EVERSHOP/ShoesStore_Evershop
-   npm install --workspaces --include-workspace-root && npm run dev
+   npm install && npm run dev
+   # Truy cập: http://localhost:3000
    ```
 
 2. **Tạo Tính Năng**:
    ```bash
    git checkout -b modules/my-feature
    # Viết mã...
-   npm run test && npm run lint
+   npm run test          # Unit tests
+   npm run test:e2e      # E2E tests
+   npm run lint          # Linting
    ```
 
 3. **Triển Khai**:
@@ -607,16 +865,28 @@ Local chỉ phục vụ phát triển, không build image tại máy cá nhân.
 
 ---
 
-
 ### Câu Hỏi Phổ Biến
 
 **Q: Tôi nên phát triển ở thư mục nào?**
 > A: Luôn phát triển ở `DOAN/EVERSHOP/ShoesStore_Evershop`. Chỉ tham khảo `FullBase/evershop-dev`.
 
-**Q: Tôi phát triển và test ứng dụng ở đâu??**
-> **A:** Local development: chạy bằng npm run dev trong ShoesStore_Evershop
-> **CI:** GitHub Actions tự động chạy test khi push code
-> Local chỉ phục vụ phát triển, không build image tại máy cá nhân.
+**Q: Tôi chạy tests ở đâu?**
+> A: 
+> - **Local**: `npm run test` (unit) hoặc `npm run test:e2e` (E2E)
+> - **CI/CD**: GitHub Actions tự động chạy khi push/PR
+> - **Coverage**: Tối thiểu 70%, kiểm tra trên CI
+
+**Q: Cypress tests là gì?**
+> A: End-to-end tests cho toàn bộ user workflows (auth, shopping, checkout). Tự động chạy sau build trong CI/CD.
+
+**Q: Redis dùng để làm gì?**
+> A: Redis lưu trữ sessions, cache dữ liệu, quản lý queues, rate limiting. Giúp tăng performance bằng cách giảm query database.
+
+**Q: Làm sao biết Redis đang hoạt động?**
+> A: Chạy `docker-compose exec redis redis-cli ping`. Nếu output là `PONG`, Redis hoạt động bình thường.
+
+**Q: Tôi có thể vô hiệu hóa Redis không?**
+> A: Có. Đặt `CACHE_ENABLED=false` trong .env hoặc xóa Redis service khỏi docker-compose.yml (nhưng không khuyến nghị cho production).
 
 ---
 
@@ -630,13 +900,12 @@ DOAN/EVERSHOP/
 │
 └─── ShoesStore_Evershop/ ⭐         (Dự Án Chính - Triển Khai Ở Đây)
      ├─ README.md            (Chi tiết dự án)
-     ├─ SETUP.md             (Cài đặt)
-     ├─ CI_CD_SUMMARY.md     (CI/CD)
+     ├─ cypress/             (E2E tests)
      ├─ packages/            (Mã nguồn)
      ├─ extensions/          (Phần mở rộng)
      ├─ themes/              (Chủ đề)
      ├─ .github/workflows/   (GitHub Actions)
+     ├─ jest.config.js       (Jest config - 70% coverage)
+     ├─ cypress.config.js    (Cypress config)
      └─ package.json         (Dependencies)
 ```
-
-

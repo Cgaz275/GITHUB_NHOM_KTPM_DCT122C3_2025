@@ -6,7 +6,7 @@ WORKDIR /app
 # Install dependencies
 COPY package*.json ./
 COPY .npmrc* ./
-RUN npm ci --only=production && npm cache clean --force
+RUN npm ci --workspaces --include-workspace-root && npm cache clean --force
 
 # Copy source code
 COPY . .

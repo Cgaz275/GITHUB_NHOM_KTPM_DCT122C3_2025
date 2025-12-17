@@ -1,0 +1,28 @@
+{
+  "products": [
+    {
+      "id": "1",
+      "name": "Sample Product 1",
+      "sku": "PROD-001",
+      "price": 99.99,
+      "description": "High quality sample product",
+      "inStock": true
+    },
+    {
+      "id": "2",
+      "name": "Sample Product 2",
+      "sku": "PROD-002",
+      "price": 149.99,
+      "description": "Premium sample product",
+      "inStock": true
+    },
+    {
+      "id": "3",
+      "name": "Sample Product 3",
+      "sku": "PROD-003",
+      "price": 199.99,
+      "description": "Luxury sample product",
+      "inStock": true
+    }
+  ]
+}

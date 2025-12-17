@@ -1,0 +1,7 @@
+node_modules
+dist
+cypress/videos
+cypress/screenshots
+cypress/downloads
+.next
+.turbo
