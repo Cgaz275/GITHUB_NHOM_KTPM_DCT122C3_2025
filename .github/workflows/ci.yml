@@ -1,14 +1,14 @@
 name: CI Pipeline
 
 on:
-push:
-  branches:
-    - main
-    - 'modules/**'
-pull_request:
-  branches:
-    - main
-    - 'modules/**'
+  push:
+    branches:
+      - main
+      - 'modules/**'
+  pull_request:
+    branches:
+      - main
+      - 'modules/**'
 
 env:
 REGISTRY: ghcr.io
