@@ -4,15 +4,14 @@ import { get } from '../../../../lib/util/get.js';
 import { getConfig } from '../../../../lib/util/getConfig.js';
 import isDevelopmentMode from '../../../../lib/util/isDevelopmentMode.js';
 import { getValueSync } from '../../../../lib/util/registry.js';
-import {
-  getPageMetaInfo,
-  setPageMetaInfo
-} from '../../../../modules/cms/services/pageMetaInfo.js';
 import { AppStateContextValue, Config } from '../../../../types/appContext.js';
 import { EvershopRequest } from '../../../../types/request.js';
 import { loadWidgetInstances } from '../../../cms/services/widget/loadWidgetInstances.js';
 import { getContextValue } from '../../../graphql/services/contextHelper.js';
 import { getNotifications } from '../../services/notifications.js';
+
+const setPageMetaInfo = () => {};
+const getPageMetaInfo = () => ({});
 
 export default async (request: EvershopRequest, response, next) => {
   try {
