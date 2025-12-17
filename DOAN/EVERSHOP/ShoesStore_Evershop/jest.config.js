@@ -9,12 +9,14 @@ export default {
   transformIgnorePatterns: [
     "/node_modules/(?!(@evershop)/)"
   ],
-  testMatch: ["**/dist/**/tests/**/*.test.[jt]s"],
+  testMatch: [
+    "<rootDir>/packages/**/src/**/__tests__/**/*.test.[jt]s",
+    "<rootDir>/packages/**/src/**/*.test.[jt]s"
+  ],
   testPathIgnorePatterns: [
     "/node_modules/",
     "services/login",
     "services/logout",
     "services/session"
-  ],
-  modulePathIgnorePatterns: ["<rootDir>/packages/evershop/src/"]
+  ]
 };
