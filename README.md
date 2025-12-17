@@ -255,7 +255,7 @@ npm run test -- --clearCache
 # Chạy tests cho 1 file cụ thể
 npm run test -- path/to/file.test.js
 ```
-s
+
 **Coverage Threshold**: Tối thiểu **70%** cho branches, functions, lines, statements
 
 ### E2E Tests (Cypress)
