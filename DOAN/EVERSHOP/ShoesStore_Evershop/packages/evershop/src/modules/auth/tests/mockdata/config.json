@@ -1,0 +1,36 @@
+{
+  "sessionConfig": {
+    "defaultAdminCookieName": "asid",
+    "customAdminCookieNames": [
+      "admin_sid",
+      "admin_token",
+      "session_admin_123"
+    ],
+    "defaultCookieSecret": "keyboard cat",
+    "customCookieSecrets": [
+      "very-long-secret-string-with-special-chars-!@#$%",
+      "another_secret_with_underscores",
+      "SecretWithMixedCase123"
+    ],
+    "defaultFrontStoreCookieName": "sid",
+    "customFrontStoreCookieNames": [
+      "storefront_sid",
+      "front_session",
+      "customer_session_token",
+      "shop_sid"
+    ]
+  },
+  "sessionOptions": {
+    "defaultResave": false,
+    "defaultSaveUninitialized": false,
+    "defaultMaxAge": 86400000,
+    "defaultMaxAgeLabel": "24 * 60 * 60 * 1000"
+  },
+  "configKeys": {
+    "adminCookieName": "system.session.adminCookieName",
+    "cookieSecret": "system.session.cookieSecret",
+    "frontStoreCookieName": "system.session.cookieName",
+    "resave": "system.session.resave",
+    "saveUninitialized": "system.session.saveUninitialized"
+  }
+}

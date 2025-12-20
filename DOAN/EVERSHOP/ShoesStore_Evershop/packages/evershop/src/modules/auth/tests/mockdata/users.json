@@ -1,0 +1,71 @@
+{
+  "adminUser": {
+    "admin_user_id": 1,
+    "email": "admin@test.com",
+    "password": "hashed_password_here",
+    "status": 1,
+    "uuid": "uuid-admin-123",
+    "fullName": "Admin User",
+    "roles": "admin"
+  },
+  "activeUser": {
+    "admin_user_id": 42,
+    "email": "user@example.com",
+    "password": "hashed_password_user",
+    "status": 1,
+    "uuid": "uuid-user-456",
+    "fullName": "John Doe",
+    "roles": "dashboard,products"
+  },
+  "inactiveUser": {
+    "admin_user_id": 2,
+    "email": "inactive@example.com",
+    "password": "hashed_password_inactive",
+    "status": 0,
+    "uuid": "uuid-inactive-789",
+    "fullName": "Inactive User"
+  },
+  "customerUser": {
+    "customer_id": 5,
+    "email": "customer@example.com",
+    "password": "hashed_password_customer",
+    "status": 1,
+    "uuid": "uuid-customer-999",
+    "fullName": "Customer User",
+    "roles": "customer"
+  },
+  "userWithoutPassword": {
+    "admin_user_id": 1,
+    "email": "admin@test.com",
+    "status": 1,
+    "uuid": "uuid-admin-123",
+    "fullName": "Admin User",
+    "roles": "admin"
+  },
+  "multipleUsers": [
+    {
+      "admin_user_id": 1,
+      "email": "admin1@example.com",
+      "status": 1,
+      "uuid": "uuid-1"
+    },
+    {
+      "admin_user_id": 5,
+      "email": "admin2@example.com",
+      "status": 1,
+      "uuid": "uuid-5"
+    },
+    {
+      "admin_user_id": 42,
+      "email": "admin3@example.com",
+      "status": 1,
+      "uuid": "uuid-42"
+    },
+    {
+      "admin_user_id": 999,
+      "email": "admin4@example.com",
+      "status": 1,
+      "uuid": "uuid-999"
+    }
+  ]
+}

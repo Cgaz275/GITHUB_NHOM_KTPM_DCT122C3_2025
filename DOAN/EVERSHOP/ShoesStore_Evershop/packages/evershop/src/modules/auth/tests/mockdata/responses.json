@@ -1,0 +1,62 @@
+{
+  "successLoginResponse": {
+    "data": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl91c2VyX2lkIjoxfQ.signature",
+      "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl91c2VyX2lkIjoxfQ.refresh_signature"
+    }
+  },
+  "successRefreshResponse": {
+    "success": true,
+    "data": {
+      "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.new_token_signature"
+    }
+  },
+  "errorResponses": {
+    "invalidEmail": {
+      "error": {
+        "status": 400,
+        "message": "Invalid email or password"
+      }
+    },
+    "wrongPassword": {
+      "error": {
+        "status": 400,
+        "message": "Invalid email or password"
+      }
+    },
+    "userNotFound": {
+      "error": {
+        "status": 401,
+        "message": "Admin user not found or inactive"
+      }
+    },
+    "userInactive": {
+      "error": {
+        "status": 401,
+        "message": "Admin user not found or inactive"
+      }
+    },
+    "invalidToken": {
+      "error": {
+        "status": 401,
+        "message": "Invalid refresh token"
+      }
+    },
+    "missingToken": {
+      "error": {
+        "status": 400,
+        "message": "Refresh token is required"
+      }
+    },
+    "unauthorized": {
+      "error": {
+        "status": 401,
+        "message": "Unauthorized"
+      }
+    }
+  },
+  "tokenTypes": {
+    "ADMIN": "ADMIN",
+    "CUSTOMER": "CUSTOMER"
+  }
+}
