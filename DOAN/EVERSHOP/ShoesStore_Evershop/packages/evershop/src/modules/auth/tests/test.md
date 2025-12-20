@@ -11,25 +11,34 @@ Tài liệu này mô tả chi tiết về cấu trúc, kịch bản kiểm thử
 ```
 src/modules/auth/
 ├── tests/
-│   ├── test.md                           # Tài liệu kiểm thử (file này)
+│   ├── test.md                                    # Tài liệu kiểm thử (file này)
 │   ├── unit/
-│   │   ├── loginUserWithEmail.test.ts    # Test dịch vụ đăng nhập
-│   │   ├── logoutUser.test.ts            # Test dịch vụ đăng xuất
-│   │   └── authMiddleware.test.ts        # Test middleware xác thực
+│   │   ├── bootstrap.test.ts                      # Test khởi tạo và gắn method vào request
+│   │   ├── loginUserWithEmail.test.ts             # Test dịch vụ đăng nhập
+│   │   ├── logoutUser.test.ts                     # Test dịch vụ đăng xuất
+│   │   ├── authMiddleware.test.ts                 # Test middleware xác thực
+│   │   ├── getAdminSessionCookieName.test.ts      # Test lấy tên cookie phiên admin
+│   │   ├── getCookieSecret.test.ts                # Test lấy secret cookie
+│   │   ├── getFrontStoreSessionCookieName.test.ts # Test lấy tên cookie phiên cửa hàng
+│   │   └── getSessionConfig.test.ts               # Test cấu hình phiên làm việc
 │   └── integration/
-│       ├── generateToken.test.ts         # Test tạo token JWT
-│       └── refreshToken.test.ts          # Test làm mới token
+│       ├── generateToken.test.ts                  # Test tạo token JWT
+│       └── refreshToken.test.ts                   # Test làm mới token
 ├── services/
-│   ├── loginUserWithEmail.ts             # Dịch vụ xác thực email/mật khẩu
-│   ├── logoutUser.ts                     # Dịch vụ đăng xuất
-│   ├── getSessionConfig.ts               # Cấu hình phiên làm việc
+│   ├── loginUserWithEmail.ts                      # Dịch vụ xác thực email/mật khẩu
+│   ├── logoutUser.ts                              # Dịch vụ đăng xuất
+│   ├── getSessionConfig.ts                        # Cấu hình phiên làm việc
+│   ├── getAdminSessionCookieName.ts               # Lấy tên cookie phiên admin
+│   ├── getCookieSecret.ts                         # Lấy secret cookie
+│   ├── getFrontStoreSessionCookieName.ts          # Lấy tên cookie phiên cửa hàng
 │   └── ... (các dịch vụ khác)
 ├── api/
-│   ├── getUserToken/                     # API tạo token
-│   ├── refreshUserToken/                 # API làm mới token
-│   └── global/                           # Middleware toàn cục
-├── pages/                                # Các trang liên quan đến xác thực
-└── graphql/                              # Các resolver GraphQL
+│   ├── getUserToken/                              # API tạo token
+│   ├── refreshUserToken/                          # API làm mới token
+│   └── global/                                    # Middleware toàn cục
+├── bootstrap.ts                                   # Khởi tạo module, gắn method vào request
+├── pages/                                         # Các trang liên quan đến xác thực
+└── graphql/                                       # Các resolver GraphQL
 ```
 
 ---
@@ -41,9 +50,14 @@ src/modules/auth/
 Kiểm thử các hàm riêng lẻ, dịch vụ và logic nghiệp vụ mà không phụ thuộc vào các thành phần khác.
 
 #### Test Files:
+- `unit/bootstrap.test.ts`
 - `unit/loginUserWithEmail.test.ts`
 - `unit/logoutUser.test.ts`
 - `unit/authMiddleware.test.ts`
+- `unit/getAdminSessionCookieName.test.ts`
+- `unit/getCookieSecret.test.ts`
+- `unit/getFrontStoreSessionCookieName.test.ts`
+- `unit/getSessionConfig.test.ts`
 
 ### 2. Integration Test (Kiểm Thử Tích Hợp)
 
@@ -57,11 +71,74 @@ Kiểm thử sự tương tác giữa nhiều thành phần, bao gồm API handl
 
 ## Chi Tiết Các Test Suite
 
-### Test Suite 1: loginUserWithEmail.test.ts
+### Test Suite 1: bootstrap.test.ts
+
+**Mục đích:** Kiểm thử khởi tạo module auth, gắn các method vào express.request object bao gồm loginUserWithEmail, logoutUser, isUserLoggedIn, getCurrentUser.
+
+**Số lượng test case:** 15
+
+#### Test Cases - Method Attachment (1 case):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Attach all four methods | Gắn 4 method vào request khi bootstrap được gọi | Tất cả 4 method được define trên request object |
+
+#### Test Cases - loginUserWithEmail Method (3 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Execute with session.save | Thực thi với session.save callback | session.userID được set, locals.user được set, session.save được gọi |
+| Not call session.save if null | Xử lý khi session null | session.save không được gọi |
+| Call session.save with callback | Gọi session.save với callback tùy chỉnh | session.save được gọi với callback đã cung cấp |
+
+#### Test Cases - logoutUser Method (3 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Execute with session.save | Thực thi logout | session.userID = undefined, locals.user = undefined, session.save gọi |
+| Not call session.save if null | Xử lý khi session null | session.save không được gọi |
+| Call session.save with callback | Gọi session.save với callback | session.save được gọi với callback |
+
+#### Test Cases - isUserLoggedIn Method (4 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Return true for truthy userID | Kiểm tra userID truthy (123) | Trả về true |
+| Return false for falsy values | Kiểm tra userID falsy (undefined, null, 0, '', false) | Trả về false |
+| Return true for various truthy values | Kiểm tra với nhiều giá trị truthy (1, 123, 'uuid-123', 'admin', true) | Trả về true |
+
+#### Test Cases - getCurrentUser Method (5 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Return user object | Trả về user object từ locals | Trả về user data |
+| Return undefined when not set | User undefined | Trả về undefined |
+| Return null when null | User = null | Trả về null |
+| Return user with properties | User có multiple properties | Trả về user đầy đủ với tất cả properties |
+
+#### Test Cases - Complete Workflow (1 case):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Login, check status, logout | Quy trình đầu đủ login → kiểm tra → logout | isUserLoggedIn, getCurrentUser thay đổi theo phiên |
+
+**Mock Dependencies:**
+- `express.request`: request object
+- `../../services/loginUserWithEmail.js`: loginUserWithEmail function
+- `../../services/logoutUser.js`: logoutUser function
+
+**Ví dụ chạy test:**
+```bash
+npm test -- unit/bootstrap.test.ts
+```
+
+---
+
+### Test Suite 2: loginUserWithEmail.test.ts
 
 **Mục đích:** Kiểm thử dịch vụ xác thực người dùng bằng email và mật khẩu, bao gồm xử lý email, user object, session setup và error scenarios.
 
-**Số lượng test case:** 15
+**Số lượng test case:** 13
 
 #### Test Cases - Email Processing (4 cases):
 
@@ -108,7 +185,7 @@ npm test -- unit/loginUserWithEmail.test.ts
 
 ---
 
-### Test Suite 2: logoutUser.test.ts
+### Test Suite 3: logoutUser.test.ts
 
 **Mục đích:** Kiểm thử dịch vụ đăng xuất và xóa phiên làm việc.
 
@@ -132,7 +209,236 @@ npm test -- unit/logoutUser.test.ts
 
 ---
 
-### Test Suite 3: generateToken.test.ts (Integration)
+### Test Suite 4: authMiddleware.test.ts
+
+**Mục đích:** Kiểm thử middleware xác thực quyền truy cập dựa trên vai trò.
+
+**Số lượng test case:** 6
+
+#### Test Cases:
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Public route access | Truy cập route công khai | next() được gọi, không yêu cầu xác thực |
+| Private route no auth | Truy cập route private mà không xác thực | HTTP 401 (UNAUTHORIZED) |
+| No UUID | User không có UUID | HTTP 401 |
+| Wildcard roles | User có vai trò wildcard (*) | next() được gọi |
+| Role match | User có vai trò khớp với route required | next() được gọi |
+| Role mismatch | User không có vai trò khớp | HTTP 401 |
+
+**Mock Dependencies:**
+- `request.getCurrentUser()`: Trả về user object hoặc null
+
+**Ví dụ chạy test:**
+```bash
+npm test -- unit/authMiddleware.test.ts
+```
+
+---
+
+### Test Suite 5: getAdminSessionCookieName.test.ts
+
+**Mục đích:** Kiểm thử hàm lấy tên cookie phiên admin, bao gồm giá trị mặc định và cấu hình tùy chỉnh.
+
+**Số lượng test case:** 7
+
+#### Test Cases - Default Value Behavior (2 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Return default when not configured | Không có cấu hình | Trả về 'asid' |
+| Use default "asid" as fallback | Sử dụng default | Trả về 'asid' |
+
+#### Test Cases - Custom Configuration (2 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Return custom value when configured | Có cấu hình tùy chỉnh | Trả về 'custom_admin_session_id' |
+| Handle various custom values | Nhiều giá trị khác nhau | Trả về 'admin_sid', 'admin_token', 'session_admin_123' |
+
+#### Test Cases - getConfig Call Verification (3 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Call getConfig with correct key | Kiểm tra key parameter | Gọi với key 'system.session.adminCookieName' |
+| Call getConfig exactly once | Kiểm tra số lần gọi | Gọi đúng 1 lần |
+| Pass correct default value | Kiểm tra default parameter | Default = 'asid' |
+
+**Mock Dependencies:**
+- `../../../../lib/util/getConfig.js`: getConfig function
+
+**Ví dụ chạy test:**
+```bash
+npm test -- unit/getAdminSessionCookieName.test.ts
+```
+
+---
+
+### Test Suite 6: getCookieSecret.test.ts
+
+**Mục đích:** Kiểm thử hàm lấy secret cookie cho session, bao gồm giá trị mặc định và cấu hình tùy chỉnh.
+
+**Số lượng test case:** 8
+
+#### Test Cases - Default Value Behavior (2 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Return default when not configured | Không có cấu hình | Trả về 'keyboard cat' |
+| Use default "keyboard cat" as fallback | Sử dụng default | Trả về 'keyboard cat' |
+
+#### Test Cases - Custom Configuration (2 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Return custom secret value | Có cấu hình tùy chỉnh | Trả về 'my-super-secret-key-123' |
+| Handle various secret formats | Nhiều định dạng secret | Trả về secret với ký tự đặc biệt, underscores, mixed case |
+
+#### Test Cases - getConfig Call Verification (3 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Call getConfig with correct key | Kiểm tra key parameter | Gọi với key 'system.session.cookieSecret' |
+| Call getConfig exactly once | Kiểm tra số lần gọi | Gọi đúng 1 lần |
+| Call getConfig with same key multiple times | Nhiều lần gọi | Tất cả lần gọi dùng key 'system.session.cookieSecret' |
+
+**Mock Dependencies:**
+- `../../../../lib/util/getConfig.js`: getConfig function
+
+**Ví dụ chạy test:**
+```bash
+npm test -- unit/getCookieSecret.test.ts
+```
+
+---
+
+### Test Suite 7: getFrontStoreSessionCookieName.test.ts
+
+**Mục đích:** Kiểm thử hàm lấy tên cookie phiên cửa hàng (customer), bao gồm giá trị mặc định và cấu hình tùy chỉnh.
+
+**Số lượng test case:** 10
+
+#### Test Cases - Default Value Behavior (2 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Return default when not configured | Không có cấu hình | Trả về 'sid' |
+| Use default "sid" as fallback | Sử dụng default | Trả về 'sid' |
+
+#### Test Cases - Custom Configuration (2 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Return custom session cookie name | Có cấu hình tùy chỉnh | Trả về 'custom_session_id' |
+| Handle various custom cookie names | Nhiều tên khác nhau | Trả về 'storefront_sid', 'front_session', 'customer_session_token', 'shop_sid' |
+
+#### Test Cases - getConfig Call Verification (4 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Call getConfig with correct key | Kiểm tra key parameter | Gọi với key 'system.session.cookieName' |
+| Call getConfig exactly once per invocation | Kiểm tra số lần gọi | Gọi đúng 1 lần |
+| Pass correct default value | Kiểm tra default parameter | Default = 'sid' |
+| Consistently use same key | Kiểm tra nhiều lần gọi | Tất cả lần dùng key 'system.session.cookieName' |
+
+#### Test Cases - Return Value Type (2 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Always return a string | Kiểm tra kiểu trả về | typeof result = 'string' |
+| Not return null or undefined | Kiểm tra giá trị null/undefined | Không phải null hay undefined |
+
+**Mock Dependencies:**
+- `../../../../lib/util/getConfig.js`: getConfig function
+
+**Ví dụ chạy test:**
+```bash
+npm test -- unit/getFrontStoreSessionCookieName.test.ts
+```
+
+---
+
+### Test Suite 8: getSessionConfig.test.ts
+
+**Mục đích:** Kiểm thử hàm tạo cấu hình phiên làm việc (session config) cho express-session, bao gồm tạo store, cấu hình resave, saveUninitialized, và các property khác.
+
+**Số lượng test case:** 25
+
+#### Test Cases - SessionStorage Store Creation Coverage (3 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Create sessionStorage store with pool | Tạo store với pool connection | store được define và là MockSessionStore |
+| Pass pool to store constructor | Kiểm tra pool truyền vào | store.pool được define |
+| Initialize store without errors | Khởi tạo không lỗi | Không throw exception |
+
+#### Test Cases - getConfig resave Configuration (5 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Use resave=true when configured true | getConfig returns true | config.resave = true |
+| Set resave correctly | Kiểm tra kiểu boolean | typeof resave = boolean, resave = true |
+| Use resave=false when configured false | getConfig returns false | config.resave = false |
+| Use resave=false when undefined | getConfig returns undefined | config.resave = false |
+| Use resave=false as default | Không config | config.resave = false |
+
+#### Test Cases - getConfig saveUninitialized Configuration (5 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Use saveUninitialized=true when configured true | getConfig returns true | config.saveUninitialized = true |
+| Set saveUninitialized correctly | Kiểm tra kiểu boolean | typeof saveUninitialized = boolean, saveUninitialized = true |
+| Use saveUninitialized=false when configured false | getConfig returns false | config.saveUninitialized = false |
+| Use saveUninitialized=false when undefined | getConfig returns undefined | config.saveUninitialized = false |
+| Use saveUninitialized=false as default | Không config | config.saveUninitialized = false |
+
+#### Test Cases - getConfig Mock Call Verification (4 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Call getConfig with resave key and default false | Kiểm tra resave call | getConfig('system.session.resave', false) |
+| Call getConfig with saveUninitialized key | Kiểm tra saveUninitialized call | getConfig('system.session.saveUninitialized', false) |
+| Call getConfig exactly twice | Kiểm tra số lần gọi | Gọi đúng 2 lần |
+| Call with correct default values | Kiểm tra default values | Cả 2 call dùng default false |
+
+#### Test Cases - Basic Configuration Properties (3 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Create config with correct structure | Cấu trúc đầy đủ | config.secret, cookie, resave, saveUninitialized, store |
+| Pass cookieSecret to config | Kiểm tra secret | config.secret = 'test-secret' |
+| Set cookie maxAge to 24 hours | Kiểm tra maxAge | config.cookie.maxAge = 24 * 60 * 60 * 1000 |
+
+#### Test Cases - Type Safety and Properties (3 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Return SessionOptions with properties | Kiểm tra type | config có tất cả required properties |
+| Handle empty string secret | Secret rỗng | config.secret = '' |
+| Handle null secret | Secret null | config.secret = null |
+
+#### Test Cases - Edge Cases (3 cases):
+
+| Test Case | Mô Tả | Kỳ Vọng |
+|-----------|-------|---------|
+| Handle special characters in secret | Secret có ký tự đặc biệt | config.secret = 'secret@#$%^&*()' |
+| Handle very long secret | Secret dài 1000 ký tự | config.secret.length = 1000 |
+| Return consistent config on multiple calls | Gọi nhiều lần | config1 = config2 |
+
+**Mock Dependencies:**
+- `../../../../lib/postgres/connection`: pool connection
+- `../../../../lib/util/getConfig`: getConfig function
+- `express-session`: Store class
+- `connect-pg-simple`: SessionStore class
+
+**Ví dụ chạy test:**
+```bash
+npm test -- unit/getSessionConfig.test.ts
+```
+
+---
+
+### Test Suite 9: generateToken.test.ts (Integration)
 
 **Mục đích:** Kiểm thử API handler để tạo access token và refresh token, kiểm tra request body, response structure, và token types.
 
@@ -161,7 +467,7 @@ npm test -- integration/generateToken.test.ts
 
 ---
 
-### Test Suite 4: refreshToken.test.ts (Integration)
+### Test Suite 10: refreshToken.test.ts (Integration)
 
 **Mục đích:** Kiểm thử API handler để làm mới access token bằng refresh token, kiểm tra token verification, response structure, và user validation.
 
@@ -193,36 +499,26 @@ npm test -- integration/refreshToken.test.ts
 
 ---
 
-### Test Suite 5: authMiddleware.test.ts
+## Kịch Bản Kiểm Thử Chính
 
-**Mục đích:** Kiểm thử middleware xác thực quyền truy cập dựa trên vai trò.
+### Kịch Bản 1: Khởi Tạo Module
 
-**Số lượng test case:** 6
-
-#### Test Cases:
-
-| Test Case | Mô Tả | Kỳ Vọng |
-|-----------|-------|---------|
-| Public route access | Truy cập route công khai | next() được gọi, không yêu cầu xác thực |
-| Private route no auth | Truy cập route private mà không xác thực | HTTP 401 (UNAUTHORIZED) |
-| No UUID | User không có UUID | HTTP 401 |
-| Wildcard roles | User có vai trò wildcard (*) | next() được gọi |
-| Role match | User có vai trò khớp với route required | next() được gọi |
-| Role mismatch | User không có vai trò khớp | HTTP 401 |
-
-**Mock Dependencies:**
-- `request.getCurrentUser()`: Trả về user object hoặc null
-
-**Ví dụ chạy test:**
-```bash
-npm test -- unit/authMiddleware.test.ts
 ```
+1. Module auth được import
+2. bootstrap() được gọi
+3. Các method được gắn vào express.request
+   ├─ loginUserWithEmail()
+   ├─ logoutUser()
+   ├─ isUserLoggedIn()
+   └─ getCurrentUser()
+```
+
+**Test Coverage:**
+- bootstrap.test.ts: Method attachment, workflow test
 
 ---
 
-## Kịch Bản Kiểm Thử Chính
-
-### Kịch Bản 1: Quy Trình Đăng Nhập
+### Kịch Bản 2: Quy Trình Đăng Nhập
 
 ```
 1. User nhập email và mật khẩu
@@ -242,7 +538,7 @@ npm test -- unit/authMiddleware.test.ts
 
 ---
 
-### Kịch Bản 2: Làm Mới Token
+### Kịch Bản 3: Làm Mới Token
 
 ```
 1. Client gửi refreshToken
@@ -259,7 +555,7 @@ npm test -- unit/authMiddleware.test.ts
 
 ---
 
-### Kịch Bản 3: Kiểm Soát Quyền Truy Cập
+### Kịch Bản 4: Kiểm Soát Quyền Truy Cập
 
 ```
 1. Middleware [getCurrentUser]auth.ts được gọi
@@ -278,7 +574,7 @@ npm test -- unit/authMiddleware.test.ts
 
 ---
 
-### Kịch Bản 4: Đăng Xuất
+### Kịch Bản 5: Đăng Xuất
 
 ```
 1. User click nút logout
@@ -291,6 +587,26 @@ npm test -- unit/authMiddleware.test.ts
 
 **Test Coverage:**
 - logoutUser.test.ts: Clear session, clear locals, handle undefined session
+
+---
+
+### Kịch Bản 6: Cấu Hình Session
+
+```
+1. Module khởi tạo lấy các cấu hình
+   ├─ getAdminSessionCookieName() → 'asid' (default)
+   ├─ getFrontStoreSessionCookieName() → 'sid' (default)
+   ├─ getCookieSecret() → 'keyboard cat' (default)
+   └─ getSessionConfig(secret) → SessionOptions object
+2. Express session được thiết lập với cấu hình này
+3. PostgreSQL session store được khởi tạo
+```
+
+**Test Coverage:**
+- getAdminSessionCookieName.test.ts: Default và custom values
+- getFrontStoreSessionCookieName.test.ts: Default và custom values
+- getCookieSecret.test.ts: Default và custom values
+- getSessionConfig.test.ts: Store creation, config properties
 
 ---
 
@@ -323,9 +639,16 @@ npm test -- integration
 ### Chạy Test Cụ Thể
 
 ```bash
+npm test -- bootstrap.test.ts
 npm test -- loginUserWithEmail.test.ts
-npm test -- refreshToken.test.ts
+npm test -- logoutUser.test.ts
 npm test -- authMiddleware.test.ts
+npm test -- getAdminSessionCookieName.test.ts
+npm test -- getCookieSecret.test.ts
+npm test -- getFrontStoreSessionCookieName.test.ts
+npm test -- getSessionConfig.test.ts
+npm test -- generateToken.test.ts
+npm test -- refreshToken.test.ts
 ```
 
 ### Chạy Với Coverage Report
@@ -378,15 +701,79 @@ jest.mock('../../../lib/util/passwordHelper');
 (comparePassword as jest.Mock).mockReturnValue(true);
 ```
 
+### 4. getConfig Utility
+
+```typescript
+jest.mock('../../../../lib/util/getConfig');
+
+// Sử dụng:
+const mockGetConfig = jest.fn((key, defaultValue) => defaultValue);
+(getConfig as jest.Mock).mockImplementation(mockGetConfig);
+```
+
+### 5. Express Request & Session
+
+```typescript
+jest.unstable_mockModule('express', () => ({
+  request: mockRequest
+}));
+
+// Sử dụng:
+const mockRequest = {};
+const mockSessionSave = jest.fn();
+const context = {
+  session: { userID: undefined, save: mockSessionSave },
+  locals: { user: undefined }
+};
+```
+
+### 6. Database Pool
+
+```typescript
+jest.mock('../../../../lib/postgres/connection', () => ({
+  pool: {
+    query: jest.fn(),
+    connect: jest.fn(),
+    end: jest.fn()
+  }
+}));
+```
+
+### 7. Express Session & Session Store
+
+```typescript
+jest.mock('express-session', () => ({
+  default: { Store: class Store {} },
+  __esModule: true
+}));
+
+jest.mock('connect-pg-simple', () => {
+  return jest.fn(() => {
+    return class MockSessionStore {
+      constructor(options) {
+        this.pool = options.pool;
+      }
+    };
+  });
+});
+```
+
 ---
 
 ## Quy Ước Đặt Tên
 
 ### Test Suite
 ```typescript
+describe('bootstrap', () => { ... })
 describe('loginUserWithEmail', () => { ... })
+describe('logoutUser', () => { ... })
 describe('Auth Middleware', () => { ... })
+describe('getAdminSessionCookieName', () => { ... })
+describe('getCookieSecret', () => { ... })
+describe('getFrontStoreSessionCookieName', () => { ... })
+describe('getSessionConfig', () => { ... })
 describe('generateToken API Handler', () => { ... })
+describe('refreshToken API Handler', () => { ... })
 ```
 
 ### Test Case
@@ -394,6 +781,8 @@ describe('generateToken API Handler', () => { ... })
 it('should successfully login user with correct credentials', () => { ... })
 it('should throw error when user not found', () => { ... })
 it('should return 401 when refresh token is invalid', () => { ... })
+it('should return default cookie name when not configured', () => { ... })
+it('should create sessionStorage store with pool connection', () => { ... })
 ```
 
 ### Mock Objects
@@ -401,6 +790,8 @@ it('should return 401 when refresh token is invalid', () => { ... })
 const mockRequest = { ... }
 const mockResponse = { ... }
 const mockSelectBuilder = { ... }
+const mockGetConfig = jest.fn()
+const mockSessionSave = jest.fn()
 ```
 
 ---
@@ -413,6 +804,7 @@ expect(result).toBe(expectedValue);
 expect(result).toEqual(expectedObject);
 expect(result).toBeUndefined();
 expect(result).toBeNull();
+expect(typeof result).toBe('string');
 ```
 
 ### Kiểm Tra Hàm Được Gọi
@@ -420,6 +812,7 @@ expect(result).toBeNull();
 expect(mockFunction).toHaveBeenCalled();
 expect(mockFunction).toHaveBeenCalledWith(argument1, argument2);
 expect(mockFunction).toHaveBeenCalledTimes(1);
+expect(mockFunction).not.toHaveBeenCalled();
 ```
 
 ### Kiểm Tra HTTP Response
@@ -431,6 +824,7 @@ expect(mockResponse.json).toHaveBeenCalledWith(expectedPayload);
 ### Kiểm Tra Exception
 ```typescript
 await expect(functionCall()).rejects.toThrow('Error message');
+expect(() => { functionCall(); }).not.toThrow();
 ```
 
 ---
@@ -451,8 +845,27 @@ npm run test -- ./packages/evershop/dist/src/modules/auth/tests
 ```bash
 npm run deploy && npm run test -- ./packages/evershop/dist/modules/auth/tests
 ```
+
 ### With coverage
 
 ```bash
 npm run test -- ./packages/evershop/dist/modules/auth/tests --coverage
 ```
+
+---
+
+## Tổng Kết Số Lượng Test Cases
+
+| Test File | Unit/Integration | Số Test Cases |
+|-----------|------------------|---------------|
+| bootstrap.test.ts | Unit | 15 |
+| loginUserWithEmail.test.ts | Unit | 13 |
+| logoutUser.test.ts | Unit | 4 |
+| authMiddleware.test.ts | Unit | 6 |
+| getAdminSessionCookieName.test.ts | Unit | 7 |
+| getCookieSecret.test.ts | Unit | 8 |
+| getFrontStoreSessionCookieName.test.ts | Unit | 10 |
+| getSessionConfig.test.ts | Unit | 25 |
+| generateToken.test.ts | Integration | 8 |
+| refreshToken.test.ts | Integration | 9 |
+| **Tổng Cộng** | **8 Unit + 2 Integration** | **105** |
