@@ -1,5 +1,35 @@
 # Tài Liệu Kiểm Thử E2E (End-to-End) - Xác Thực (Authentication)
 
+## 📝 Ghi Chú Triển Khai (Implementation Notes)
+
+### 🔐 Kiến Trúc Xác Thực (Authentication Architecture)
+
+Hệ thống sử dụng **session-based authentication**:
+- **Session Store:** Redis (hoặc in-memory trong development)
+- **Session Cookie:** `sessionid`
+- **Quản lý State:** Client-side state (CustomerContext) + Server session validation
+- **Bảo Vệ Route:** Mỗi request đến trang cá nhân được server check session
+
+### 🚪 Luồng Đăng Xuất Khách Hàng (Customer Logout Flow)
+
+**Chi tiết triển khai:**
+1. **Frontend:** `AccountInfo.tsx` component hiển thị logout link
+2. **Handler:** Gọi `logout()` từ `CustomerContext`
+3. **API Request:** `POST /api/customerLogoutJson`
+4. **Server Logic:** `logoutCustomer()` xóa session từ database
+5. **Response:** Server trả về OK status
+6. **Client Redirect:** `window.location.href = '/account/login'`
+7. **Security Check:** Truy cập `/account` sau logout được server redirect (vì session không tồn tại)
+
+**Liên kết triển khai:**
+- Frontend: `packages/evershop/src/components/frontStore/customer/AccountInfo.tsx`
+- Context: `packages/evershop/src/components/frontStore/customer/CustomerContext.tsx`
+- Server Handler: `packages/evershop/src/modules/customer/pages/frontStore/customerLogoutJson/logout.js`
+- Service: `packages/evershop/src/modules/customer/services/customer/logoutCustomer.js`
+- Route Guard: `packages/evershop/src/modules/customer/pages/frontStore/account/index.ts`
+
+---
+
 ## 📋 Luồng Chính (Main Flows)
 
 Hệ thống Evershop có **2 luồng xác thực riêng biệt**: một cho **Khách Hàng** (Customer) và một cho **Quản Trị Viên** (Admin).
@@ -14,14 +44,16 @@ Hệ thống Evershop có **2 luồng xác thực riêng biệt**: một cho **K
 3. Gửi yêu cầu đăng nhập tới server
                     ↓
 4. Server xác thực thông tin đăng nhập
-   ├─ Nếu hợp lệ: Tạo session, chuyển hướng đến trang chủ
+   ├─ Nếu hợp lệ: Tạo session, chuyển hướng đến trang chủ (homepage /)
    └─ Nếu không hợp lệ: Trả về lỗi, khách ở lại trang login
                     ↓
 5. Khách hàng truy cập các trang cá nhân (account, addresses, orders)
                     ↓
-6. Khi muốn thoát: Nhấn "Logout/Sign Out"
+6. Khi muốn thoát: Nhấn "Logout/Sign Out" trên trang /account
                     ↓
-7. Server xóa session, chuyển hướng về trang login
+7. Client gọi logout API (/api/customerLogoutJson)
+                    ↓
+8. Server xóa session, client chuyển hướng đến /account/login
 ```
 
 **Thông tin xác thực test (Khách Hàng):**
@@ -48,14 +80,14 @@ Hệ thống Evershop có **2 luồng xác thực riêng biệt**: một cho **K
 3. Gửi yêu cầu đăng nhập tới server
                     ↓
 4. Server xác thực thông tin đăng nhập
-   ├─ Nếu hợp lệ: Tạo session/token, chuyển hướng đến trang chủ admin
+   ├─ Nếu hợp lệ: Tạo session, chuyển hướng đến trang chủ admin (/admin)
    └─ Nếu không hợp lệ: Trả về lỗi, quản trị viên ở lại trang login
                     ↓
 5. Quản trị viên truy cập các trang admin được bảo vệ
                     ↓
-6. Khi muốn thoát: Nhấn đăng xuất
+6. Khi muốn thoát: Nhấn "Logout" trong dropdown avatar
                     ↓
-7. Server xóa session, chuyển hướng về trang login
+7. Server xóa session, chuyển hướng về /admin/login
 ```
 
 **Thông tin xác thực test (Admin):**
@@ -82,8 +114,8 @@ Kiểm thử trang đăng nhập khách hàng và gửi form.
 
 | Hạng Mục Test | Chi Tiết | Kỳ Vọng |
 |---|---|---|
-| **Đăng nhập thành công** | Đăng nhập với thông tin hợp lệ | Được chuyển hướng tới homepage |
-| | Xác nhận trạng thái đăng nhập | Session được tạo |
+| **Đăng nhập thành công** | Đăng nhập với thông tin hợp lệ | Được chuyển hướng tới homepage (/) hoặc trang account |
+| | Xác nhận trạng thái đăng nhập | Session được tạo, cookie sessionid có mặt |
 | | Tính bền vững sau reload | Vẫn đăng nhập sau F5 |
 | **Xác thực Form** | Email không hợp lệ | Hiển thị lỗi xác thực |
 | | Mật khẩu trống | Form không được gửi |
@@ -117,11 +149,19 @@ Kiểm thử trang đăng nhập khách hàng và gửi form.
 
 Kiểm thử quá trình đăng xuất khách hàng từ trang `/account` và xóa phiên.
 
-**Vị trí Logout Button:** Trang `/account` trong phần "Account Information"
+**Vị trí Logout Button:** Trang `/account` trong phần "Account Information" (link "Logout")
+
+**API Endpoint:** `POST /api/customerLogoutJson`
+
+**Luồng Đăng Xuất:**
+1. Người dùng nhấn "Logout" link
+2. Client gọi logout API
+3. Server xóa session khách hàng
+4. Client chuyển hướng đến `/account/login`
 
 | Hạng Mục Test | Chi Tiết | Kỳ Vọng |
 |---|---|---|
-| **Đăng xuất thành công** | Nhấn liên kết logout trên trang /account | Chuyển hướng về trang /account/login |
+| **Đăng xuất thành công** | Nhấn liên kết logout trên trang /account | Chuyển hướng tới /account/login |
 | | Session bị xóa | Cookie sessionid = null |
 | | Không truy cập được trang account | /account chuyển hướng tới /account/login |
 | | Cho phép đăng nhập lại | Có thể đăng nhập thành công sau đó |
@@ -187,9 +227,17 @@ Kiểm thử trang đăng nhập admin và gửi form.
 
 Kiểm thử quá trình đăng xuất admin và xóa phiên.
 
+**Vị trí Logout Button:** Header phải trong dropdown avatar (icon người dùng)
+
+**Luồng Đăng Xuất:**
+1. Nhấn avatar/icon người dùng để mở dropdown
+2. Nhấn "Logout" link trong dropdown
+3. Server xóa session admin
+4. Chuyển hướng tới `/admin/login`
+
 | Hạng Mục Test | Chi Tiết | Kỳ Vọng |
 |---|---|---|
-| **Đăng xuất thành công** | Nhấn nút đăng xuất | Chuyển hướng về trang login |
+| **Đăng xuất thành công** | Nhấn nút đăng xuất | Chuyển hướng tới /admin/login |
 | | Session bị xóa | Cookie sessionid = null |
 | | Không truy cập được trang admin | /admin chuyển hướng tới /admin/login |
 | | Cho phép đăng nhập lại | Có thể đăng nhập thành công sau đó |
@@ -371,13 +419,23 @@ CYPRESS_CUSTOMER_PASSWORD=a12345678
 
 ## 🔗 Các File Liên Quan
 
-**Module Khách Hàng:**
+**Module Khách Hàng - Đăng Nhập:**
 - `packages/evershop/src/modules/customer/pages/frontStore/login/`
 - `packages/evershop/src/modules/customer/services/customer/loginCustomerWithEmail.ts`
 
-**Module Quản Trị:**
+**Module Khách Hàng - Đăng Xuất:**
+- `packages/evershop/src/components/frontStore/customer/AccountInfo.tsx` (UI logout link)
+- `packages/evershop/src/components/frontStore/customer/CustomerContext.tsx` (logout function)
+- `packages/evershop/src/modules/customer/pages/frontStore/customerLogoutJson/logout.js` (API endpoint)
+- `packages/evershop/src/modules/customer/services/customer/logoutCustomer.js` (server-side logout)
+
+**Module Quản Trị - Đăng Nhập:**
 - `packages/evershop/src/modules/auth/pages/admin/adminLogin/`
 - `packages/evershop/src/modules/auth/services/loginUserWithEmail.ts`
+
+**Module Quản Trị - Đăng Xuất:**
+- `packages/evershop/src/modules/auth/pages/admin/all/AdminUser.jsx` (logout link)
+- `packages/evershop/src/modules/auth/services/logoutUser.ts` (logout logic)
 
 **Cypress Config:**
 - `cypress.config.js`
