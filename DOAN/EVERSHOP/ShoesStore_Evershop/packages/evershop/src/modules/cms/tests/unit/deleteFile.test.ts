@@ -1,42 +1,48 @@
+/**
+ * @jest-environment node
+ */
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { deleteFile } from '../../services/deleteFile';
 
 jest.mock('fs');
 jest.mock('../../../lib/util/getConfig');
 jest.mock('../../../lib/util/registry');
 jest.mock('../../../lib/helpers');
+jest.mock('../../../lib/util/path');
 
 describe('deleteFile Service', () => {
-  let fsMock;
-  let mockGetValueSync;
+  let deleteFile;
+  let fs;
+  let getValueSync;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
 
-    fsMock = require('fs');
-    fsMock.existsSync = jest.fn();
-    fsMock.lstatSync = jest.fn();
-    fsMock.unlinkSync = jest.fn();
+    const deleteFileModule = await import('../../services/deleteFile.ts');
+    deleteFile = deleteFileModule.deleteFile;
+    
+    fs = await import('fs');
+    const registryModule = await import('../../../lib/util/registry.js');
+    getValueSync = registryModule.getValueSync;
 
-    mockGetValueSync = jest.fn((key, defaultValue) => defaultValue);
-    require('../../../lib/util/registry').getValueSync = mockGetValueSync;
+    // Setup mock implementations
+    (getValueSync as jest.Mock).mockImplementation((key, defaultValue) => defaultValue);
   });
 
   describe('Delete existing file', () => {
     it('should successfully delete an existing file', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
       await deleteFile('products/image.jpg');
 
-      expect(fsMock.unlinkSync).toHaveBeenCalled();
+      expect(fs.unlinkSync).toHaveBeenCalled();
     });
 
     it('should not throw error when file is deleted', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
@@ -44,8 +50,8 @@ describe('deleteFile Service', () => {
     });
 
     it('should accept various file types', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
@@ -55,13 +61,13 @@ describe('deleteFile Service', () => {
         await deleteFile(`media/${file}`);
       }
 
-      expect(fsMock.unlinkSync).toHaveBeenCalledTimes(3);
+      expect(fs.unlinkSync).toHaveBeenCalledTimes(3);
     });
   });
 
   describe('Delete non-existent file', () => {
     it('should throw error for non-existent file', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       await expect(deleteFile('products/nonexistent.jpg')).rejects.toThrow(
         'Requested path does not exist'
@@ -69,7 +75,7 @@ describe('deleteFile Service', () => {
     });
 
     it('should not call unlinkSync if file does not exist', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       try {
         await deleteFile('products/nonexistent.jpg');
@@ -77,14 +83,14 @@ describe('deleteFile Service', () => {
         // Expected
       }
 
-      expect(fsMock.unlinkSync).not.toHaveBeenCalled();
+      expect(fs.unlinkSync).not.toHaveBeenCalled();
     });
   });
 
   describe('Delete directory path', () => {
     it('should throw error when trying to delete a directory', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => true
       });
 
@@ -94,8 +100,8 @@ describe('deleteFile Service', () => {
     });
 
     it('should not call unlinkSync when target is directory', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => true
       });
 
@@ -105,42 +111,42 @@ describe('deleteFile Service', () => {
         // Expected
       }
 
-      expect(fsMock.unlinkSync).not.toHaveBeenCalled();
+      expect(fs.unlinkSync).not.toHaveBeenCalled();
     });
   });
 
   describe('Path validation', () => {
     it('should check file existence before deletion', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
       await deleteFile('products/image.jpg');
 
-      expect(fsMock.existsSync).toHaveBeenCalled();
+      expect(fs.existsSync).toHaveBeenCalled();
     });
 
     it('should use lstatSync to verify file type', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
       await deleteFile('products/image.jpg');
 
-      expect(fsMock.lstatSync).toHaveBeenCalled();
+      expect(fs.lstatSync).toHaveBeenCalled();
     });
 
     it('should handle nested paths', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
       await deleteFile('products/2024/january/image.jpg');
 
-      expect(fsMock.unlinkSync).toHaveBeenCalled();
+      expect(fs.unlinkSync).toHaveBeenCalled();
     });
   });
 
@@ -149,8 +155,8 @@ describe('deleteFile Service', () => {
       const mockStats = {
         isDirectory: jest.fn().mockReturnValue(false)
       };
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue(mockStats);
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue(mockStats);
 
       await deleteFile('products/image.jpg');
 
@@ -158,21 +164,21 @@ describe('deleteFile Service', () => {
     });
 
     it('should validate file before unlinking', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
       await deleteFile('products/image.jpg');
 
-      expect(fsMock.lstatSync).toHaveBeenCalledBefore(fsMock.unlinkSync);
+      expect(fs.lstatSync).toHaveBeenCalledBefore(fs.unlinkSync);
     });
   });
 
   describe('Multiple file deletion', () => {
     it('should delete multiple files in sequence', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
@@ -182,15 +188,15 @@ describe('deleteFile Service', () => {
         await deleteFile(`products/${file}`);
       }
 
-      expect(fsMock.unlinkSync).toHaveBeenCalledTimes(3);
+      expect(fs.unlinkSync).toHaveBeenCalledTimes(3);
     });
 
     it('should handle deletion errors gracefully', async () => {
-      fsMock.existsSync.mockReturnValueOnce(true);
-      fsMock.lstatSync.mockReturnValueOnce({
+      (fs.existsSync as jest.Mock).mockReturnValueOnce(true);
+      (fs.lstatSync as jest.Mock).mockReturnValueOnce({
         isDirectory: () => false
       });
-      fsMock.unlinkSync.mockImplementationOnce(() => {
+      (fs.unlinkSync as jest.Mock).mockImplementationOnce(() => {
         throw new Error('Permission denied');
       });
 
@@ -200,25 +206,25 @@ describe('deleteFile Service', () => {
 
   describe('Error message accuracy', () => {
     it('should provide accurate error message for missing file', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       try {
         await deleteFile('products/missing.jpg');
       } catch (error) {
-        expect(error.message).toBe('Requested path does not exist');
+        expect((error as Error).message).toBe('Requested path does not exist');
       }
     });
 
     it('should provide accurate error message for directory', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => true
       });
 
       try {
         await deleteFile('products/folder');
       } catch (error) {
-        expect(error.message).toBe('Requested path is not a file');
+        expect((error as Error).message).toBe('Requested path is not a file');
       }
     });
   });

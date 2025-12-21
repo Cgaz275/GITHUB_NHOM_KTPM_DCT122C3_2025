@@ -610,6 +610,362 @@ npm test -- integration/refreshToken.test.ts
 
 ---
 
+## Chi Tiết Kiểm Thử API
+
+### Tổng Quan API Endpoints
+
+Module Auth cung cấp 2 API endpoints chính:
+
+| Endpoint | HTTP Method | Mục Đích | Authentication |
+|----------|-------------|----------|-----------------|
+| `/api/auth/token` | POST | Tạo access token và refresh token | Basic (email + password) |
+| `/api/auth/refresh-token` | POST | Làm mới access token | Bearer Token (refresh token) |
+
+---
+
+### API 1: Generate Token (Tạo Token)
+
+**Endpoint:** `POST /api/auth/token`
+
+**Mục Đích:** Xác thực người dùng bằng email và mật khẩu, trả về access token và refresh token.
+
+#### 1.1 Request Example
+
+```http
+POST /api/auth/token HTTP/1.1
+Content-Type: application/json
+Host: api.example.com
+
+{
+  "email": "admin@example.com",
+  "password": "password123"
+}
+```
+
+#### 1.2 Successful Response (HTTP 200)
+
+```json
+{
+  "success": true,
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTcwMDAwMDAwMCwiZXhwIjoxNzAwMDAzNjAwfQ.signature_here",
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJSRUZSRVNIIiwiaWF0IjoxNzAwMDAwMDAwLCJleHAiOjE3MDAwODY0MDB9.refresh_signature_here",
+    "user": {
+      "admin_user_id": 1,
+      "email": "admin@example.com",
+      "uuid": "550e8400-e29b-41d4-a716-446655440000",
+      "status": 1
+    }
+  }
+}
+```
+
+**Response Fields:**
+- `success` (boolean): Trạng thái thành công
+- `data.accessToken` (string): JWT token dùng để xác thực request tiếp theo (hết hạn sau 1 giờ)
+- `data.refreshToken` (string): Token dùng để làm mới access token (hết hạn sau 30 ngày)
+- `data.user` (object): Thông tin người dùng vừa đăng nhập
+
+#### 1.3 Error Responses
+
+**Case 1: Email không tồn tại (HTTP 401)**
+```json
+{
+  "success": false,
+  "error": {
+    "status": 401,
+    "message": "User not found"
+  }
+}
+```
+
+**Case 2: Mật khẩu sai (HTTP 401)**
+```json
+{
+  "success": false,
+  "error": {
+    "status": 401,
+    "message": "Invalid password"
+  }
+}
+```
+
+**Case 3: User bị vô hiệu hóa/inactive (HTTP 401)**
+```json
+{
+  "success": false,
+  "error": {
+    "status": 401,
+    "message": "User is inactive"
+  }
+}
+```
+
+**Case 4: Request body không hợp lệ (HTTP 400)**
+```json
+{
+  "success": false,
+  "error": {
+    "status": 400,
+    "message": "Email and password are required"
+  }
+}
+```
+
+**Case 5: Lỗi server (HTTP 500)**
+```json
+{
+  "success": false,
+  "error": {
+    "status": 500,
+    "message": "Internal server error"
+  }
+}
+```
+
+#### 1.4 API Test Cases
+
+**Test Suite:** `integration/generateToken.test.ts` (8 test cases)
+
+| Test Case ID | Tên Test | Request | Expected Result |
+|--------------|----------|---------|-----------------|
+| GT-001 | Login thành công | `{"email":"admin@example.com", "password":"password123"}` | HTTP 200, trả về accessToken, refreshToken, user data |
+| GT-002 | Email không tồn tại | `{"email":"notfound@example.com", "password":"password123"}` | HTTP 401, message: "User not found" |
+| GT-003 | Mật khẩu sai | `{"email":"admin@example.com", "password":"wrongpass"}` | HTTP 401, message: "Invalid password" |
+| GT-004 | User bị vô hiệu hóa | `{"email":"inactive@example.com", "password":"password123"}` | HTTP 401, message: "User is inactive" |
+| GT-005 | Request body rỗng | `{}` | HTTP 400, message: "Email and password are required" |
+| GT-006 | Email rỗng | `{"email":"", "password":"password123"}` | HTTP 400 hoặc HTTP 401 |
+| GT-007 | Password rỗng | `{"email":"admin@example.com", "password":""}` | HTTP 400 hoặc HTTP 401 |
+| GT-008 | User data trong response | Login thành công, kiểm tra user object | User có fields: admin_user_id, email, uuid, status (password không được include) |
+
+#### 1.5 Token Structure (JWT Decoding)
+
+**Access Token Payload Example:**
+```json
+{
+  "sub": 1,
+  "admin_user_id": 1,
+  "email": "admin@example.com",
+  "type": "ADMIN",
+  "iat": 1700000000,
+  "exp": 1700003600
+}
+```
+
+**Refresh Token Payload Example:**
+```json
+{
+  "sub": 1,
+  "admin_user_id": 1,
+  "type": "REFRESH",
+  "iat": 1700000000,
+  "exp": 1700086400
+}
+```
+
+---
+
+### API 2: Refresh Token (Làm Mới Token)
+
+**Endpoint:** `POST /api/auth/refresh-token`
+
+**Mục Đích:** Tạo access token mới bằng cách sử dụng refresh token, không cần nhập lại email/password.
+
+#### 2.1 Request Example
+
+```http
+POST /api/auth/refresh-token HTTP/1.1
+Content-Type: application/json
+Host: api.example.com
+
+{
+  "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInR5cGUiOiJSRUZSRVNIIiwiaWF0IjoxNzAwMDAwMDAwLCJleHAiOjE3MDAwODY0MDB9.refresh_signature_here"
+}
+```
+
+#### 2.2 Successful Response (HTTP 200)
+
+```json
+{
+  "success": true,
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTcwMDAwMzYwMCwiZXhwIjoxNzAwMDA3MjAwfQ.new_signature_here",
+    "user": {
+      "admin_user_id": 1,
+      "email": "admin@example.com",
+      "uuid": "550e8400-e29b-41d4-a716-446655440000",
+      "status": 1
+    }
+  }
+}
+```
+
+**Response Fields:**
+- `success` (boolean): Trạng thái thành công
+- `data.accessToken` (string): Access token mới (hết hạn sau 1 giờ)
+- `data.user` (object): Thông tin người dùng (nếu user vẫn active)
+
+#### 2.3 Error Responses
+
+**Case 1: Refresh token bị thiếu (HTTP 400)**
+```json
+{
+  "success": false,
+  "error": {
+    "status": 400,
+    "message": "Refresh token is required"
+  }
+}
+```
+
+**Case 2: Refresh token không hợp lệ (HTTP 401)**
+```json
+{
+  "success": false,
+  "error": {
+    "status": 401,
+    "message": "Invalid refresh token"
+  }
+}
+```
+
+**Case 3: Refresh token hết hạn (HTTP 401)**
+```json
+{
+  "success": false,
+  "error": {
+    "status": 401,
+    "message": "Refresh token expired"
+  }
+}
+```
+
+**Case 4: User không tồn tại (HTTP 401)**
+```json
+{
+  "success": false,
+  "error": {
+    "status": 401,
+    "message": "Admin user not found or inactive"
+  }
+}
+```
+
+**Case 5: User bị vô hiệu hóa (HTTP 401)**
+```json
+{
+  "success": false,
+  "error": {
+    "status": 401,
+    "message": "Admin user not found or inactive"
+  }
+}
+```
+
+#### 2.4 API Test Cases
+
+**Test Suite:** `integration/refreshToken.test.ts` (9 test cases)
+
+| Test Case ID | Tên Test | Request | Expected Result |
+|--------------|----------|---------|-----------------|
+| RT-001 | Làm mới token thành công | `{"refreshToken":"valid_refresh_token"}` | HTTP 200, trả về accessToken mới, user data |
+| RT-002 | Refresh token bị thiếu | `{}` | HTTP 400, message: "Refresh token is required" |
+| RT-003 | Refresh token không hợp lệ | `{"refreshToken":"invalid_token"}` | HTTP 401, message: "Invalid refresh token" |
+| RT-004 | Refresh token hết hạn | `{"refreshToken":"expired_token"}` | HTTP 401, message: "Refresh token expired" |
+| RT-005 | User không tồn tại | Token của user đã bị xóa | HTTP 401, message: "Admin user not found or inactive" |
+| RT-006 | User bị vô hiệu hóa | Token của user có status=0 | HTTP 401, message: "Admin user not found or inactive" |
+| RT-007 | Refresh token sai format | `{"refreshToken":"not.jwt.format"}` | HTTP 401, message: "Invalid refresh token" |
+| RT-008 | Access token được cấp mới | Gửi refresh token hợp lệ | Access token khác vs token cũ, nhưng user_id giống |
+| RT-009 | User data trong response | Làm mới token thành công | User object có tất cả fields cần thiết (admin_user_id, email, uuid, status) |
+
+---
+
+### API Test Execution
+
+#### Chạy API Tests Riêng
+
+```bash
+# Chạy cả 2 API integration tests
+npm test -- integration
+
+# Chạy từng API test riêng
+npm test -- integration/generateToken.test.ts
+npm test -- integration/refreshToken.test.ts
+
+# Chạy với verbose output
+npm test -- integration --verbose
+
+# Chạy với coverage
+npm test -- integration --coverage
+```
+
+#### Integration Test Flow
+
+```
+Client                     Server                 Database
+  │                          │                        │
+  ├─POST /auth/token─────────>│                        │
+  │ {email, password}         │                        │
+  │                           ├─Query user─────────────>│
+  │                           │<─User data─────────────┤
+  │                           │                        │
+  │                           │ Compare password       │
+  │                           │ (bcrypt)               │
+  │                           │                        │
+  │<─HTTP 200─────────────────┤                        │
+  │ {accessToken,             │                        │
+  │  refreshToken, user}      │                        │
+  │                           │                        │
+  │─ Store tokens in client ─ │                        │
+  │                           │                        │
+  │─Authorization: Bearer ────>│                        │
+  │ accessToken               │                        │
+  │<─Protected resource data──┤                        │
+  │                           │                        │
+  ├─POST /auth/refresh-token─>│                        │
+  │ {refreshToken}            │                        │
+  │                           ├─Verify token, Query──>│
+  │                           │<─User data─────────────┤
+  │<─HTTP 200─────────────────┤                        │
+  │ {accessToken (new), user} │                        │
+```
+
+---
+
+### API Authentication Header
+
+Sau khi nhận được access token, client sẽ sử dụng nó trong header của request như sau:
+
+```http
+GET /api/admin/dashboard HTTP/1.1
+Host: api.example.com
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+Middleware sẽ:
+1. Trích xuất token từ header `Authorization: Bearer <token>`
+2. Verify token signature
+3. Decode token để lấy user info
+4. Kiểm tra quyền truy cập (role-based access control)
+5. Cho phép hoặc từ chối request
+
+---
+
+### API Test Coverage Summary
+
+| Aspect | Coverage |
+|--------|----------|
+| **HTTP Methods** | POST (2/2 endpoints) |
+| **Success Cases** | Login thành công, Refresh token thành công |
+| **Error Cases** | User not found, Invalid password, Invalid token, Expired token, Inactive user, Missing parameters |
+| **Status Codes** | 200 (success), 400 (bad request), 401 (unauthorized), 500 (server error) |
+| **Request Validation** | Email format, Password strength, Token format, Required fields |
+| **Response Validation** | Token structure, User data presence, Error messages, Success flags |
+| **Security** | Password encryption (bcrypt), JWT signing, Token expiration, User status check |
+| **Total API Test Cases** | 17 (8 generateToken + 9 refreshToken) |
+
+---
+
 ## Cách Chạy Kiểm Thử
 
 ### Chạy Tất Cả Tests

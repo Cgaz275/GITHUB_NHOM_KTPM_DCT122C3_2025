@@ -1,7 +1,7 @@
+/**
+ * @jest-environment node
+ */
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { createFolder } from '../../services/createFolder';
-import { deleteFile } from '../../services/deleteFile';
-import { uploadFile } from '../../services/uploadFile';
 
 jest.mock('fs');
 jest.mock('fs/promises');
@@ -9,66 +9,85 @@ jest.mock('../../../lib/router/buildUrl');
 jest.mock('../../../lib/util/getConfig');
 jest.mock('../../../lib/util/registry');
 jest.mock('../../../lib/helpers');
+jest.mock('../../../lib/util/path');
 
 describe('Folder Operations Integration', () => {
-  let fsMock;
-  let fsPromisesMock;
-  let mockBuildUrl;
-  let mockGetValueSync;
+  let createFolder;
+  let deleteFile;
+  let uploadFile;
+  let fs;
+  let fsPromises;
+  let buildUrl;
+  let getValueSync;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
 
-    fsMock = require('fs');
-    fsMock.existsSync = jest.fn();
-    fsMock.lstatSync = jest.fn();
-    fsMock.unlinkSync = jest.fn();
+    const createFolderModule = await import('../../services/createFolder.ts');
+    createFolder = createFolderModule.createFolder;
 
-    fsPromisesMock = require('fs/promises');
-    fsPromisesMock.mkdir = jest.fn().mockResolvedValue(undefined);
-    fsPromisesMock.writeFile = jest.fn().mockResolvedValue(undefined);
+    const deleteFileModule = await import('../../services/deleteFile.ts');
+    deleteFile = deleteFileModule.deleteFile;
 
-    mockBuildUrl = jest.fn((route, params) => `/static/${params.join('/')}`);
-    require('../../../lib/router/buildUrl').buildUrl = mockBuildUrl;
+    const uploadFileModule = await import('../../services/uploadFile.ts');
+    uploadFile = uploadFileModule.uploadFile;
 
-    mockGetValueSync = jest.fn((key, defaultValue) => defaultValue);
-    require('../../../lib/util/registry').getValueSync = mockGetValueSync;
+    fs = await import('fs');
+    fsPromises = await import('fs/promises');
+
+    const buildUrlModule = await import('../../../lib/router/buildUrl.js');
+    buildUrl = buildUrlModule.buildUrl;
+
+    const registryModule = await import('../../../lib/util/registry.js');
+    getValueSync = registryModule.getValueSync;
+
+    // Setup mocks
+    (fs.existsSync as jest.Mock).mockClear();
+    (fs.lstatSync as jest.Mock).mockClear();
+    (fs.unlinkSync as jest.Mock).mockClear();
+
+    (fsPromises.mkdir as jest.Mock).mockResolvedValue(undefined);
+    (fsPromises.writeFile as jest.Mock).mockResolvedValue(undefined);
+
+    (buildUrl as jest.Mock).mockImplementation((route, params) => `/static/${params.join('/')}`);
+
+    (getValueSync as jest.Mock).mockImplementation((key, defaultValue) => defaultValue);
   });
 
   describe('Create and delete folder', () => {
     it('should create folder successfully', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const result = await createFolder('test-folder');
 
       expect(result).toBe('test-folder');
-      expect(fsPromisesMock.mkdir).toHaveBeenCalled();
+      expect(fsPromises.mkdir).toHaveBeenCalled();
     });
 
     it('should delete file in folder', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
       await deleteFile('test-folder/file.jpg');
 
-      expect(fsMock.unlinkSync).toHaveBeenCalled();
+      expect(fs.unlinkSync).toHaveBeenCalled();
     });
 
     it('should handle folder lifecycle', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const folderName = 'lifecycle-test';
       await createFolder(folderName);
 
-      expect(fsPromisesMock.mkdir).toHaveBeenCalled();
+      expect(fsPromises.mkdir).toHaveBeenCalled();
     });
   });
 
   describe('Upload to created folder', () => {
     it('should upload file to newly created folder', async () => {
-      fsMock.existsSync
+      (fs.existsSync as jest.Mock)
         .mockReturnValueOnce(false)
         .mockReturnValueOnce(false);
 
@@ -85,11 +104,11 @@ describe('Folder Operations Integration', () => {
       const result = await uploadFile([file], folder);
 
       expect(result[0]).toHaveProperty('url');
-      expect(fsPromisesMock.writeFile).toHaveBeenCalled();
+      expect(fsPromises.writeFile).toHaveBeenCalled();
     });
 
     it('should create folder and upload multiple files', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const folder = 'product-images';
       await createFolder(folder);
@@ -112,23 +131,23 @@ describe('Folder Operations Integration', () => {
       const result = await uploadFile(files, folder);
 
       expect(result).toHaveLength(2);
-      expect(fsPromisesMock.writeFile).toHaveBeenCalledTimes(2);
+      expect(fsPromises.writeFile).toHaveBeenCalledTimes(2);
     });
   });
 
   describe('Nested folder operations', () => {
     it('should create nested directory structure', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const nestedPath = 'parent/child/grandchild';
       const result = await createFolder(nestedPath);
 
       expect(result).toBe(nestedPath);
-      expect(fsPromisesMock.mkdir).toHaveBeenCalled();
+      expect(fsPromises.mkdir).toHaveBeenCalled();
     });
 
     it('should upload files to nested folder', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const nestedPath = 'products/2024/january';
       await createFolder(nestedPath);
@@ -147,7 +166,7 @@ describe('Folder Operations Integration', () => {
     });
 
     it('should handle deeply nested paths', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const deepPath = 'a/b/c/d/e/f';
       const result = await createFolder(deepPath);
@@ -158,19 +177,19 @@ describe('Folder Operations Integration', () => {
 
   describe('Delete folder with files', () => {
     it('should delete file before folder', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
       await deleteFile('folder/file.jpg');
 
-      expect(fsMock.unlinkSync).toHaveBeenCalled();
+      expect(fs.unlinkSync).toHaveBeenCalled();
     });
 
     it('should handle multiple file deletions from folder', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
@@ -180,13 +199,13 @@ describe('Folder Operations Integration', () => {
         await deleteFile(`folder/${file}`);
       }
 
-      expect(fsMock.unlinkSync).toHaveBeenCalledTimes(3);
+      expect(fs.unlinkSync).toHaveBeenCalledTimes(3);
     });
   });
 
   describe('Folder path validation', () => {
     it('should validate path during creation', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const path = 'valid/path/structure';
       const result = await createFolder(path);
@@ -195,7 +214,7 @@ describe('Folder Operations Integration', () => {
     });
 
     it('should handle path normalization', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const result = await createFolder('products/images');
 
@@ -203,7 +222,7 @@ describe('Folder Operations Integration', () => {
     });
 
     it('should preserve path during operations', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const originalPath = 'original/path';
       const result = await createFolder(originalPath);
@@ -214,26 +233,26 @@ describe('Folder Operations Integration', () => {
 
   describe('Folder existence check', () => {
     it('should check existence before creating', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       await createFolder('products');
 
-      expect(fsMock.existsSync).toHaveBeenCalled();
+      expect(fs.existsSync).toHaveBeenCalled();
     });
 
     it('should verify file existence before deletion', async () => {
-      fsMock.existsSync.mockReturnValue(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
       await deleteFile('products/file.jpg');
 
-      expect(fsMock.existsSync).toHaveBeenCalled();
+      expect(fs.existsSync).toHaveBeenCalled();
     });
 
     it('should handle varying existence states', async () => {
-      fsMock.existsSync
+      (fs.existsSync as jest.Mock)
         .mockReturnValueOnce(false)
         .mockReturnValueOnce(true)
         .mockReturnValueOnce(false);
@@ -242,13 +261,13 @@ describe('Folder Operations Integration', () => {
       await createFolder('folder2');
       await createFolder('folder3');
 
-      expect(fsMock.existsSync).toHaveBeenCalledTimes(3);
+      expect(fs.existsSync).toHaveBeenCalledTimes(3);
     });
   });
 
   describe('Create multiple folders', () => {
     it('should create multiple independent folders', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const folders = ['folder1', 'folder2', 'folder3'];
 
@@ -256,33 +275,33 @@ describe('Folder Operations Integration', () => {
         await createFolder(folder);
       }
 
-      expect(fsPromisesMock.mkdir).toHaveBeenCalledTimes(3);
+      expect(fsPromises.mkdir).toHaveBeenCalledTimes(3);
     });
 
     it('should create sibling folders', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       await createFolder('products');
       await createFolder('images');
       await createFolder('documents');
 
-      expect(fsPromisesMock.mkdir).toHaveBeenCalledTimes(3);
+      expect(fsPromises.mkdir).toHaveBeenCalledTimes(3);
     });
 
     it('should create hierarchical folders', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       await createFolder('main');
       await createFolder('main/sub1');
       await createFolder('main/sub2');
 
-      expect(fsPromisesMock.mkdir).toHaveBeenCalledTimes(3);
+      expect(fsPromises.mkdir).toHaveBeenCalledTimes(3);
     });
   });
 
   describe('Folder isolation', () => {
     it('should keep files in separate folders isolated', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const file1 = {
         filename: 'file.jpg',
@@ -301,28 +320,28 @@ describe('Folder Operations Integration', () => {
       await uploadFile([file1], 'folder-a');
       await uploadFile([file2], 'folder-b');
 
-      expect(fsPromisesMock.writeFile).toHaveBeenCalledTimes(2);
+      expect(fsPromises.writeFile).toHaveBeenCalledTimes(2);
 
-      const calls = fsPromisesMock.writeFile.mock.calls;
+      const calls = (fsPromises.writeFile as jest.Mock).mock.calls;
       expect(calls[0][0]).toContain('folder-a');
       expect(calls[1][0]).toContain('folder-b');
     });
 
     it('should maintain folder independence', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       await createFolder('folderA/subfolder');
       await createFolder('folderB/subfolder');
 
-      expect(fsPromisesMock.mkdir).toHaveBeenCalledTimes(2);
+      expect(fsPromises.mkdir).toHaveBeenCalledTimes(2);
 
-      const calls = fsPromisesMock.mkdir.mock.calls;
+      const calls = (fsPromises.mkdir as jest.Mock).mock.calls;
       expect(calls[0][0]).toContain('folderA');
       expect(calls[1][0]).toContain('folderB');
     });
 
     it('should handle same filename in different folders', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const file = {
         filename: 'image.jpg',
@@ -334,16 +353,16 @@ describe('Folder Operations Integration', () => {
       await uploadFile([file], 'folder-1');
       await uploadFile([file], 'folder-2');
 
-      expect(fsPromisesMock.writeFile).toHaveBeenCalledTimes(2);
+      expect(fsPromises.writeFile).toHaveBeenCalledTimes(2);
     });
   });
 
   describe('Complex folder scenarios', () => {
     it('should handle create, upload, and delete sequence', async () => {
-      fsMock.existsSync
+      (fs.existsSync as jest.Mock)
         .mockReturnValueOnce(false)
         .mockReturnValueOnce(true);
-      fsMock.lstatSync.mockReturnValue({
+      (fs.lstatSync as jest.Mock).mockReturnValue({
         isDirectory: () => false
       });
 
@@ -360,13 +379,13 @@ describe('Folder Operations Integration', () => {
       await uploadFile([file], folder);
       await deleteFile(`${folder}/test.jpg`);
 
-      expect(fsPromisesMock.mkdir).toHaveBeenCalled();
-      expect(fsPromisesMock.writeFile).toHaveBeenCalled();
-      expect(fsMock.unlinkSync).toHaveBeenCalled();
+      expect(fsPromises.mkdir).toHaveBeenCalled();
+      expect(fsPromises.writeFile).toHaveBeenCalled();
+      expect(fs.unlinkSync).toHaveBeenCalled();
     });
 
     it('should manage multiple files in multiple folders', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const folders = ['products', 'images', 'documents'];
       for (const folder of folders) {
@@ -382,8 +401,8 @@ describe('Folder Operations Integration', () => {
         await uploadFile(files, folder);
       }
 
-      expect(fsPromisesMock.mkdir).toHaveBeenCalledTimes(3);
-      expect(fsPromisesMock.writeFile).toHaveBeenCalledTimes(6);
+      expect(fsPromises.mkdir).toHaveBeenCalledTimes(3);
+      expect(fsPromises.writeFile).toHaveBeenCalledTimes(6);
     });
   });
 });

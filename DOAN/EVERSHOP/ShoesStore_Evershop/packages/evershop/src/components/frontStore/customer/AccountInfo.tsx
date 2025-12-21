@@ -28,7 +28,7 @@ export default function AccountInfo({ title, showLogout }: AccountInfoProps) {
               e.preventDefault();
               try {
                 await logout();
-                window.location.href = '/';
+                window.location.href = '/account/login';
               } catch (error) {
                 toast.error(error.message);
               }

@@ -1,42 +1,50 @@
+/**
+ * @jest-environment node
+ */
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { createFolder } from '../../services/createFolder';
 
 jest.mock('fs');
 jest.mock('fs/promises');
 jest.mock('../../../lib/util/getConfig');
 jest.mock('../../../lib/util/registry');
 jest.mock('../../../lib/helpers');
+jest.mock('../../../lib/util/path');
 
 describe('createFolder Service', () => {
-  let fsMock;
-  let fsPromisesMock;
-  let mockGetValueSync;
+  let createFolder;
+  let fs;
+  let fsPromises;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
 
-    fsMock = require('fs');
-    fsMock.existsSync = jest.fn();
+    const createFolderModule = await import('../../services/createFolder.ts');
+    createFolder = createFolderModule.createFolder;
 
-    fsPromisesMock = require('fs/promises');
-    fsPromisesMock.mkdir = jest.fn().mockResolvedValue(undefined);
+    fs = await import('fs');
+    fsPromises = await import('fs/promises');
 
-    mockGetValueSync = jest.fn((key, defaultValue) => defaultValue);
-    require('../../../lib/util/registry').getValueSync = mockGetValueSync;
+    const registryModule = await import('../../../lib/util/registry.js');
+    const getValueSync = registryModule.getValueSync;
+
+    // Setup mock implementations
+    const getValueSync = registryModule.getValueSync;
+    (getValueSync as jest.Mock).mockImplementation((key, defaultValue) => defaultValue);
+    (fsPromises.mkdir as jest.Mock).mockResolvedValue(undefined);
   });
 
   describe('Create new folder', () => {
     it('should successfully create a new folder', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const result = await createFolder('products');
 
-      expect(fsPromisesMock.mkdir).toHaveBeenCalled();
+      expect(fsPromises.mkdir).toHaveBeenCalled();
       expect(result).toBe('products');
     });
 
     it('should return the destination path', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const result = await createFolder('products/images');
 
@@ -44,7 +52,7 @@ describe('createFolder Service', () => {
     });
 
     it('should not throw error on successful creation', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       await expect(createFolder('products')).resolves.toBe('products');
     });
@@ -52,31 +60,31 @@ describe('createFolder Service', () => {
 
   describe('Create nested folders', () => {
     it('should create nested directory structure', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       await createFolder('products/images/2024');
 
-      expect(fsPromisesMock.mkdir).toHaveBeenCalledWith(
+      expect(fsPromises.mkdir).toHaveBeenCalledWith(
         expect.stringContaining('products/images/2024'),
         { recursive: true }
       );
     });
 
     it('should handle deep directory paths', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const result = await createFolder('a/b/c/d/e');
 
       expect(result).toBe('a/b/c/d/e');
-      expect(fsPromisesMock.mkdir).toHaveBeenCalled();
+      expect(fsPromises.mkdir).toHaveBeenCalled();
     });
 
     it('should create intermediate directories', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       await createFolder('products/2024/january/images');
 
-      expect(fsPromisesMock.mkdir).toHaveBeenCalledWith(
+      expect(fsPromises.mkdir).toHaveBeenCalledWith(
         expect.stringContaining('products/2024/january/images'),
         { recursive: true }
       );
@@ -85,7 +93,7 @@ describe('createFolder Service', () => {
 
   describe('Folder already exists', () => {
     it('should return path if folder already exists', async () => {
-      fsMock.existsSync.mockReturnValue(true);
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
 
       const result = await createFolder('products');
 
@@ -93,15 +101,15 @@ describe('createFolder Service', () => {
     });
 
     it('should not call mkdir if folder exists', async () => {
-      fsMock.existsSync.mockReturnValue(true);
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
 
       await createFolder('products');
 
-      expect(fsPromisesMock.mkdir).not.toHaveBeenCalled();
+      expect(fsPromises.mkdir).not.toHaveBeenCalled();
     });
 
     it('should handle existing nested folders', async () => {
-      fsMock.existsSync.mockReturnValue(true);
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
 
       const result = await createFolder('products/images/2024');
 
@@ -111,29 +119,29 @@ describe('createFolder Service', () => {
 
   describe('Recursive creation', () => {
     it('should use recursive option in mkdir', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       await createFolder('products/images');
 
-      expect(fsPromisesMock.mkdir).toHaveBeenCalledWith(
+      expect(fsPromises.mkdir).toHaveBeenCalledWith(
         expect.any(String),
         { recursive: true }
       );
     });
 
     it('should allow mkdir to create parent directories', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       await createFolder('new/parent/child');
 
-      const mockCall = fsPromisesMock.mkdir.mock.calls[0];
+      const mockCall = (fsPromises.mkdir as jest.Mock).mock.calls[0];
       expect(mockCall[1]).toEqual({ recursive: true });
     });
   });
 
   describe('Path normalization', () => {
     it('should handle paths with multiple separators', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const result = await createFolder('products//images');
 
@@ -141,7 +149,7 @@ describe('createFolder Service', () => {
     });
 
     it('should return input path without modification', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const result = await createFolder('products/images/2024');
 
@@ -149,7 +157,7 @@ describe('createFolder Service', () => {
     });
 
     it('should preserve path case', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const result = await createFolder('Products/Images');
 
@@ -159,16 +167,16 @@ describe('createFolder Service', () => {
 
   describe('Handle deep paths', () => {
     it('should handle 5+ level deep folders', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const result = await createFolder('a/b/c/d/e/f');
 
       expect(result).toBe('a/b/c/d/e/f');
-      expect(fsPromisesMock.mkdir).toHaveBeenCalled();
+      expect(fsPromises.mkdir).toHaveBeenCalled();
     });
 
     it('should handle very deep directory structures', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const path = Array(20).fill('level').join('/');
       const result = await createFolder(path);
@@ -179,7 +187,7 @@ describe('createFolder Service', () => {
 
   describe('Empty path handling', () => {
     it('should handle empty path gracefully', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       const result = await createFolder('');
 
@@ -187,7 +195,7 @@ describe('createFolder Service', () => {
     });
 
     it('should handle root path', async () => {
-      fsMock.existsSync.mockReturnValue(true);
+      (fs.existsSync as jest.Mock).mockReturnValue(true);
 
       const result = await createFolder('/');
 
@@ -197,15 +205,15 @@ describe('createFolder Service', () => {
 
   describe('Existence checking', () => {
     it('should check folder existence before creation', async () => {
-      fsMock.existsSync.mockReturnValue(false);
+      (fs.existsSync as jest.Mock).mockReturnValue(false);
 
       await createFolder('products');
 
-      expect(fsMock.existsSync).toHaveBeenCalled();
+      expect(fs.existsSync).toHaveBeenCalled();
     });
 
     it('should handle varying existence states', async () => {
-      fsMock.existsSync
+      (fs.existsSync as jest.Mock)
         .mockReturnValueOnce(false)
         .mockReturnValueOnce(true)
         .mockReturnValueOnce(false);
@@ -214,7 +222,7 @@ describe('createFolder Service', () => {
       await createFolder('images');
       await createFolder('documents');
 
-      expect(fsMock.existsSync).toHaveBeenCalledTimes(3);
+      expect(fs.existsSync).toHaveBeenCalledTimes(3);
     });
   });
 });

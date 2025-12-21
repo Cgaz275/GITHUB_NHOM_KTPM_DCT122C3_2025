@@ -55,7 +55,7 @@ await jest.unstable_mockModule('../../../../../lib/helpers.js', () => ({
 }));
 
 // Import imageProcessor only after mocking helpers
-const { imageProcessor } = await import('../../imageProcessor.js');
+const { imageProcessor } = await import('../../imageProcessor.ts');
 
 // Define test images to be created in the test root media directory
 const testImages = {

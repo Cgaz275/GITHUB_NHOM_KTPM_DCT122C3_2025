@@ -1,20 +1,34 @@
+/**
+ * @jest-environment node
+ */
 import { describe, it, expect, beforeEach, jest } from '@jest/globals';
-import { uploadFile } from '../../services/uploadFile';
 
 jest.mock('fs/promises');
 jest.mock('../../../lib/router/buildUrl');
 jest.mock('../../../lib/util/getConfig');
 jest.mock('../../../lib/util/registry');
 jest.mock('../../../lib/helpers');
+jest.mock('../../../lib/util/path');
 
 describe('uploadFile Service', () => {
   let mockFiles;
-  let mockBuildUrl;
-  let mockGetValueSync;
-  let fsMock;
+  let uploadFile;
+  let fsPromises;
+  let buildUrl;
+  let getValueSync;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     jest.clearAllMocks();
+    
+    // Dynamically import after mocks are set up
+    const uploadFileModule = await import('../../services/uploadFile.ts');
+    uploadFile = uploadFileModule.uploadFile;
+    
+    fsPromises = await import('fs/promises');
+    const buildUrlModule = await import('../../../lib/router/buildUrl.js');
+    buildUrl = buildUrlModule.buildUrl;
+    const registryModule = await import('../../../lib/util/registry.js');
+    getValueSync = registryModule.getValueSync;
 
     mockFiles = [
       {
@@ -31,15 +45,11 @@ describe('uploadFile Service', () => {
       }
     ];
 
-    fsMock = require('fs/promises');
-    fsMock.writeFile = jest.fn().mockResolvedValue(undefined);
-    fsMock.mkdir = jest.fn().mockResolvedValue(undefined);
-
-    mockBuildUrl = jest.fn((route, params) => `/static/${params.join('/')}`);
-    require('../../../lib/router/buildUrl').buildUrl = mockBuildUrl;
-
-    mockGetValueSync = jest.fn((key, defaultValue) => defaultValue);
-    require('../../../lib/util/registry').getValueSync = mockGetValueSync;
+    // Setup mock implementations
+    (fsPromises.writeFile as jest.Mock).mockResolvedValue(undefined);
+    (fsPromises.mkdir as jest.Mock).mockResolvedValue(undefined);
+    (buildUrl as jest.Mock).mockImplementation((route, params) => `/static/${params.join('/')}`);
+    (getValueSync as jest.Mock).mockImplementation((key, defaultValue) => defaultValue);
   });
 
   describe('Single file upload', () => {
@@ -56,14 +66,14 @@ describe('uploadFile Service', () => {
     it('should create destination directory', async () => {
       await uploadFile([mockFiles[0]], 'products/images');
 
-      expect(fsMock.mkdir).toHaveBeenCalled();
+      expect(fsPromises.mkdir).toHaveBeenCalled();
     });
 
     it('should write file to destination', async () => {
       await uploadFile([mockFiles[0]], 'products');
 
-      expect(fsMock.writeFile).toHaveBeenCalled();
-      expect(fsMock.writeFile).toHaveBeenCalledWith(
+      expect(fsPromises.writeFile).toHaveBeenCalled();
+      expect(fsPromises.writeFile).toHaveBeenCalledWith(
         expect.stringContaining('image.jpg'),
         mockFiles[0].buffer
       );
@@ -89,7 +99,7 @@ describe('uploadFile Service', () => {
     it('should write all files', async () => {
       await uploadFile(mockFiles, 'products');
 
-      expect(fsMock.writeFile).toHaveBeenCalledTimes(2);
+      expect(fsPromises.writeFile).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -133,7 +143,7 @@ describe('uploadFile Service', () => {
     it('should handle nested destination paths', async () => {
       await uploadFile([mockFiles[0]], 'products/images/2024');
 
-      expect(fsMock.mkdir).toHaveBeenCalled();
+      expect(fsPromises.mkdir).toHaveBeenCalled();
     });
 
     it('should normalize paths with backslashes', async () => {

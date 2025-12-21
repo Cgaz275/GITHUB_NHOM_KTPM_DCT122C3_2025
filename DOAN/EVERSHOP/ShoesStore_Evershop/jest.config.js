@@ -1,6 +1,7 @@
 export default {
   testEnvironment: "node",
   preset: 'ts-jest/presets/default-esm',
+  coverageProvider: 'v8',
   transform: {
     '^.+\\.tsx?$': ['ts-jest', {
       useESM: true,
