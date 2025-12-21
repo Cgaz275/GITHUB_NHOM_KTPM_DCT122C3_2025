@@ -1,0 +1,54 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36" version="29.2.9">
+  <diagram name="Trang-1" id="UoashzB6AQKsiVps5D2y">
+    <mxGraphModel dx="1042" dy="527" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2339" pageHeight="3300" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="7Lf5d3YsI75tqpnIVIHe-1" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Người dùng" vertex="1">
+          <mxGeometry height="60" width="30" x="580" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="7Lf5d3YsI75tqpnIVIHe-2" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Khách hàng" vertex="1">
+          <mxGeometry height="60" width="30" x="230" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="7Lf5d3YsI75tqpnIVIHe-3" parent="1" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;" value="Quản trị viên" vertex="1">
+          <mxGeometry height="60" width="30" x="980" y="90" as="geometry" />
+        </mxCell>
+        <mxCell id="7Lf5d3YsI75tqpnIVIHe-5" parent="1" style="shape=folder;fontStyle=1;tabWidth=120;tabHeight=30;tabPosition=left;html=1;boundedLbl=1;whiteSpace=wrap;" value="" vertex="1">
+          <mxGeometry height="100" width="200" x="500" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="7Lf5d3YsI75tqpnIVIHe-6" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Evershop Shoes&amp;nbsp;" vertex="1">
+          <mxGeometry height="30" width="120" x="500" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="7Lf5d3YsI75tqpnIVIHe-7" edge="1" parent="1" style="endArrow=block;startArrow=none;endFill=0;startFill=0;endSize=8;html=1;verticalAlign=bottom;dashed=1;labelBackgroundColor=none;rounded=0;" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="290" y="190" as="sourcePoint" />
+            <mxPoint x="540" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7Lf5d3YsI75tqpnIVIHe-8" edge="1" parent="1" style="endArrow=block;startArrow=none;endFill=0;startFill=0;endSize=8;html=1;verticalAlign=bottom;dashed=1;labelBackgroundColor=none;rounded=0;" value="">
+          <mxGeometry relative="1" width="160" as="geometry">
+            <mxPoint x="970" y="180" as="sourcePoint" />
+            <mxPoint x="650" y="300" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7Lf5d3YsI75tqpnIVIHe-9" edge="1" parent="1" style="endArrow=open;html=1;endSize=12;startArrow=open;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;align=center;verticalAlign=bottom;endFill=0;rounded=0;dashed=1;" value="Chức năng có thể thực hiện: Đăng nhập,&amp;nbsp;&lt;div&gt;Đăng ký,&amp;nbsp;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Đăng xuất,&amp;nbsp;&lt;/span&gt;&lt;span style=&quot;color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255)); background-color: light-dark(#ffffff, var(--ge-dark-color, #121212));&quot;&gt;Quản lý mua hàng,&amp;nbsp;&lt;/span&gt;&lt;div&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Xem, tìm kiếm, lọc sản phẩm,&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;&amp;nbsp;Theo dõi đơn hàng.&lt;/span&gt;&lt;/div&gt;&lt;/div&gt;">
+          <mxGeometry relative="1" x="0.0025" y="-9" as="geometry">
+            <mxPoint y="-19" as="offset" />
+            <mxPoint x="290" y="129.5" as="sourcePoint" />
+            <mxPoint x="490" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="7Lf5d3YsI75tqpnIVIHe-10" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;rounded=0;" value="- Xác thực và phân quyền truy cập&lt;div&gt;- Quản lý sản phẩm&lt;/div&gt;&lt;div&gt;- Quản lý mua hàng&lt;/div&gt;&lt;div&gt;- Quản lý đơn hàng&lt;/div&gt;" vertex="1">
+          <mxGeometry height="90" width="200" x="505" y="85" as="geometry" />
+        </mxCell>
+        <mxCell id="7Lf5d3YsI75tqpnIVIHe-11" edge="1" parent="1" style="endArrow=open;html=1;endSize=12;startArrow=open;startSize=14;startFill=0;edgeStyle=orthogonalEdgeStyle;align=center;verticalAlign=bottom;endFill=0;rounded=0;dashed=1;" value="Chức năng có thể thực hiện: Đăng nhập,&amp;nbsp;&lt;div&gt;Đăng xuất,&amp;nbsp;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Quản lý sản phẩm,&amp;nbsp;&lt;/span&gt;&lt;/div&gt;&lt;div&gt;&lt;span style=&quot;background-color: light-dark(#ffffff, var(--ge-dark-color, #121212)); color: light-dark(rgb(0, 0, 0), rgb(255, 255, 255));&quot;&gt;Quản lý khách hàng, Xử lý đơn hàng.&lt;/span&gt;&lt;/div&gt;">
+          <mxGeometry relative="1" x="0.0025" y="-9" as="geometry">
+            <mxPoint y="-19" as="offset" />
+            <mxPoint x="705" y="129.5" as="sourcePoint" />
+            <mxPoint x="960" y="130" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
