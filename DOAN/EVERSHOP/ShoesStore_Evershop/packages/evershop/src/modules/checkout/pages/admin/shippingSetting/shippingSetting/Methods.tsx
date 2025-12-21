@@ -2,15 +2,16 @@ import { Modal } from '@components/common/modal/Modal.js';
 import { useModal } from '@components/common/modal/useModal.js';
 import React from 'react';
 import { Method, ShippingMethod } from './Method.js';
-import { MethodForm } from './MethodForm.js';
+import { ZoneMethodForm } from './ZoneMethodForm.js';
 
 export interface MethodsProps {
   methods: Array<ShippingMethod>;
   reload: () => void;
   addMethodApi: string;
+  zoneId: string;
 }
 
-export function Methods({ reload, methods, addMethodApi }: MethodsProps) {
+export function Methods({ reload, methods, addMethodApi, zoneId }: MethodsProps) {
   const modal = useModal();
   return (
     <div className="my-5">
@@ -27,7 +28,7 @@ export function Methods({ reload, methods, addMethodApi }: MethodsProps) {
         <tbody>
           {methods.map((method) => (
             <tr key={method.methodId} className="border-divider py-5">
-              <Method method={method} reload={reload} />
+              <Method method={method} reload={reload} zoneId={zoneId} />
             </tr>
           ))}
         </tbody>
@@ -45,7 +46,8 @@ export function Methods({ reload, methods, addMethodApi }: MethodsProps) {
         </a>
       </div>
       <Modal title="Add Method" onClose={modal.close} isOpen={modal.isOpen}>
-        <MethodForm
+        <ZoneMethodForm
+          zoneId={zoneId}
           saveMethodApi={addMethodApi}
           onSuccess={() => modal.close()}
           reload={reload}

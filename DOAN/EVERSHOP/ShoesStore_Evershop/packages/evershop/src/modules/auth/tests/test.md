@@ -977,19 +977,22 @@ npm test
 ### Chạy Riêng Module Auth
 
 ```bash
-npm test -- src/modules/auth/tests
+npm run test:auth -- --testPathPattern="packages/evershop/src/modules/auth/tests"
+
 ```
 
 ### Chạy Unit Tests Riêng
 
 ```bash
-npm test -- unit
+npm run test:auth -- --testPathPattern="packages/evershop/src/modules/auth/tests/unit"
+
 ```
 
 ### Chạy Integration Tests Riêng
 
 ```bash
-npm test -- integration
+npm run test:auth -- --testPathPattern="packages/evershop/src/modules/auth/tests/intergration"
+
 ```
 
 ### Chạy Test Cụ Thể

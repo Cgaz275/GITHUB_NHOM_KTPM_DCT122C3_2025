@@ -3,7 +3,7 @@ import { useModal } from '@components/common/modal/useModal.js';
 import { CogIcon } from '@heroicons/react/24/outline';
 import React from 'react';
 import { toast } from 'react-toastify';
-import { MethodForm } from './MethodForm.js';
+import { ZoneMethodForm } from './ZoneMethodForm.js';
 
 export interface ShippingMethod {
   methodId: string;
@@ -32,9 +32,10 @@ export interface ShippingMethod {
 export interface MethodProps {
   method: ShippingMethod;
   reload: () => void;
+  zoneId: string;
 }
 
-function Method({ method, reload }: MethodProps) {
+function Method({ method, reload, zoneId }: MethodProps) {
   const modal = useModal();
   return (
     <>
@@ -111,7 +112,8 @@ function Method({ method, reload }: MethodProps) {
         onClose={modal.close}
         isOpen={modal.isOpen}
       >
-        <MethodForm
+        <ZoneMethodForm
+          zoneId={zoneId}
           saveMethodApi={method.updateApi}
           onSuccess={() => modal.close()}
           reload={reload}

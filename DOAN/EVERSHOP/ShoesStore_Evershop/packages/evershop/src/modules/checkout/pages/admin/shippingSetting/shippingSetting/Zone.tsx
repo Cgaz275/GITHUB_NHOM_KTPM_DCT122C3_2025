@@ -104,6 +104,7 @@ function Zone({ zone, reload }: ZoneProps) {
               methods={zone.methods}
               reload={reload}
               addMethodApi={zone.addMethodApi}
+              zoneId={zone.uuid}
             />
           </div>
         </div>

@@ -5,7 +5,7 @@ import { Form, useFormContext } from '@components/common/form/Form.js';
 import { InputField } from '@components/common/form/InputField.js';
 import { NumberField } from '@components/common/form/NumberField.js';
 import { RadioGroupField } from '@components/common/form/RadioGroupField.js';
-import { ReactSelectCreatableField } from '@components/common/form/ReactSelectCreatableField.js';
+import { ReactSelectField } from '@components/common/form/ReactSelectField.js';
 import { ToggleField } from '@components/common/form/ToggleField.js';
 import { UrlField } from '@components/common/form/UrlField.js';
 import React, { useEffect } from 'react';
@@ -16,22 +16,20 @@ import { ShippingMethod } from './Method.js';
 import { PriceBasedPrice } from './PriceBasedPrice.js';
 import { WeightBasedPrice } from './WeightBasedPrice.js';
 
-const MethodsQuery = `
-  query Methods {
+const AvailableMethodsQuery = `
+  query AvailableMethods {
     shippingMethods {
-      value: shippingMethodId
+      value: uuid
       label: name
-      updateApi
     }
-    createShippingMethodApi: url(routeId: "createShippingMethod")
   }
 `;
 
-export interface ConditionProps {
+export interface ZoneConditionProps {
   method?: ShippingMethod;
 }
 
-function Condition({ method }: ConditionProps) {
+function ZoneCondition({ method }: ZoneConditionProps) {
   const { watch, setValue } = useFormContext();
   const type = watch('condition_type', method?.conditionType || 'price');
 
@@ -99,14 +97,15 @@ const getType = (method: ShippingMethod | null) => {
   return 'flat_rate';
 };
 
-export interface MethodFormProps {
+export interface ZoneMethodFormProps {
+  zoneId: string;
   saveMethodApi: string;
   onSuccess: () => void;
   reload: () => void;
   method?: ShippingMethod;
 }
 
-const CostSetting: React.FC<{
+const ZoneCostSetting: React.FC<{
   method: ShippingMethod | null;
 }> = ({ method }) => {
   const { watch } = useFormContext();
@@ -144,47 +143,23 @@ const CostSetting: React.FC<{
   );
 };
 
-function MethodForm({
+function ZoneMethodForm({
+  zoneId,
   saveMethodApi,
   onSuccess,
   reload,
   method
-}: MethodFormProps) {
+}: ZoneMethodFormProps) {
   const form = useForm({
     shouldUnregister: true
   });
-  const [shippingMethod, setShippingMethod] = React.useState(method);
-  const [isLoading, setIsLoading] = React.useState(false);
   const [hasCondition, setHasCondition] = React.useState(
     !!method?.conditionType
   );
-  const [name, setName] = React.useState(method?.name || '');
-  const [updatingName, setUpdatingName] = React.useState(false);
 
   const [result, reexecuteQuery] = useQuery({
-    query: MethodsQuery
+    query: AvailableMethodsQuery
   });
-
-  const handleCreate = async (inputValue) => {
-    setIsLoading(true);
-    const response = await fetch(result.data.createShippingMethodApi, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'same-origin',
-      body: JSON.stringify({
-        name: inputValue
-      })
-    });
-    const data = await response.json();
-    if (response.ok) {
-      form.setValue('method_id', data.data.uuid);
-    } else {
-      toast.error(data.error.message);
-    }
-    setIsLoading(false);
-  };
 
   if (result.fetching) {
     return (
@@ -194,13 +169,17 @@ function MethodForm({
     );
   }
 
-  const currentMethod = result.data.shippingMethods.find(
-    (m) => m.value === shippingMethod
-  );
+  if (result.error) {
+    return (
+      <div className="text-critical">
+        Error loading available shipping methods
+      </div>
+    );
+  }
 
   return (
     <Form
-      id="shippingMethodForm"
+      id="zoneMethodForm"
       method={method ? 'PATCH' : 'POST'}
       action={saveMethodApi}
       submitBtn={false}
@@ -215,69 +194,37 @@ function MethodForm({
       }}
       form={form}
     >
-      <Card.Session title="Method name">
+      <Card.Session title="Select Method">
         {!method ? (
-          <ReactSelectCreatableField
-            name="shippingMethod"
-            isClearable
-            isDisabled={isLoading}
-            isLoading={isLoading}
-            onCreateOption={handleCreate}
-            options={result.data.shippingMethods}
-            required
-            validation={{ required: 'Shipping method is required' }}
-          />
-        ) : (
-          <div className="flex gap-2 justify-start items-center">
-            <InputField
-              name="name"
-              placeholder="Method name"
+          <>
+            <ReactSelectField
+              name="method_id"
+              options={result.data.shippingMethods}
+              hideSelectedOptions={false}
+              isMulti={false}
               required
-              defaultValue={name}
-              disabled={!updatingName}
-              validation={{ required: 'Method name is required' }}
+              validation={{ required: 'Shipping method is required' }}
+              placeholder="Select a shipping method"
             />
-            {updatingName && (
-              <Button
-                title="Save"
-                variant="primary"
-                onAction={async () => {
-                  // Use fetch to call the API (method.updateApi) to update the method name
-                  // The API should accept a PATCH request with the new name as the payload
-                  // The API should return the updated method object
-                  const response = await fetch(currentMethod.updateApi, {
-                    method: 'PATCH',
-                    headers: {
-                      'Content-Type': 'application/json'
-                    },
-                    credentials: 'same-origin',
-                    body: JSON.stringify({
-                      name
-                    })
-                  });
-                  const data = await response.json();
-                  if (response.ok) {
-                    setName(data.name);
-                    setUpdatingName(false);
-                  } else {
-                    toast.error(data.error.message);
-                  }
-                }}
-              />
-            )}
-          </div>
+            <p className="text-gray-600 text-sm mt-2">
+              Choose an existing shipping method to add to this zone.
+            </p>
+          </>
+        ) : (
+          <>
+            <div className="p-3 bg-gray-100 rounded border border-gray-300">
+              <p className="font-medium">{method.name}</p>
+              <p className="text-sm text-gray-600">Method is locked while editing</p>
+            </div>
+            <InputField
+              type="hidden"
+              name="method_id"
+              value={method?.uuid || ''}
+            />
+          </>
         )}
-        <InputField
-          type="hidden"
-          name="method_id"
-          defaultValue={method?.uuid || ''}
-        />
-        <ToggleField
-          name="is_enabled"
-          label="Status"
-          defaultValue={method?.isEnabled || 0}
-        />
       </Card.Session>
+
       <Card.Session title="Setup shipping cost">
         <RadioGroupField
           name="calculation_type"
@@ -290,7 +237,8 @@ function MethodForm({
           defaultValue={getType(method || null)}
         />
 
-        <CostSetting method={method || null} />
+        <ZoneCostSetting method={method || null} />
+
         <a
           href="#"
           className="text-interactive"
@@ -304,23 +252,23 @@ function MethodForm({
         {!hasCondition && (
           <InputField name="condition_type" type="hidden" value="none" />
         )}
-        {hasCondition && <Condition method={method} />}
+        {hasCondition && <ZoneCondition method={method} />}
       </Card.Session>
+
+      <Card.Session>
+        <ToggleField
+          name="is_enabled"
+          label="Status"
+          defaultValue={method?.isEnabled || 1}
+        />
+      </Card.Session>
+
       <Card.Session>
         <div className="flex justify-end gap-2">
           <Button
             title="Save"
             variant="primary"
-            onAction={() => {
-              (
-                document.getElementById('shippingMethodForm') as HTMLFormElement
-              ).dispatchEvent(
-                new Event('submit', {
-                  cancelable: true,
-                  bubbles: true
-                })
-              );
-            }}
+            type="submit"
           />
         </div>
       </Card.Session>
@@ -328,4 +276,4 @@ function MethodForm({
   );
 }
 
-export { MethodForm };
+export { ZoneMethodForm };
