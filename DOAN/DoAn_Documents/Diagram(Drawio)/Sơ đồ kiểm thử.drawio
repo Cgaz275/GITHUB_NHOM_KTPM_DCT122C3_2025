@@ -1,0 +1,759 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/28.1.2 Chrome/138.0.7204.243 Electron/37.4.0 Safari/537.36" version="28.1.2">
+  <diagram name="Page-1" id="oKmb7yqQ1UHNGrxV7kXP">
+    <mxGraphModel dx="3200" dy="2488" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="PU-HIresxI12i5OKyIDf-137" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=20;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry y="3640" width="1330" height="800" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-119" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=20;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="-36" y="2665" width="1876" height="840" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-1" value="🔧 Mocks &amp; Dependencies" style="whiteSpace=wrap;strokeWidth=2;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=16;verticalAlign=bottom;" vertex="1" parent="1">
+          <mxGeometry x="779" y="45" width="221" height="1255" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-2" value="🧪 KIỂM THỬ ĐƠN VỊ" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=bottom;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="10" y="-30" width="661" height="1340" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-3" value="📁 Utils&#xa;Tests" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="377" y="590" width="269" height="446" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-4" value="📁 Services&#xa;Tests" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="376.5" y="-10" width="269" height="570" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-5" value="📁 Middleware&#xa;Tests" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="377" y="1056" width="269" height="206" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-6" value="📁 Controllers&#xa;Tests" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="45" y="144" width="282" height="1129" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-7" value="testingController.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="70" y="1080" width="232" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-8" value="AuthController.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="78" y="387" width="216" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-9" value="adminController.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="73" y="1184" width="227" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-10" value="userController.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="80" y="179" width="213" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-11" value="reportController.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="72" y="283" width="228" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-12" value="auth.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="439" y="1156" width="145" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-13" value="testingService.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="405" y="75" width="213" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-14" value="authService.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="413" y="387" width="196" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-15" value="stateController.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="402" y="491" width="219" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-16" value="userInterface.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="407" y="179" width="208" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-17" value="reportService.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="407" y="283" width="209" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-18" value="logger.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="434" y="635" width="155" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-19" value="authenticate.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="409" y="843" width="204" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-20" value="email.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="435" y="739" width="152" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-21" value="pdfGenerator.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="408" y="947" width="207" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-22" value="pool&#xa;Database" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="815" y="167" width="126" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-23" value="API&#xa;Endpoints" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="813" y="477" width="130" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-24" value="jwt/&#xa;token.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="818" y="605" width="119" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-25" value="database.js&#xa;helpers" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="806" y="925" width="143" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-26" value="middleware&#xa;functions" style="whiteSpace=wrap;strokeWidth=2;fontSize=16;" vertex="1" parent="1">
+          <mxGeometry x="806" y="1144" width="144" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-27" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.17;entryY=0;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-7" target="PU-HIresxI12i5OKyIDf-12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="377" y="1107" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-28" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-8" target="PU-HIresxI12i5OKyIDf-14">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-29" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.78;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-9" target="PU-HIresxI12i5OKyIDf-12">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="377" y="1211" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-30" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-10" target="PU-HIresxI12i5OKyIDf-16">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-31" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-11" target="PU-HIresxI12i5OKyIDf-17">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-32" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.21;entryY=0;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-13" target="PU-HIresxI12i5OKyIDf-22">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="781" y="102" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-33" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.06;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-14" target="PU-HIresxI12i5OKyIDf-24">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="646" y="414" />
+              <mxPoint x="671" y="588" />
+              <mxPoint x="781" y="588" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-34" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.4;entryY=0;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-15" target="PU-HIresxI12i5OKyIDf-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="646" y="518" />
+              <mxPoint x="671" y="716" />
+              <mxPoint x="781" y="716" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-35" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-16" target="PU-HIresxI12i5OKyIDf-22">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-36" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.02;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-17" target="PU-HIresxI12i5OKyIDf-23">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="646" y="310" />
+              <mxPoint x="671" y="460" />
+              <mxPoint x="781" y="460" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-37" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.37;entryY=1;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-18" target="PU-HIresxI12i5OKyIDf-22">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="646" y="662" />
+              <mxPoint x="671" y="440" />
+              <mxPoint x="781" y="440" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-38" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.91;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-19" target="PU-HIresxI12i5OKyIDf-24">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="646" y="870" />
+              <mxPoint x="671" y="696" />
+              <mxPoint x="781" y="696" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-39" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.95;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-20" target="PU-HIresxI12i5OKyIDf-23">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="646" y="766" />
+              <mxPoint x="671" y="568" />
+              <mxPoint x="781" y="568" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-40" value="" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.59;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-21" target="PU-HIresxI12i5OKyIDf-25">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="781" y="974" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-41" value="mocked" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.5;rounded=0;fontSize=16;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-12" target="PU-HIresxI12i5OKyIDf-26">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-43" value="🔗 KIỂM THỬ TÍCH HỢP (INTEGRATION TESTING)" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;fontSize=24;fillColor=#d5e8d4;strokeColor=#82b366;fontStyle=1" vertex="1" parent="1">
+          <mxGeometry x="-100" y="1500" width="1780" height="945" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-44" value="JWT / bcrypt" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="626" y="68.63128491620111" width="155" height="57.01675977653631" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-45" value="🔧 Mocks" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="588" y="29.564245810055866" width="230" height="133.03910614525142" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-46" value="adminflow.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="93" y="111.92178770949721" width="186" height="57.01675977653631" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-47" value="Express&#xa;Routes" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="646" y="492.0335195530726" width="113" height="82.35754189944134" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-48" value="auth.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="113" y="240.73743016759775" width="145" height="57.01675977653631" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-49" value="createListing.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="83" y="350.54748603351953" width="206" height="57.01675977653631" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-50" value="viewListing.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="90" y="536.3798882681564" width="192" height="57.01675977653631" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-51" value="reportflow.test.ts" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="92" y="646.1899441340782" width="187" height="57.01675977653631" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-52" value="Supertest&#xa;HTTP Client" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="113" y="798.2346368715083" width="145" height="82.35754189944134" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-53" value="listing Services&#xa;+ User Services" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="1085" y="649.3575418994413" width="168" height="82.35754189944134" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-54" value="audit flow&#xa;Services" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="1103" y="514.2067039106145" width="133" height="82.35754189944134" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-55" value="report Services" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="1085" y="404.39664804469277" width="168" height="57.01675977653631" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-56" value="admin Services" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="1086" y="294.58659217877096" width="167" height="57.01675977653631" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-57" value="PostgreSQL&#xa;(pool query)" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="1546" y="462.4692737430168" width="148" height="82.35754189944134" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-58" value="Supabase Storage" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="1527" y="716.9329608938548" width="185" height="57.01675977653631" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-59" value="💾 Database" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="1490" y="262.9106145251397" width="260" height="549.0502793296089" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-60" value="📁 Services" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="1048" y="257.63128491620114" width="243" height="511.0391061452514" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-61" value="⚙️ Express App&#xa;(app.ts + Routes)" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="588" y="183.72067039106145" width="230" height="691.5921787709497" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-62" value="🧪 Supertest&#xa;(Request)" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="46" y="761.2793296089385" width="281" height="156.268156424581" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-63" value="📁 Controllers" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="PU-HIresxI12i5OKyIDf-43">
+          <mxGeometry x="46" y="30.620111731843576" width="281" height="709.5418994413408" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-64" value="Admin user&#xa;workflow" style="curved=1;startArrow=none;endArrow=block;exitX=0.96;exitY=0.99;entryX=0.34;entryY=-0.01;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-46" target="PU-HIresxI12i5OKyIDf-47">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="326" y="186.88826815642457" />
+              <mxPoint x="457" y="186.88826815642457" />
+              <mxPoint x="588" y="280.86033519553075" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-65" value="Xem pending&#xa;updates" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.75;entryX=0.24;entryY=-0.01;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-48" target="PU-HIresxI12i5OKyIDf-47">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="326" y="296.6983240223464" />
+              <mxPoint x="457" y="296.6983240223464" />
+              <mxPoint x="588" y="376.9441340782123" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-66" value="Xem listing public&#xa;+ self settings" style="curved=1;startArrow=none;endArrow=block;exitX=0.81;exitY=1;entryX=0.04;entryY=-0.01;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-49" target="PU-HIresxI12i5OKyIDf-47">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="326" y="442.4078212290503" />
+              <mxPoint x="588" y="442.4078212290503" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-67" value="User report -&#xa;Admin từ" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.69;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-50" target="PU-HIresxI12i5OKyIDf-47">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="588" y="564.8882681564246" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-68" value="User report - Admin xử lý" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.21;entryY=0.99;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-51" target="PU-HIresxI12i5OKyIDf-47">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="588" y="674.6983240223464" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-69" value="Gọi API test&#xa;GET/POST/PUT" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.37;entryY=0.99;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-52" target="PU-HIresxI12i5OKyIDf-47">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="588" y="839.413407821229" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-70" value="mock listing Services" style="curved=1;startArrow=none;endArrow=block;exitX=0.77;exitY=0.99;entryX=0;entryY=0.49;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-47" target="PU-HIresxI12i5OKyIDf-53">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="818" y="690.5363128491621" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-71" value="mock audit flow" style="curved=1;startArrow=none;endArrow=block;exitX=1.01;exitY=0.63;entryX=0;entryY=0.49;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-47" target="PU-HIresxI12i5OKyIDf-54">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="818" y="555.3854748603352" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-72" value="mock report Services" style="curved=1;startArrow=none;endArrow=block;exitX=0.92;exitY=-0.01;entryX=0;entryY=0.49;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-47" target="PU-HIresxI12i5OKyIDf-55">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="818" y="432.9050279329609" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-73" value="mock admin Services" style="curved=1;startArrow=none;endArrow=block;exitX=0.7;exitY=-0.01;entryX=0;entryY=0.49;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-47" target="PU-HIresxI12i5OKyIDf-56">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="818" y="323.0949720670391" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-74" value="mock query" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.68;entryX=0.33;entryY=1;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-53" target="PU-HIresxI12i5OKyIDf-57">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1291" y="712.7094972067039" />
+              <mxPoint x="1490" y="712.7094972067039" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-75" value="mock query" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.49;entryX=0;entryY=0.85;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-54" target="PU-HIresxI12i5OKyIDf-57">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1490" y="555.3854748603352" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-76" value="mock query" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.49;entryX=0;entryY=0.01;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-55" target="PU-HIresxI12i5OKyIDf-57">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1490" y="432.9050279329609" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-77" value="mock query" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.49;entryX=0.3;entryY=0;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-56" target="PU-HIresxI12i5OKyIDf-57">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1490" y="323.0949720670391" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-78" value="mock upload file" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.12;entryX=0.3;entryY=-0.01;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-53" target="PU-HIresxI12i5OKyIDf-58">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1291" y="645.1340782122905" />
+              <mxPoint x="1490" y="645.1340782122905" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-79" value="sử dụng" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=0.89;exitY=-0.01;entryX=0;entryY=0.35;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-46" target="PU-HIresxI12i5OKyIDf-44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="326" y="84.46927374301677" />
+              <mxPoint x="588" y="84.46927374301677" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-80" value="sử dụng" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=1;exitY=0.25;entryX=0;entryY=0.61;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-48" target="PU-HIresxI12i5OKyIDf-44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="326" y="241.79329608938548" />
+              <mxPoint x="457" y="241.79329608938548" />
+              <mxPoint x="588" y="106.64245810055866" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-81" value="sử dụng" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=1;exitY=0.15;entryX=0;entryY=0.86;rounded=0;fontSize=20;" edge="1" parent="PU-HIresxI12i5OKyIDf-43" source="PU-HIresxI12i5OKyIDf-49" target="PU-HIresxI12i5OKyIDf-44">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="326" y="351.6033519553073" />
+              <mxPoint x="457" y="351.6033519553073" />
+              <mxPoint x="588" y="127.75977653631286" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-82" value="🔒 SECURITY" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="461" y="2720" width="255" height="148" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-83" value="💾 DATA LAYER" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1522" y="2842" width="235" height="555" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-84" value="📁 SERVICES" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="1159" y="2843" width="218" height="484" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-85" value="⚙️ EXPRESS APP" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="831" y="2865" width="216" height="417" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-86" value="🧪 TESTING TOOLS" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="461" y="2888" width="255" height="513" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-87" value="📁 CONTROLLERS TESTS" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="43" y="2727" width="282" height="728" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-88" value="👤 adminflow.test.ts&#xa;Admin workflow" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="80" y="2781" width="209" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-89" value="🔐 auth.test.ts&#xa;Authentication" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="98" y="2950" width="171" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-90" value="📝 createListing.test.ts&#xa;Create listing" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="68" y="3086" width="232" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-91" value="👁️ viewListing.test.ts&#xa;View listing" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="75" y="3214" width="219" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-92" value="📊 reportflow.test.ts&#xa;Report handling" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="78" y="3342" width="213" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-93" value="Supertest&#xa;Make HTTP requests" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="486" y="3080" width="205" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-94" value="Express Routes&#xa;GET /users&#xa;POST /listings&#xa;PUT /settings&#xa;etc..." style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="856" y="3044" width="166" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-95" value="listing Services&#xa;+ User Services" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="1184" y="3214" width="168" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-96" value="audit flow&#xa;Services" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="1202" y="3086" width="133" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-97" value="report Services" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="1184" y="2982" width="168" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-98" value="admin Services" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="1185" y="2878" width="167" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-99" value="PostgreSQL&#xa;Database&#xa;mock pool.query" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="1550" y="3034" width="180" height="102" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-100" value="Supabase Storage&#xa;mock upload" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="1547" y="3284" width="185" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-101" value="JWT / bcrypt&#xa;Token &amp;amp; Password" style="whiteSpace=wrap;strokeWidth=2;fontSize=20;" vertex="1" parent="1">
+          <mxGeometry x="494" y="2755" width="188" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-102" value="Test flow" style="curved=1;startArrow=none;endArrow=block;exitX=0.81;exitY=0.99;entryX=0.36;entryY=-0.01;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-88" target="PU-HIresxI12i5OKyIDf-93">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="325" y="2904" />
+              <mxPoint x="393" y="2904" />
+              <mxPoint x="461" y="2945" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-103" value="Test auth" style="curved=1;startArrow=none;endArrow=block;exitX=1.01;exitY=0.89;entryX=0.19;entryY=-0.01;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-89" target="PU-HIresxI12i5OKyIDf-93">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="325" y="3039" />
+              <mxPoint x="461" y="3039" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-104" value="Test create" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.49;entryX=0;entryY=0.56;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-90" target="PU-HIresxI12i5OKyIDf-93">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="461" y="3125" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-105" value="Test view" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.49;entryX=0.32;entryY=0.99;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-91" target="PU-HIresxI12i5OKyIDf-93">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="461" y="3253" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-106" value="Test report" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.49;entryX=0.4;entryY=0.99;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-92" target="PU-HIresxI12i5OKyIDf-93">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="461" y="3381" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-107" value="API calls" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.49;entryX=0;entryY=0.5;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-93" target="PU-HIresxI12i5OKyIDf-94">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-108" value="route to" style="curved=1;startArrow=none;endArrow=block;exitX=0.86;exitY=1;entryX=0;entryY=0.5;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-94" target="PU-HIresxI12i5OKyIDf-95">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1046" y="3253" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-109" value="route to" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.53;entryX=0;entryY=0.5;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-94" target="PU-HIresxI12i5OKyIDf-96">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1046" y="3125" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-110" value="route to" style="curved=1;startArrow=none;endArrow=block;exitX=0.94;exitY=0;entryX=0;entryY=0.5;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-94" target="PU-HIresxI12i5OKyIDf-97">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1046" y="3009" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-111" value="route to" style="curved=1;startArrow=none;endArrow=block;exitX=0.73;exitY=0;entryX=0;entryY=0.5;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-94" target="PU-HIresxI12i5OKyIDf-98">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1046" y="2905" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-112" value="mock query" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.77;entryX=0.33;entryY=1;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-95" target="PU-HIresxI12i5OKyIDf-99">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1377" y="3280" />
+              <mxPoint x="1522" y="3280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-113" value="mock upload" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.08;entryX=0.28;entryY=0;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-95" target="PU-HIresxI12i5OKyIDf-100">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1377" y="3211" />
+              <mxPoint x="1522" y="3211" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-114" value="mock query" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0;entryY=0.8;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-96" target="PU-HIresxI12i5OKyIDf-99">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1522" y="3125" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-115" value="mock query" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.06;entryY=0;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-97" target="PU-HIresxI12i5OKyIDf-99">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1522" y="3009" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-116" value="mock query" style="curved=1;startArrow=none;endArrow=block;exitX=1;exitY=0.5;entryX=0.31;entryY=0;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-98" target="PU-HIresxI12i5OKyIDf-99">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1522" y="2905" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-117" value="verify" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=1;exitY=0.16;entryX=0;entryY=0.41;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-88" target="PU-HIresxI12i5OKyIDf-101">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="325" y="2784" />
+              <mxPoint x="461" y="2784" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-118" value="verify" style="curved=1;dashed=1;dashPattern=2 3;startArrow=none;endArrow=block;exitX=1.01;exitY=0.17;entryX=0;entryY=0.76;rounded=0;fontSize=20;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-89" target="PU-HIresxI12i5OKyIDf-101">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="325" y="2947" />
+              <mxPoint x="393" y="2947" />
+              <mxPoint x="461" y="2821" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-120" value="Test Case" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;fontSize=20;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="68" y="3660" width="150" height="762" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-121" value="Supertest" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;fontSize=20;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="268" y="3660" width="150" height="762" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-122" value="Express App" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;fontSize=20;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="496" y="3660" width="150" height="762" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-123" value="Services" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;fontSize=20;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="696" y="3660" width="150" height="762" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-124" value="PostgreSQL" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;fontSize=20;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="896" y="3660" width="150" height="762" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-125" value="Mocks" style="shape=umlLifeline;perimeter=lifelinePerimeter;whiteSpace=wrap;container=1;dropTarget=0;collapsible=0;recursiveResize=0;outlineConnect=0;portConstraint=eastwest;newEdgeStyle={&quot;edgeStyle&quot;:&quot;elbowEdgeStyle&quot;,&quot;elbow&quot;:&quot;vertical&quot;,&quot;curved&quot;:0,&quot;rounded&quot;:0};size=65;fontSize=20;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1096" y="3660" width="150" height="762" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-126" value="Start test case" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;fontSize=20;strokeWidth=2;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-120" target="PU-HIresxI12i5OKyIDf-121">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="252" y="3767" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-127" value="POST /listings (Create)" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;fontSize=20;strokeWidth=2;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-121" target="PU-HIresxI12i5OKyIDf-122">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="466" y="3819" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-128" value="call listing.create()" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;fontSize=20;strokeWidth=2;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-122" target="PU-HIresxI12i5OKyIDf-123">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="3871" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-129" value="verify JWT token" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;fontSize=20;strokeWidth=2;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-123" target="PU-HIresxI12i5OKyIDf-125">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="980" y="3923" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-130" value="token valid" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;fontSize=20;strokeWidth=2;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-125" target="PU-HIresxI12i5OKyIDf-123">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="983" y="3975" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-131" value="INSERT listing" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;endArrow=block;fontSize=20;strokeWidth=2;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-123" target="PU-HIresxI12i5OKyIDf-124">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="880" y="4027" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-132" value="success" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;fontSize=20;strokeWidth=2;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-124" target="PU-HIresxI12i5OKyIDf-123">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="883" y="4079" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-133" value="return data" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;fontSize=20;strokeWidth=2;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-123" target="PU-HIresxI12i5OKyIDf-122">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="683" y="4131" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-134" value="200 OK + response" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;fontSize=20;strokeWidth=2;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-122" target="PU-HIresxI12i5OKyIDf-121">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="469" y="4183" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-135" value="Assert response" style="verticalAlign=bottom;edgeStyle=elbowEdgeStyle;elbow=vertical;curved=0;rounded=0;dashed=1;dashPattern=2 3;endArrow=block;fontSize=20;strokeWidth=2;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-121" target="PU-HIresxI12i5OKyIDf-120">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="255" y="4235" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-136" value="✓ Test passed" style="curved=1;endArrow=block;rounded=0;fontSize=20;strokeWidth=2;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-120" target="PU-HIresxI12i5OKyIDf-120">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="194" y="4287" />
+              <mxPoint x="194" y="4317" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-242" value="Tầng Dữ liệu (Data Layer)" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="986" y="5498" width="330" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-243" value="Tầng Quản lý kịch bản (Script Management)" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="894" y="5224" width="505" height="224" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-244" value="Tầng Thực thi Logic (Execution Layer)" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="831" y="4998" width="640" height="176" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-245" value="Tầng Kiểm tra Tĩnh và Tiền xử lý (Linting Layer)" style="whiteSpace=wrap;strokeWidth=2;verticalAlign=top;" vertex="1" parent="1">
+          <mxGeometry x="894" y="4748" width="505" height="200" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-246" value="ESLint&#xa;Kiểm tra chất lượng mã nguồn&#xa;Phát hiện lỗi cú pháp, biến chưa dùng&#xa;Áp dụng quy chuẩn lập trình đồng nhất" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1021" y="4773" width="260" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-247" value="Jest&#xa;Unit Test &amp; Integration Test&#xa;Chạy song song test case&#xa;Kiểm tra logic services" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="866" y="5023" width="260" height="126" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-248" value="Cypress&#xa;End-to-End Test&#xa;Mô phỏng hành vi người dùng&#xa;Trên trình duyệt Chrome/Electron" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1176" y="5023" width="260" height="126" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-249" value="Cấu trúc thư mục module hóa&#xa;- tests/unit&#xa;- tests/integration&#xa;- cypress/e2e&#xa;Đặt test cạnh mã nguồn&#xa;Dễ quản lý và bảo trì" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1021" y="5249" width="260" height="174" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-250" value="Quản lý Database PostgreSQL&#xa;Seeding dữ liệu trước test&#xa;Cleanup dữ liệu sau test&#xa;Đảm bảo môi trường sạch và độc lập" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1021" y="5523" width="260" height="150" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-251" value="Quy trình tự động hóa bắt đầu" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1021" y="4620" width="260" height="78" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-252" value="Hoàn thành kiểm thử" style="whiteSpace=wrap;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1045" y="5748" width="213" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-253" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-251" target="PU-HIresxI12i5OKyIDf-246">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-254" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.05;exitY=1;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-246" target="PU-HIresxI12i5OKyIDf-247">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="996" y="4948" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-255" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.95;exitY=1;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-246" target="PU-HIresxI12i5OKyIDf-248">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1306" y="4948" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-256" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.04;entryY=0;rounded=0;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-247" target="PU-HIresxI12i5OKyIDf-249">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="996" y="5224" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-257" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.96;entryY=0;rounded=0;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-248" target="PU-HIresxI12i5OKyIDf-249">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1306" y="5224" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-258" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-249" target="PU-HIresxI12i5OKyIDf-250">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="PU-HIresxI12i5OKyIDf-259" value="" style="curved=1;startArrow=none;endArrow=block;exitX=0.5;exitY=1;entryX=0.5;entryY=0;rounded=0;" edge="1" parent="1" source="PU-HIresxI12i5OKyIDf-250" target="PU-HIresxI12i5OKyIDf-252">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
