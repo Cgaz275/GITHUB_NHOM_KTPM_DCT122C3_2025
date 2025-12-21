@@ -94,7 +94,7 @@ jobs:
           HUSKY: 0
 
       - name: Run tests
-        run: npm run test -- --coverage
+        run: npm run test
         env:
           DB_HOST: localhost
           DB_PORT: 5432
@@ -210,7 +210,6 @@ jobs:
           wait-on: 'http://127.0.0.1:3000'
           wait-on-timeout: 180
           browser: chrome
-          record: true
         env:
           HUSKY: 0
           DB_HOST: localhost
@@ -219,7 +218,6 @@ jobs:
           DB_PASSWORD: postgres
           DB_NAME: evershop
           NODE_ENV: development
-          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
 
       - name: Upload Cypress artifacts (on failure)
         if: failure()
