@@ -127,6 +127,11 @@ export function ShippingMethods({
               methods.map((method: ShippingMethod) => (
                 <div
                   key={method.code}
+                  onClick={() => {
+                    if (!isProcessing) {
+                      handleMethodSelect(method);
+                    }
+                  }}
                   className={`border rounded-lg p-3 mb-3 cursor-pointer transition-colors ${
                     currentValue === method.code
                       ? 'border-blue-500 bg-blue-50'
@@ -141,22 +146,12 @@ export function ShippingMethods({
                           required: _('Please select a shipping method')
                         })}
                         value={method.code}
-                        checked={currentValue === method.code}
-                        onChange={() => {}} // Controlled by onClick handler
                         disabled={isProcessing}
                         className="w-4 h-4 text-blue-600 border-gray-300 focus:ring-blue-500 disabled:opacity-50"
                       />
                       <div>
                         <div className="font-normal text-gray-900 flex items-center">
-                          <a
-                            href="#"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              !isProcessing && handleMethodSelect(method);
-                            }}
-                          >
-                            {_(method.name)}
-                          </a>
+                          {_(method.name)}
                           {isProcessing && currentValue === method.code && (
                             <div className="ml-2 w-4 h-4 border-2 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                           )}
