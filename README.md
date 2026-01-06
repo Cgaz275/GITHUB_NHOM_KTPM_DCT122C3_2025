@@ -6,9 +6,9 @@
 **Lớp:** DCT122C3
 
 **Danh sách thành viên nhóm:**
-- Nhóm trưởng: Châu Gia Anh - 3122411002
-- Thành viên: Đào Thị Thanh Tâm - 3122411182
-- Thành viên: Dương Lê Khánh - 3122411093
+- Nhóm trưởng: Châu Gia Anh
+- Thành viên: Đào Thị Thanh Tâm 
+- Thành viên: Dương Lê Khánh 
 
 **Link classroom:** https://classroom.google.com/c/ODAxNjgxMTkyNzAz
 
